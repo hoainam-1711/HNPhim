@@ -4,7 +4,6 @@ import FavoritesPage from "./pages/FavoritePage";
 import SearchPage from "./pages/SearchPage";
 import MovieDetailPage from "./pages/MovieDetailPage";
 import WatchPage from "./pages/WatchPage";
-import "./css/App.css"
 
 function App() {
   return (
