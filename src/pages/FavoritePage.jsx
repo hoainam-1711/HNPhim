@@ -1,6 +1,4 @@
 import { MovieContext } from "../context/MovieContext";
-import NavbarComponent from "../components/NavbarComponent";
-import Footer from "../components/Footer";
 import MovieList from "../components/MovieList";
 import { useContext, useEffect, useState } from "react";
 
@@ -24,14 +22,7 @@ function FavoritesPage() {
       className="text-white min-vh-100"
       style={{ backgroundColor: "#0f0f0f" }}
     >
-      {/* Header */}
-      <NavbarComponent />
-
-      {/* Body */}
       <MovieList movies={favorites} loading={loading} msg={"Phim Đã Lưu"} />
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 }

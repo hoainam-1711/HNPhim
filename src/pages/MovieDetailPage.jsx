@@ -3,8 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import EpisodeSelector from "../components/EpisodeSelector";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
-import NavbarComponent from "../components/NavbarComponent";
-import Footer from "../components/Footer";
 import noImg from "../assets/no-image.png";
 import { MovieContext } from "../context/MovieContext";
 import LucideIcon from "../components/LucideIcon";
@@ -48,15 +46,8 @@ const MovieDetailPage = () => {
   if (loading) return <Loading />;
 
   return (
-    <div
-      className="text-white min-vh-100 d-flex flex-column justify-content-between"
-      style={{ backgroundColor: "#0f0f0f" }}
-    >
+    <div className="d-flex flex-column justify-content-between">
       <div>
-        {/* Header */}
-        <NavbarComponent />
-
-        {/* Body */}
         <Container className="py-4">
           {/* TOP SECTION: Poster & Thông tin chi tiết */}
           <Row className="g-4 mb-5">
@@ -199,9 +190,9 @@ const MovieDetailPage = () => {
                     {" "}
                     Lưu
                     {favorited ? (
-                      <LucideIcon name="bookmarkCheck" />
+                      <LucideIcon icon="BookmarkCheck" />
                     ) : (
-                      <LucideIcon name="bookmark" />
+                      <LucideIcon icon="Bookmark" />
                     )}
                   </Button>
                 </div>
@@ -290,9 +281,6 @@ const MovieDetailPage = () => {
           )}
         </Container>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

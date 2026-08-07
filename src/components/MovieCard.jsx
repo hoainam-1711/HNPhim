@@ -62,9 +62,9 @@ const MovieCard = ({ movie }) => {
             }}
           >
             {favorited ? (
-              <LucideIcon name="bookmarkCheck" />
+              <LucideIcon icon="BookmarkCheck" />
             ) : (
-              <LucideIcon name="bookmark" />
+              <LucideIcon icon="Bookmark" />
             )}
           </Button>
         </div>

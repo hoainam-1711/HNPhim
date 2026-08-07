@@ -1,6 +1,4 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import Footer from "../components/Footer";
-import NavbarComponent from "../components/NavbarComponent";
 import { Col, Container, Row } from "react-bootstrap";
 import CustomPagination from "../components/CustomPagination";
 import MovieList from "../components/MovieList";
@@ -30,14 +28,7 @@ const SearchPage = () => {
   };
 
   return (
-    <div
-      className="text-white min-vh-100"
-      style={{ backgroundColor: "#0f0f0f" }}
-    >
-      {/* Header */}
-      <NavbarComponent />
-
-      {/* Body */}
+    <div>
       <MovieList
         movies={movies}
         loading={loading}
@@ -58,9 +49,6 @@ const SearchPage = () => {
           </Row>
         )}
       </Container>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };

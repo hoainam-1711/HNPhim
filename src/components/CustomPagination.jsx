@@ -1,4 +1,5 @@
 import { Button } from "react-bootstrap";
+import LucideIcon from "./LucideIcon";
 
 // Hàm tính toán danh sách số trang có dấu "..."
 const getPaginationRange = (currentPage, totalPages) => {
@@ -61,7 +62,7 @@ export default function CustomPagination({ page, totalPages, setPage }) {
           color: page === 1 ? "#555" : "#fff",
         }}
       >
-        {"<"}
+        <LucideIcon icon="ChevronLeft" />
       </Button>
 
       {/* Danh sách các số trang */}
@@ -110,7 +111,7 @@ export default function CustomPagination({ page, totalPages, setPage }) {
           color: page === totalPages ? "#555" : "#fff",
         }}
       >
-        {">"}
+        <LucideIcon icon="ChevronRight" />
       </Button>
     </div>
   );

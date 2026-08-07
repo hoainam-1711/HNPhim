@@ -2,8 +2,7 @@ import { Link, useNavigate } from "react-router-dom";
 import viteLogo from "/vite.svg";
 import {
   Navbar,
-  // Nav,
-  // NavDropdown,
+  Nav,
   Form,
   Button,
   InputGroup,
@@ -11,35 +10,11 @@ import {
 } from "react-bootstrap";
 import { MovieContext } from "../context/MovieContext";
 import LucideIcon from "./LucideIcon";
-import { 
-  useContext,
-  // useEffect, 
-  useState 
-} from "react";
-// import movieApi from "../services/movieApi";
+import { useContext, useState } from "react";
 
 function NavbarComponent() {
   const { favorites } = useContext(MovieContext);
-
-  //const [type, setType] = useState([]);
   const [keyword, setKeyword] = useState("");
-
-  // useEffect(() => {
-  //   const fetchType = async () => {
-  //     try {
-  //       const data = await movieApi.getTypeOfMovie();
-  //       console.log("Thể loại data:", data);
-
-  //       // Kiểm tra an toàn cấu trúc mảng trả về
-  //       const items = data?.data?.items;
-  //       setType(items || []);
-  //     } catch (error) {
-  //       console.error("Không thể tải danh sách thể loại phim: ", error);
-  //     }
-  //   };
-
-  //   fetchType();
-  // }, []);
 
   const navigate = useNavigate();
 
@@ -49,9 +24,7 @@ function NavbarComponent() {
       // Điều hướng tới đường dẫn /tim-kiem/keyword-vừa-nhập
       navigate(`/tim-kiem/${encodeURIComponent(keyword.trim())}`);
 
-      //setKeyword(""); // Xóa ô input sau khi submit (tùy chọn)
-
-      // Tự động cuộn mượt lên đầu trang khi sang trang mới (UX tốt hơn)
+      // Tự động cuộn mượt lên đầu trang khi tìm từ khóa khác (UX tốt hơn)
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -61,7 +34,7 @@ function NavbarComponent() {
       variant="dark"
       expand="lg"
       sticky="top"
-      className="py-3"
+      //className="py-3"
       style={{
         // Chuyển từ xám nhạt (top) -> xám đậm -> đen tuyền hòa vào HomePage
         background:
@@ -74,35 +47,16 @@ function NavbarComponent() {
         <Navbar.Brand
           as={Link}
           to="/"
-          className="d-flex align-items-center gap-2 fw-bold text-danger fs-4"
+          className="d-flex align-items-center gap-2 fw-bold text-white fs-3"
         >
           <img src={viteLogo} alt="HNPhim" width="30" height="30" />
           <span>HNPHIM</span>
         </Navbar.Brand>
-
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
 
         <Navbar.Collapse id="basic-navbar-nav">
-          {/* Dropdown tối đồng bộ */}
-          {/* <Nav className="me-auto">
-            <NavDropdown
-              title="Thể loại"
-              id="basic-nav-dropdown"
-              menuVariant="dark"
-            >
-              {type.map((t) => (
-                <NavDropdown.Item
-                  key={t.id || t._id}
-                  as={Link}
-                  to={`./the-loai/${t.slug}`}
-                >
-                  {t.name}
-                </NavDropdown.Item>
-              ))}
-            </NavDropdown>
-          </Nav> */}
+          <Nav>Thể Loại</Nav>
 
-          {/* Đặt đoạn Form này vào bên trong <Navbar.Collapse> */}
           <Form
             onSubmit={handleSearch}
             className="d-flex ms-auto my-2 my-lg-0 me-3"
@@ -126,18 +80,17 @@ function NavbarComponent() {
                 style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
                 type="submit"
               >
-                <LucideIcon name="search" />
+                <LucideIcon icon="Search" />
               </Button>
             </InputGroup>
           </Form>
-
           <Button
             as={Link}
             to={"/ua-thich"}
             variant="link"
             className="p-0 text-white border-0 shadow-none text-decoration-none"
           >
-            <LucideIcon name="bookmarkCheck" />({favorites.length})
+            <LucideIcon icon="BookmarkCheck" />({favorites.length})
           </Button>
         </Navbar.Collapse>
       </Container>

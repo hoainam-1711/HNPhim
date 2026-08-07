@@ -7,7 +7,7 @@ const MovieList = ({ movies, loading, msg }) => {
   if (loading) return <Loading />;
   
   return (
-    <Container className="pt-3" style={{ minHeight: "69vh" }}>
+    <Container>
       {/* Tiêu đề */}
       <Row className="mb-4 align-items-center">
         <Col>

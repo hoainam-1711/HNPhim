@@ -1,7 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import NavbarComponent from "../components/NavbarComponent";
-import Footer from "../components/Footer";
 import { Button, Card, Col, Container, Row } from "react-bootstrap";
 import EpisodeSelector from "../components/EpisodeSelector";
 import Loading from "../components/Loading";
@@ -72,28 +70,21 @@ const WatchPage = () => {
       </div>
     );
   return (
-    <div
-      className="text-white min-vh-100 d-flex flex-column justify-content-between"
-      style={{ backgroundColor: "#0f0f0f" }}
-    >
+    <div>
       <div>
-        {/* Header */}
-        <NavbarComponent />
-
-        {/* Body */}
         <Container fluid="lg">
           {/* Tên Phim & Tập */}
           <div className="mb-2">
-            <h5 className="fw-bold mb-1 text-danger">
+            <h5 className="fw-bold mb-3 text-danger">
               {movie?.name}{" "}
-              <span className="text-white">- {currentEpData?.name || ep}</span>
+              <span className="text-white fs-6">- {currentEpData?.name || ep}</span>
             </h5>
           </div>
 
           <Row className="g-4">
             {/* Player Video (Bên trái / Phía trên) */}
             <Col xs={12} lg={8} xl={9}>
-              {currentEpData?.link_embed ? ( // Dự phòng trường hợp không có link m3u8 thì mới dùng embed
+              {currentEpData?.link_embed ? (
                 <div className="ratio ratio-16x9 rounded overflow-hidden shadow-lg bg-black">
                   <iframe
                     src={currentEpData.link_embed}
@@ -102,7 +93,7 @@ const WatchPage = () => {
                   ></iframe>
                   {console.log("đang phát bằng link embed")}
                 </div>
-              ) : currentEpData?.link_m3u8 ? (
+              ) : currentEpData?.link_m3u8 ? ( // Dự phòng trường hợp không có link embed thì mới dùng m3u8
                 <>
                   <CustomVideoPlayer
                     src={currentEpData.link_m3u8}
@@ -113,7 +104,7 @@ const WatchPage = () => {
               ) : (
                 <div className="ratio ratio-16x9 rounded d-flex align-items-center justify-content-center bg-dark text-secondary">
                   <p className="mb-0">
-                    Đang tải video hoặc không tìm thấy tập phim...
+                    {error}
                   </p>
                 </div>
               )}
@@ -158,9 +149,6 @@ const WatchPage = () => {
           </Row>
         </Container>
       </div>
-
-      {/* Footer */}
-      <Footer />
     </div>
   );
 };
