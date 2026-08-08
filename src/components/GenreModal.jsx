@@ -2,7 +2,7 @@ import { Button, Modal } from "react-bootstrap";
 import Loading from "./Loading";
 import useGenres from "../hooks/useGenres";
 import { Link } from "react-router-dom";
-import "../css/GenreModal.css";
+// import "../css/GenreModal.css";
 
 const GenreModal = ({ show, handleClose }) => {
   const { data, loading, error } = useGenres();

@@ -7,7 +7,7 @@ import noImg from "../assets/no-image.png";
 import { MovieContext } from "../context/MovieContext";
 import LucideIcon from "../components/LucideIcon";
 import useMovieDetail from "../hooks/useMovieDetail";
-import "../css/MovieDetailPage.css";
+// import "../css/MovieDetailPage.css";
 
 const MovieDetailPage = () => {
   const { slug } = useParams();
