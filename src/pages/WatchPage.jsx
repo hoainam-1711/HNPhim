@@ -77,14 +77,24 @@ const WatchPage = () => {
           <div className="mb-2">
             <h5 className="fw-bold mb-3 text-danger">
               {movie?.name}{" "}
-              <span className="text-white fs-6">- {currentEpData?.name || ep}</span>
+              <span className="text-white fs-6">
+                - {currentEpData?.name || ep}
+              </span>
             </h5>
           </div>
 
           <Row className="g-4">
             {/* Player Video (Bên trái / Phía trên) */}
-            <Col xs={12} lg={8} xl={9}>
-              {currentEpData?.link_embed ? (
+            <Col xs={12} lg={9}>
+              {currentEpData?.link_m3u8 ? (
+                <>
+                  <CustomVideoPlayer
+                    m3u8Url={currentEpData.link_m3u8}
+                    poster={movie?.poster_url || movie?.thumb_url}
+                  />
+                  {console.log("đang phát bằng link m3u8")}
+                </>
+              ) : currentEpData?.link_embed ? ( // Dự phòng trường hợp không có link m3u8 thì mới dùng embed
                 <div className="ratio ratio-16x9 rounded overflow-hidden shadow-lg bg-black">
                   <iframe
                     src={currentEpData.link_embed}
@@ -93,25 +103,15 @@ const WatchPage = () => {
                   ></iframe>
                   {console.log("đang phát bằng link embed")}
                 </div>
-              ) : currentEpData?.link_m3u8 ? ( // Dự phòng trường hợp không có link embed thì mới dùng m3u8
-                <>
-                  <CustomVideoPlayer
-                    src={currentEpData.link_m3u8}
-                    poster={movie?.poster_url || movie?.thumb_url}
-                  />
-                  {console.log("đang phát bằng link m3u8")}
-                </>
               ) : (
                 <div className="ratio ratio-16x9 rounded d-flex align-items-center justify-content-center bg-dark text-secondary">
-                  <p className="mb-0">
-                    {error}
-                  </p>
+                  <p className="mb-0">{error}</p>
                 </div>
               )}
             </Col>
 
             {/* Sidebar Danh Sách Tập & Server (Bên phải / Phía dưới) */}
-            <Col xs={12} lg={4} xl={3}>
+            <Col xs={12} lg={3}>
               <Card className="bg-dark text-white border-secondary h-100 shadow">
                 <Card.Header className="border-secondary d-flex align-items-center justify-content-between flex-wrap gap-2 py-3 bg-black bg-opacity-25">
                   <h6 className="mb-0 text-danger fw-bold">🎬 Danh Sách Tập</h6>
