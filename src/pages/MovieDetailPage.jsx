@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import EpisodeSelector from "../components/EpisodeSelector";
@@ -24,6 +24,11 @@ const MovieDetailPage = () => {
 
   // State chọn Server (Vietsub / Lồng Tiếng)
   const [selectedServer, setSelectedServer] = useState(0);
+
+  // Reset server về 0 khi chuyển sang phim khác
+  useEffect(() => {
+    setSelectedServer(0);
+  }, [slug]);
 
   // Lấy thông tin server hiện tại an toàn
   const currentServer = episodesList[selectedServer] || episodesList[0];
@@ -127,19 +132,27 @@ const MovieDetailPage = () => {
 
               <div className="movie-detail-row">
                 <span className="movie-detail-label">Đạo diễn:</span>{" "}
+                {/* Đạo diễn */}
                 <span>
-                  {Array.isArray(movie?.director)
+                  {Array.isArray(movie?.director) && movie.director.length > 0
                     ? movie.director.join(", ")
-                    : movie?.director || "Đang cập nhật"}
+                    : typeof movie?.director === "string" &&
+                        movie.director.trim() !== ""
+                      ? movie.director
+                      : "Đang cập nhật"}
                 </span>
               </div>
 
               <div className="movie-detail-row">
                 <span className="movie-detail-label">Diễn viên:</span>{" "}
+                {/* Diễn viên */}
                 <span>
-                  {Array.isArray(movie?.actor)
+                  {Array.isArray(movie?.actor) && movie.actor.length > 0
                     ? movie.actor.slice(0, 8).join(", ")
-                    : movie?.actor || "Đang cập nhật"}
+                    : typeof movie?.actor === "string" &&
+                        movie.actor.trim() !== ""
+                      ? movie.actor
+                      : "Đang cập nhật"}
                 </span>
               </div>
 
@@ -176,10 +189,12 @@ const MovieDetailPage = () => {
             <div className="movie-description">
               <h5 className="movie-description-title">Nội dung phim</h5>
 
-              <p className="movie-description-text">
-                {movie?.content?.replace(/<[^>]*>?/gm, "") ||
-                  "Chưa có mô tả cho phim này."}
-              </p>
+              <div
+                className="movie-description-text"
+                dangerouslySetInnerHTML={{
+                  __html: movie?.content || "Chưa có mô tả cho phim này.",
+                }}
+              />
             </div>
           </Col>
         </Row>
@@ -231,7 +246,7 @@ const MovieDetailPage = () => {
         {movie?.keywords && movie.keywords.length > 0 && (
           <Row className="mt-4">
             <Col xs={12}>
-              <div className="d-flex flex-wrap align-items-center gap-1">
+              <div className="movie-keywords movie-keyword">
                 <small className="text-secondary me-2">Từ khóa:</small>
                 {movie.keywords.map((kw, i) => (
                   <Badge
