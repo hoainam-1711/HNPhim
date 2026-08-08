@@ -1,0 +1,155 @@
+.genre-modal {
+  margin: 0;
+  margin-top: 68px;
+  margin-left: 20px;
+
+  max-width: 650px;
+}
+
+.genre-modal-content {
+  background: #181818 !important;
+  color: #fff;
+
+  border: 1px solid #303030 !important;
+  border-radius: 12px !important;
+
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
+
+  overflow: hidden;
+}
+
+/* ================================
+   HEADER
+================================ */
+
+.genre-modal .modal-header {
+  padding: 16px 20px;
+
+  background: #181818;
+  border-bottom: 1px solid #303030;
+}
+
+.genre-modal .modal-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.genre-modal .btn-close {
+  filter: invert(1);
+  opacity: 0.7;
+}
+
+.genre-modal .btn-close:hover {
+  opacity: 1;
+}
+
+/* ================================
+   BODY
+================================ */
+
+.genre-modal .modal-body {
+  padding: 18px 20px;
+
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+/* Scrollbar */
+
+.genre-modal .modal-body::-webkit-scrollbar {
+  width: 7px;
+}
+
+.genre-modal .modal-body::-webkit-scrollbar-track {
+  background: #181818;
+}
+
+.genre-modal .modal-body::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+.genre-modal .modal-body::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+/* ================================
+   GENRE GRID
+================================ */
+
+.genre-grid {
+  display: grid;
+
+  grid-template-columns: repeat(4, 1fr);
+
+  gap: 8px;
+}
+
+/* ================================
+   GENRE BUTTON
+================================ */
+
+.genre-item {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+
+  min-height: 40px;
+
+  padding: 8px 12px !important;
+
+  background: transparent !important;
+  border: none !important;
+
+  border-radius: 6px !important;
+
+  color: #e5e5e5 !important;
+
+  font-size: 0.9rem;
+  font-weight: 400;
+
+  text-align: left;
+
+  text-decoration: none !important;
+
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.genre-item:hover {
+  background: #272727 !important;
+  color: #fff !important;
+}
+
+.genre-item:active {
+  background: #333 !important;
+}
+
+/* ================================
+   MOBILE
+================================ */
+
+@media (max-width: 767.98px) {
+  .genre-modal {
+    margin-left: 10px;
+    margin-right: 10px;
+    margin-top: 68px;
+
+    max-width: none;
+  }
+
+  .genre-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .genre-modal .modal-body {
+    max-height: 60vh;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .genre-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

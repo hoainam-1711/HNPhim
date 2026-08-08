@@ -8,13 +8,26 @@ export const useHlsVideo = (m3u8Url) => {
   const controlsTimeoutRef = useRef(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
+
+  // thời gian và thanh timeline
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
+
+  // thay đổi chất lượng hình ảnh
   const [qualities, setQualities] = useState([]);
   const [currentQuality, setCurrentQuality] = useState(-1);
+
+  // tốc đọ video
   const [playbackRate, setPlaybackRate] = useState(1);
+
+  // State cho fullscreen
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
+
+  // Thêm state cho âm lượng (0 đến 1) và trạng thái tắt tiếng
+  const [volume, setVolume] = useState(1);
+  const [isMuted, setIsMuted] = useState(false);
+  const prevVolumeRef = useRef(1);
 
   // Khởi tạo HLS
   useEffect(() => {
@@ -112,6 +125,36 @@ export const useHlsVideo = (m3u8Url) => {
     }
   };
 
+  // Hàm thay đổi âm lượng (giá trị từ 0 đến 1)
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    if (videoRef.current) {
+      videoRef.current.volume = newVolume;
+      videoRef.current.muted = newVolume === 0;
+    }
+    setIsMuted(newVolume === 0);
+  };
+
+  // Hàm bật/tắt tiếng
+  const toggleMute = () => {
+    if (!videoRef.current) return;
+
+    if (isMuted) {
+      const restoredVolume = prevVolumeRef.current || 1;
+      videoRef.current.muted = false;
+      videoRef.current.volume = restoredVolume;
+      setVolume(restoredVolume);
+      setIsMuted(false);
+    } else {
+      prevVolumeRef.current = volume;
+      videoRef.current.muted = true;
+      videoRef.current.volume = 0;
+      setVolume(0);
+      setIsMuted(true);
+    }
+  };
+
   return {
     containerRef,
     videoRef,
@@ -132,5 +175,7 @@ export const useHlsVideo = (m3u8Url) => {
     handleMouseMove,
     handleTimeUpdate,
     setShowControls,
+    handleVolumeChange,
+    toggleMute,
   };
 };

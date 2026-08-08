@@ -1,20 +1,20 @@
 import { Link, useNavigate } from "react-router-dom";
-import viteLogo from "/vite.svg";
-import {
-  Navbar,
-  Nav,
-  Form,
-  Button,
-  InputGroup,
-  Container,
-} from "react-bootstrap";
+import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
 import { MovieContext } from "../context/MovieContext";
 import LucideIcon from "./LucideIcon";
 import { useContext, useState } from "react";
+import GenreModal from "./GenreModal";
+import "../css/NavbarComponent.css";
 
 function NavbarComponent() {
   const { favorites } = useContext(MovieContext);
   const [keyword, setKeyword] = useState("");
+
+  //Handle Open Modal
+  const [showModal, setShowModal] = useState(false);
+
+  const handleClose = () => setShowModal(false);
+  const handleShow = () => setShowModal(true);
 
   const navigate = useNavigate();
 
@@ -30,67 +30,64 @@ function NavbarComponent() {
   };
 
   return (
-    <Navbar
-      variant="dark"
-      expand="lg"
-      sticky="top"
-      //className="py-3"
-      style={{
-        // Chuyển từ xám nhạt (top) -> xám đậm -> đen tuyền hòa vào HomePage
-        background:
-          "linear-gradient(180deg, #2b2b2b 0%, #1a1a1a 60%, #0f0f0f 100%)",
-        backdropFilter: "blur(8px)", // Giúp hiệu ứng làm mờ mịn hơn khi cuộn trang
-      }}
-    >
-      <Container>
+    <Navbar variant="dark" expand="lg" sticky="top" className="youtube-navbar">
+      <Container fluid className="px-3 px-lg-4">
         {/* Logo */}
         <Navbar.Brand
           as={Link}
           to="/"
-          className="d-flex align-items-center gap-2 fw-bold text-white fs-3"
+          className="youtube-logo d-flex align-items-center gap-2"
         >
-          <img src={viteLogo} alt="HNPhim" width="30" height="30" />
+          <img src="/vite.svg" alt="Vite logo" />
           <span>HNPHIM</span>
         </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
+
+        <Navbar.Toggle
+          aria-controls="basic-navbar-nav"
+          className="border-0 shadow-none"
+        />
 
         <Navbar.Collapse id="basic-navbar-nav">
-          <Nav>Thể Loại</Nav>
+          {/* Thể loại */}
+          <Button
+            variant="link"
+            onClick={handleShow}
+            className="youtube-nav-btn"
+          >
+            Thể loại
+          </Button>
 
+          <GenreModal show={showModal} handleClose={handleClose} />
+
+          {/* Search */}
           <Form
             onSubmit={handleSearch}
-            className="d-flex ms-auto my-2 my-lg-0 me-3"
+            className="youtube-search-form d-flex ms-auto my-2 my-lg-0 me-lg-4"
           >
-            <InputGroup className="overflow-hidden rounded-pill border border-secondary border-opacity-50">
-              {/* Ô nhập liệu */}
+            <InputGroup className="youtube-search">
               <Form.Control
                 type="text"
-                className="bg-transparent text-white border-0 shadow-none ps-3"
-                style={{
-                  backgroundColor: "rgba(255, 255, 255, 0.1)",
-                  color: "#fff",
-                }}
+                placeholder="Tìm kiếm"
+                value={keyword}
                 onChange={(e) => setKeyword(e.target.value)}
+                className="youtube-search-input"
               />
 
-              {/* Nút tìm kiếm chứa Icon kính lúp (SVG) */}
-              <Button
-                variant="dark"
-                className="border-0 bg-transparent text-white-50 px-3 d-flex align-items-center"
-                style={{ backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-                type="submit"
-              >
+              <Button type="submit" className="youtube-search-btn">
                 <LucideIcon icon="Search" />
               </Button>
             </InputGroup>
           </Form>
+
+          {/* Favorites */}
           <Button
             as={Link}
-            to={"/ua-thich"}
+            to="/ua-thich"
             variant="link"
-            className="p-0 text-white border-0 shadow-none text-decoration-none"
+            className="youtube-favorite"
           >
-            <LucideIcon icon="BookmarkCheck" />({favorites.length})
+            <LucideIcon icon="BookmarkCheck" />
+            <span className="favorite-count">{favorites.length}</span>
           </Button>
         </Navbar.Collapse>
       </Container>

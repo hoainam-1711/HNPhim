@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { Button, Card, Col, Container, Row } from "react-bootstrap";
+import { Button, Col, Container, Row } from "react-bootstrap";
 import EpisodeSelector from "../components/EpisodeSelector";
 import Loading from "../components/Loading";
 import CustomVideoPlayer from "../components/CustomVideoPlayer";
 import useMovieDetail from "../hooks/useMovieDetail";
+import "../css/EpisodeSelector.css";
+import "../css/WatchPage.css";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();
@@ -70,85 +72,90 @@ const WatchPage = () => {
       </div>
     );
   return (
-    <div>
-      <div>
-        <Container fluid="lg">
-          {/* Tên Phim & Tập */}
-          <div className="mb-2">
-            <h5 className="fw-bold mb-3 text-danger">
-              {movie?.name}{" "}
-              <span className="text-white fs-6">
-                - {currentEpData?.name || ep}
-              </span>
-            </h5>
-          </div>
+    <div className="watch-page">
+      <Container fluid className="watch-container">
+        {/* Tên phim + tập hiện tại */}
+        <div className="watch-heading">
+          <h5 className="watch-title">
+            {movie?.name}
 
-          <Row className="g-4">
-            {/* Player Video (Bên trái / Phía trên) */}
-            <Col xs={12} lg={9}>
+            <span className="watch-episode">{currentEpData?.name || ep}</span>
+          </h5>
+        </div>
+
+        <Row className="watch-layout g-3">
+          {/* ================================
+          VIDEO PLAYER
+      ================================= */}
+          <Col xs={12} xl={8}>
+            <div className="watch-player-wrapper">
               {currentEpData?.link_m3u8 ? (
                 <>
                   <CustomVideoPlayer
                     m3u8Url={currentEpData.link_m3u8}
                     poster={movie?.poster_url || movie?.thumb_url}
                   />
+
                   {console.log("đang phát bằng link m3u8")}
                 </>
-              ) : currentEpData?.link_embed ? ( // Dự phòng trường hợp không có link m3u8 thì mới dùng embed
-                <div className="ratio ratio-16x9 rounded overflow-hidden shadow-lg bg-black">
+              ) : currentEpData?.link_embed ? (
+                <div className="watch-embed ratio ratio-16x9">
                   <iframe
                     src={currentEpData.link_embed}
                     title={currentEpData.name}
                     allowFullScreen
-                  ></iframe>
-                  {console.log("đang phát bằng link embed")}
+                  />
                 </div>
               ) : (
-                <div className="ratio ratio-16x9 rounded d-flex align-items-center justify-content-center bg-dark text-secondary">
-                  <p className="mb-0">{error}</p>
+                <div className="watch-player-error">
+                  <p>{error || "Không thể phát tập phim này."}</p>
                 </div>
               )}
-            </Col>
+            </div>
+          </Col>
 
-            {/* Sidebar Danh Sách Tập & Server (Bên phải / Phía dưới) */}
-            <Col xs={12} lg={3}>
-              <Card className="bg-dark text-white border-secondary h-100 shadow">
-                <Card.Header className="border-secondary d-flex align-items-center justify-content-between flex-wrap gap-2 py-3 bg-black bg-opacity-25">
-                  <h6 className="mb-0 text-danger fw-bold">🎬 Danh Sách Tập</h6>
+          {/* ================================
+          EPISODE SIDEBAR
+      ================================= */}
+          <Col xs={12} xl={4}>
+            <div className="watch-sidebar">
+              {/* Header */}
+              <div className="watch-sidebar-header">
+                <h6 className="watch-sidebar-title">Danh sách tập</h6>
 
-                  {/* Chọn Server (Vietsub / Lồng tiếng) */}
-                  {episodesList?.length > 1 && (
-                    <div className="d-flex gap-1 flex-wrap">
-                      {episodesList.map((server, idx) => (
-                        <Button
-                          key={idx}
-                          size="sm"
-                          variant={
-                            selectedServer === idx ? "danger" : "outline-light"
-                          }
-                          className="px-2 py-0 fs-7"
-                          onClick={() => setSelectedServer(idx)}
-                        >
-                          {server.server_name || `Server ${idx + 1}`}
-                        </Button>
-                      ))}
-                    </div>
-                  )}
-                </Card.Header>
+                {/* Server */}
+                {episodesList?.length > 1 && (
+                  <div className="watch-server-list">
+                    {episodesList.map((server, idx) => (
+                      <Button
+                        key={idx}
+                        size="sm"
+                        variant="link"
+                        className={`watch-server-btn ${
+                          selectedServer === idx ? "active" : ""
+                        }`}
+                        onClick={() => setSelectedServer(idx)}
+                      >
+                        {server.server_name || `Server ${idx + 1}`}
+                      </Button>
+                    ))}
+                  </div>
+                )}
+              </div>
 
-                <Card.Body className="p-3">
-                  {/* Sửa lại: Truyền ep dạng string từ useParams xuống */}
-                  <EpisodeSelector
-                    serverData={serverData}
-                    handleWatchMovie={handleWatchMovie}
-                    currentEpSlug={ep}
-                  />
-                </Card.Body>
-              </Card>
-            </Col>
-          </Row>
-        </Container>
-      </div>
+              {/* Episodes */}
+              <div className="watch-sidebar-body">
+                <EpisodeSelector
+                  pageType="watch"
+                  serverData={serverData}
+                  handleWatchMovie={handleWatchMovie}
+                  currentEpSlug={ep}
+                />
+              </div>
+            </div>
+          </Col>
+        </Row>
+      </Container>
     </div>
   );
 };

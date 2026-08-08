@@ -1,12 +1,14 @@
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "react-bootstrap";
+import "../css/EpisodeSelector.css";
 
-const EPISODES_PER_CHUNK = 100;
+const EPISODES_PER_CHUNK = 50;
 
 const EpisodeSelector = ({
   serverData = [],
   handleWatchMovie,
   currentEpSlug, // Nhận vào string (slug hoặc name của tập)
+  pageType,
 }) => {
   const [selectedChunkIndex, setSelectedChunkIndex] = useState(0);
 
@@ -36,8 +38,8 @@ const EpisodeSelector = ({
 
     const chunkIndex = episodeChunks.findIndex((chunk) =>
       chunk.data.some(
-        (ep) => ep.slug === currentEpSlug || ep.name === currentEpSlug
-      )
+        (ep) => ep.slug === currentEpSlug || ep.name === currentEpSlug,
+      ),
     );
 
     if (chunkIndex !== -1) {
@@ -52,22 +54,18 @@ const EpisodeSelector = ({
   }
 
   return (
-    <div className="mt-2">
+    <div className={`episode-selector ${pageType}`}>
       {/* Thanh chọn nhóm tập */}
       {episodeChunks.length > 1 && (
-        <div className="d-flex flex-wrap gap-2 mb-3 pb-3 border-bottom border-secondary border-opacity-25">
+        <div className="episode-chunk-list">
           {episodeChunks.map((chunk, idx) => (
             <Button
               key={idx}
               size="sm"
-              variant={
-                selectedChunkIndex === idx ? "danger" : "outline-secondary"
-              }
-              className={
-                selectedChunkIndex === idx
-                  ? "fw-bold shadow-sm"
-                  : "text-white-50 border-secondary"
-              }
+              variant="link"
+              className={`episode-chunk-btn ${
+                selectedChunkIndex === idx ? "active" : ""
+              }`}
               onClick={() => setSelectedChunkIndex(idx)}
             >
               {chunk.label}
@@ -77,12 +75,8 @@ const EpisodeSelector = ({
       )}
 
       {/* Danh sách các tập phim */}
-      <div
-        className="d-flex flex-wrap gap-2 align-items-center custom-scrollbar"
-        style={{ maxHeight: "350px", overflowY: "auto" }}
-      >
+      <div className="episode-list custom-scrollbar">
         {currentChunkEpisodes.map((ep, idx) => {
-          // Check chuẩn xác dựa trên string slug hoặc name
           const isSelected =
             currentEpSlug &&
             (currentEpSlug === ep.slug || currentEpSlug === ep.name);
@@ -90,16 +84,8 @@ const EpisodeSelector = ({
           return (
             <Button
               key={ep.slug || idx}
-              variant={isSelected ? "danger" : "outline-dark"}
-              className={`px-3 py-1-5 fw-semibold ${
-                isSelected
-                  ? "fw-bold shadow"
-                  : "text-light border-secondary hover-danger"
-              }`}
-              style={{
-                backgroundColor: isSelected ? undefined : "#1f1f1f",
-                minWidth: "60px",
-              }}
+              variant="link"
+              className={`episode-item ${isSelected ? "active" : ""}`}
               onClick={() => handleWatchMovie(ep)}
             >
               {ep.name}

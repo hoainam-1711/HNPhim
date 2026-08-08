@@ -73,12 +73,11 @@ const movieApi = {
    * @param {string} slug
    * @param {number} limit
    * @param {number} page
-   * @param {string} status
    * @returns {Promise<Object>}
    */
-  async getMoviesByGenre(slug, limit = 10, page = 1, status) {
+  async getMoviesByGenre(slug, limit = 10, page = 1) {
     try {
-      return await api.get(`${ENDPOINTS.GENRES}/${slug}`, {
+      return await api.get(`${ENDPOINTS.MOVIESBYGENRES}/${slug}`, {
         params: {
           limit,
           page,

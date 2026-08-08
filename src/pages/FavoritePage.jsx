@@ -17,14 +17,7 @@ function FavoritesPage() {
     return () => clearTimeout(timer); // Cleanup timer khi unmount
   }, []);
 
-  return (
-    <div
-      className="text-white min-vh-100"
-      style={{ backgroundColor: "#0f0f0f" }}
-    >
-      <MovieList movies={favorites} loading={loading} msg={"Phim Đã Lưu"} />
-    </div>
-  );
+  return <MovieList movies={favorites} loading={loading} msg={"Phim Đã Lưu"} />;
 }
 
 export default FavoritesPage;

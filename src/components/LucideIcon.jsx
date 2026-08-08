@@ -12,6 +12,10 @@ const LucideIcon = ({ icon }) => {
       return <ChevronRight />;
     case "ChevronsRight":
       return <ChevronsRight />;
+    case "ClapperBoard":
+      return <ClapperBoard />;
+    case "Clock":
+      return <Clock />;
     case "Gauge":
       return <Gauge />;
     case "Maximize":
@@ -30,6 +34,10 @@ const LucideIcon = ({ icon }) => {
       return <SlidersHorizontal />;
     case "SkipForward":
       return <SkipForward />;
+    case "Star":
+      return <Star />;
+    case "Volume2":
+      return <Volume2 />;
     default:
       return null;
   }
@@ -148,6 +156,48 @@ function ChevronsRight() {
     >
       <path d="m6 17 5-5-5-5" />
       <path d="m13 17 5-5-5-5" />
+    </svg>
+  );
+}
+
+function ClapperBoard() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-clapperboard-icon lucide-clapperboard"
+    >
+      <path d="m12.296 3.464 3.02 3.956" />
+      <path d="M20.2 6 3 11l-.9-2.4c-.3-1.1.3-2.2 1.3-2.5l13.5-4c1.1-.3 2.2.3 2.5 1.3z" />
+      <path d="M3 11h18v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
+      <path d="m6.18 5.276 3.1 3.899" />
+    </svg>
+  );
+}
+
+function Clock() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-clock-icon lucide-clock"
+    >
+      <circle cx="12" cy="12" r="10" />
+      <path d="M12 6v6l4 2" />
     </svg>
   );
 }
@@ -338,6 +388,46 @@ function SkipForward() {
     >
       <path d="M21 4v16" />
       <path d="M6.029 4.285A2 2 0 0 0 3 6v12a2 2 0 0 0 3.029 1.715l9.997-5.998a2 2 0 0 0 .003-3.432z" />
+    </svg>
+  );
+}
+
+function Star() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-star-icon lucide-star"
+    >
+      <path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" />
+    </svg>
+  );
+}
+
+function Volume2() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-volume2-icon lucide-volume-2"
+    >
+      <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" />
+      <path d="M16 9a5 5 0 0 1 0 6" />
+      <path d="M19.364 18.364a9 9 0 0 0 0-12.728" />
     </svg>
   );
 }

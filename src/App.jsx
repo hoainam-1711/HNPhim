@@ -6,6 +6,7 @@ import MovieDetailPage from "./pages/MovieDetailPage";
 import WatchPage from "./pages/WatchPage";
 import MainLayout from "./layouts/MainLayout";
 import NotFoundPage from "./pages/NotFoundPage";
+import MoviesByGenresPages from "./pages/MoviesByGenresPages";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path="/danh-sach" element={<HomePage />} />
 
         <Route path="/ua-thich" element={<FavoritesPage />} />
+
+        <Route path="/the-loai/:slug" element={<MoviesByGenresPages />} />
 
         {/* Khai báo tham số động :keyword ở đây */}
         <Route path="/tim-kiem/:keyword" element={<SearchPage />} />

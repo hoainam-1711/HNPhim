@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import LucideIcon from "./LucideIcon";
-import "../css/videoControls.css";
+import "../css/VideoControls.css";
 
 const VideoControls = ({
   showControls,
@@ -12,12 +12,16 @@ const VideoControls = ({
   qualities,
   currentQuality,
   isFullscreen,
+  volume = 1,
+  isMuted = false,
   togglePlay,
   handleSeek,
   handleSliderChange,
   handleSpeedChange,
   handleQualityChange,
   toggleFullscreen,
+  handleVolumeChange,
+  toggleMute,
 }) => {
   const [menuState, setMenuState] = useState("main");
 
@@ -87,6 +91,30 @@ const VideoControls = ({
           >
             <LucideIcon icon="ChevronsRight" />
           </Button>
+
+          {/* Volume Control */}
+          <div className="video-volume-container d-none d-sm-flex align-items-center">
+            <Button
+              variant="link"
+              className="video-control-btn"
+              onClick={toggleMute}
+              title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
+            >
+              <LucideIcon icon="Volume2" />
+            </Button>
+            <input
+              type="range"
+              className="video-volume-slider"
+              min={0}
+              max={1}
+              step={0.05}
+              value={isMuted ? 0 : volume}
+              onChange={handleVolumeChange}
+              style={{
+                "--volume-progress": `${(isMuted ? 0 : volume) * 100}%`,
+              }}
+            />
+          </div>
 
           {/* Time */}
           <span className="video-time">

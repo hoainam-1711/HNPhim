@@ -1,0 +1,210 @@
+/* ==================================================
+   EPISODE SELECTOR
+   YouTube Dark Style
+================================================== */
+
+.episode-selector {
+  width: 100%;
+  color: #fff;
+}
+
+/* ==================================================
+   CHUNK / GROUP
+================================================== */
+
+.episode-chunk-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+
+  margin-bottom: 15px;
+  padding-bottom: 14px;
+
+  border-bottom: 1px solid #303030;
+  max-height: 100px; /* Chiều cao tối đa mong muốn */
+  overflow-y: auto;  /* Bật cuộn dọc khi vượt quá chiều cao */
+  padding-right: 8px; /* Tránh đè thanh cuộn lên nội dung */
+}
+
+.episode-chunk-btn {
+  min-height: 34px;
+
+  padding: 5px 12px !important;
+
+  border: 1px solid #3a3a3a !important;
+  border-radius: 5px !important;
+
+  background: #272727 !important;
+
+  color: #ddd !important;
+
+  text-decoration: none !important;
+
+  font-size: 0.8rem !important;
+  font-weight: 500 !important;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.episode-chunk-btn:hover {
+  background: #3a3a3a !important;
+  border-color: #555 !important;
+  color: #fff !important;
+}
+
+.episode-chunk-btn.active {
+  background: #ff0000 !important;
+  border-color: #ff0000 !important;
+
+  color: #fff !important;
+
+  font-weight: 700 !important;
+}
+
+/* ==================================================
+   EPISODE LIST
+================================================== */
+
+.episode-list {
+  display: grid;
+
+  /*
+    MovieDetailPage:
+    Tự động chia nhiều cột
+  */
+  grid-template-columns: repeat(
+    auto-fill,
+    minmax(60px, 1fr)
+  );
+
+  gap: 7px;
+
+  max-height: 350px;
+
+  overflow-y: auto;
+
+  padding-right: 5px;
+}
+
+/* ==================================================
+   EPISODE BUTTON
+================================================== */
+
+.episode-item {
+  width: 100%;
+  min-height: 36px;
+
+  padding: 6px 9px !important;
+
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #3a3a3a !important;
+  border-radius: 5px !important;
+
+  background: #1f1f1f !important;
+
+  color: #ddd !important;
+
+  text-decoration: none !important;
+
+  font-size: 0.82rem !important;
+  font-weight: 500 !important;
+
+  white-space: nowrap;
+
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.episode-item:hover {
+  background: #303030 !important;
+  border-color: #555 !important;
+
+  color: #fff !important;
+}
+
+.episode-item:active {
+  transform: scale(0.96);
+}
+
+/* Episode đang xem */
+
+.episode-item.active {
+  background: #ff0000 !important;
+  border-color: #ff0000 !important;
+
+  color: #fff !important;
+
+  font-weight: 700 !important;
+
+  box-shadow: 0 2px 8px rgba(255, 0, 0, 0.25);
+}
+
+.episode-item.active:hover {
+  background: #cc0000 !important;
+  border-color: #cc0000 !important;
+}
+
+/* ==================================================
+   SCROLLBAR
+================================================== */
+
+.episode-list::-webkit-scrollbar,
+.episode-chunk-list::-webkit-scrollbar {
+  width: 6px;
+}
+
+.episode-list::-webkit-scrollbar-track,
+.episode-chunk-list::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.episode-list::-webkit-scrollbar-thumb,
+.episode-chunk-list::-webkit-scrollbar-thumb {
+  background: #444;
+  border-radius: 10px;
+}
+
+.episode-list::-webkit-scrollbar-thumb:hover,
+.episode-chunk-list::-webkit-scrollbar-thumb:hover {
+  background: #666;
+}
+
+
+/* ==================================================
+   WATCH PAGE
+================================================== */
+
+.episode-selector.watch .episode-list {
+  grid-template-columns: repeat(auto-fill, 1fr);
+
+  gap: 6px;
+
+  max-height: 500px;
+}
+
+.episode-selector.watch .episode-item {
+  min-height: 34px;
+
+  padding: 5px 6px !important;
+
+  font-size: 0.78rem !important;
+}
+
+.episode-selector.watch .episode-chunk-list {
+  gap: 5px;
+}
+
+.episode-selector.watch .episode-chunk-btn {
+  padding: 4px 9px !important;
+
+  font-size: 0.75rem !important;
+}
