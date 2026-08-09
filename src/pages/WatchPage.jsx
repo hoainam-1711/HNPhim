@@ -1,3 +1,4 @@
+import "../css/WatchPage.css";
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { Button, Col, Container, Row } from "react-bootstrap";
@@ -5,8 +6,6 @@ import EpisodeSelector from "../components/EpisodeSelector";
 import Loading from "../components/Loading";
 import CustomVideoPlayer from "../components/CustomVideoPlayer";
 import useMovieDetail from "../hooks/useMovieDetail";
-import "../css/EpisodeSelector.css";
-import "../css/WatchPage.css";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();

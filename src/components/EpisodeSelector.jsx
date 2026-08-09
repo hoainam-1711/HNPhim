@@ -1,6 +1,6 @@
+import "../css/EpisodeSelector.css";
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "react-bootstrap";
-import "../css/EpisodeSelector.css";
 
 const EPISODES_PER_CHUNK = 50;
 

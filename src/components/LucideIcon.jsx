@@ -6,12 +6,8 @@ const LucideIcon = ({ icon }) => {
       return <BookmarkCheck />;
     case "ChevronLeft":
       return <ChevronLeft />;
-    case "ChevronsLeft":
-      return <ChevronsLeft />;
     case "ChevronRight":
       return <ChevronRight />;
-    case "ChevronsRight":
-      return <ChevronsRight />;
     case "ClapperBoard":
       return <ClapperBoard />;
     case "Clock":
@@ -26,6 +22,10 @@ const LucideIcon = ({ icon }) => {
       return <Play />;
     case "Pause":
       return <Pause />;
+    case "RotateLeft":
+      return <RotateLeft />;
+    case "RotateRight":
+      return <RotateRight />;
     case "Search":
       return <Search />;
     case "Settings":
@@ -36,8 +36,14 @@ const LucideIcon = ({ icon }) => {
       return <SkipForward />;
     case "Star":
       return <Star />;
+    case "Volume":
+      return <Volume />;
+    case "Volume1":
+      return <Volume1 />;
     case "Volume2":
       return <Volume2 />;
+    case "VolumeX":
+      return <VolumeX />;
     default:
       return null;
   }
@@ -101,26 +107,6 @@ function ChevronLeft() {
   );
 }
 
-function ChevronsLeft() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-chevrons-left-icon lucide-chevrons-left"
-    >
-      <path d="m11 17-5-5 5-5" />
-      <path d="m18 17-5-5 5-5" />
-    </svg>
-  );
-}
-
 function ChevronRight() {
   return (
     <svg
@@ -136,26 +122,6 @@ function ChevronRight() {
       className="lucide lucide-chevron-right-icon lucide-chevron-right"
     >
       <path d="m9 18 6-6-6-6" />
-    </svg>
-  );
-}
-
-function ChevronsRight() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-chevrons-right-icon lucide-chevrons-right"
-    >
-      <path d="m6 17 5-5-5-5" />
-      <path d="m13 17 5-5-5-5" />
     </svg>
   );
 }
@@ -305,6 +271,50 @@ function Pause() {
   );
 }
 
+function RotateLeft() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-iteration-ccw-icon lucide-iteration-ccw"
+    >
+      <g transform="rotate(180 12 12)">
+        <path d="m16 14 4 4-4 4" />
+        <path d="M20 10a8 8 0 1 0-8 8h8" />
+      </g>
+    </svg>
+  );
+}
+
+function RotateRight() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-iteration-cw-icon lucide-iteration-cw"
+    >
+      <g transform="rotate(180 12 12)">
+        <path d="M4 10a8 8 0 1 1 8 8H4" />
+        <path d="m8 22-4-4 4-4" />
+      </g>
+    </svg>
+  );
+}
+
 function Search() {
   return (
     <svg
@@ -411,6 +421,45 @@ function Star() {
   );
 }
 
+function Volume() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-volume-icon lucide-volume"
+    >
+      <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" />
+    </svg>
+  );
+}
+
+function Volume1() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-volume1-icon lucide-volume-1"
+    >
+      <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" />
+      <path d="M16 9a5 5 0 0 1 0 6" />
+    </svg>
+  );
+}
+
 function Volume2() {
   return (
     <svg
@@ -428,6 +477,27 @@ function Volume2() {
       <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" />
       <path d="M16 9a5 5 0 0 1 0 6" />
       <path d="M19.364 18.364a9 9 0 0 0 0-12.728" />
+    </svg>
+  );
+}
+
+function VolumeX() {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      className="lucide lucide-volume-x-icon lucide-volume-x"
+    >
+      <path d="M11 4.702a.705.705 0 0 0-1.203-.498L6.413 7.587A1.4 1.4 0 0 1 5.416 8H3a1 1 0 0 0-1 1v6a1 1 0 0 0 1 1h2.416a1.4 1.4 0 0 1 .997.413l3.383 3.384A.705.705 0 0 0 11 19.298z" />
+      <line x1="22" x2="16" y1="9" y2="15" />
+      <line x1="16" x2="22" y1="9" y2="15" />
     </svg>
   );
 }

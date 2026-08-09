@@ -88,11 +88,11 @@ export default function CustomPagination({ page, totalPages, setPage }) {
             style={{
               ...baseBtnStyle,
               // Trang hiện tại nổi bật (Màu đỏ sẫm/sáng), trang khác nền xám tối
-              backgroundColor: isActive ? "#0991e5" : "#2b2b2b",
-              borderColor: isActive ? "#0991e5" : "#383838",
+              backgroundColor: isActive ? "#b11515" : "#2b2b2b",
+              borderColor: isActive ? "#b11515" : "#383838",
               color: "#ffffff",
               fontWeight: isActive ? "bold" : "normal",
-              boxShadow: isActive ? "0 0 10px rgba(9, 24, 229, 0.5)" : "none",
+              boxShadow: isActive ? "0 0 10px rgba(197, 47, 21, 0.5)" : "none",
             }}
           >
             {item}

@@ -1,7 +1,7 @@
+import "../css/VideoControls.css";
 import { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import LucideIcon from "./LucideIcon";
-import "../css/VideoControls.css";
 
 const VideoControls = ({
   showControls,
@@ -43,6 +43,13 @@ const VideoControls = ({
         showControls ? "video-controls-visible" : "video-controls-hidden"
       }`}
     >
+      {/* Time */}
+      <span className="video-time">
+        <span className="video-time-current">{formatTime(currentTime)}</span>
+        <span className="video-time-separator">/</span>
+        <span>{formatTime(duration)}</span>
+      </span>
+
       {/* Timeline */}
       <div className="video-timeline">
         <input
@@ -65,11 +72,11 @@ const VideoControls = ({
           {/* Back 10s */}
           <Button
             variant="link"
-            className="video-control-btn d-none d-sm-flex"
+            className="video-control-btn btn-seek-back"
             onClick={() => handleSeek(-10)}
             title="Lùi 10 giây"
           >
-            <LucideIcon icon="ChevronsLeft" />
+            <LucideIcon icon="RotateLeft" />
           </Button>
 
           {/* Play / Pause */}
@@ -85,22 +92,22 @@ const VideoControls = ({
           {/* Forward 10s */}
           <Button
             variant="link"
-            className="video-control-btn d-none d-sm-flex"
+            className="video-control-btn btn-seek-forward"
             onClick={() => handleSeek(10)}
             title="Tua 10 giây"
           >
-            <LucideIcon icon="ChevronsRight" />
+            <LucideIcon icon="RotateRight" />
           </Button>
 
           {/* Volume Control */}
-          <div className="video-volume-container d-none d-sm-flex align-items-center">
+          <div className="video-volume-container">
             <Button
               variant="link"
               className="video-control-btn"
               onClick={toggleMute}
               title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
             >
-              <LucideIcon icon="Volume2" />
+              <LucideIcon icon={isMuted ? "VolumeX" : "Volume2"} />
             </Button>
             <input
               type="range"
@@ -115,17 +122,6 @@ const VideoControls = ({
               }}
             />
           </div>
-
-          {/* Time */}
-          <span className="video-time">
-            <span className="video-time-current">
-              {formatTime(currentTime)}
-            </span>
-
-            <span className="video-time-separator">/</span>
-
-            <span>{formatTime(duration)}</span>
-          </span>
         </div>
 
         {/* ================= RIGHT ================= */}
@@ -134,15 +130,15 @@ const VideoControls = ({
           <Button
             variant="warning"
             size="sm"
-            className="skip-ads-btn d-none d-sm-flex"
-            onClick={() => handleSeek(85)}
+            className="skip-ads-btn"
+            onClick={() => handleSeek(29)}
             title="Thật ra là tua 30s"
           >
             <span>Skip ads</span>
             <LucideIcon icon="SkipForward" />
           </Button>
 
-          {/* ================= SETTINGS ================= */}
+          {/* Settings */}
           <Dropdown
             autoClose="outside"
             onToggle={(isOpen) => !isOpen && setMenuState("main")}
@@ -155,7 +151,6 @@ const VideoControls = ({
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="settings-dropdown-menu">
-              {/* Main */}
               {menuState === "main" && (
                 <>
                   <Dropdown.Item
@@ -163,10 +158,8 @@ const VideoControls = ({
                     onClick={() => setMenuState("speed")}
                   >
                     <span>Tốc độ phát</span>
-
                     <span className="settings-value">
                       {playbackRate === 1 ? "Chuẩn" : `${playbackRate}x`}
-
                       <LucideIcon icon="ChevronRight" />
                     </span>
                   </Dropdown.Item>
@@ -176,19 +169,16 @@ const VideoControls = ({
                     onClick={() => setMenuState("quality")}
                   >
                     <span>Chất lượng</span>
-
                     <span className="settings-value">
                       {currentQuality === -1
                         ? "Tự động"
                         : `${qualities[currentQuality]?.height}p`}
-
                       <LucideIcon icon="ChevronRight" />
                     </span>
                   </Dropdown.Item>
                 </>
               )}
 
-              {/* Speed */}
               {menuState === "speed" && (
                 <>
                   <div
@@ -212,7 +202,6 @@ const VideoControls = ({
                 </>
               )}
 
-              {/* Quality */}
               {menuState === "quality" && (
                 <>
                   <div

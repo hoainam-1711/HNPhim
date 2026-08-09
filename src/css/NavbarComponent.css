@@ -112,18 +112,12 @@
   align-items: center;
   justify-content: center;
 
-  background: #222 !important;
+  background: #121212 !important;
   border: none !important;
-
-  border-left: 1px solid #303030 !important;
 
   color: #fff !important;
 
   transition: background-color 0.2s ease;
-}
-
-.youtube-search-btn:hover {
-  background: #303030 !important;
 }
 
 .youtube-search-btn:active {

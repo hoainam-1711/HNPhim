@@ -9,22 +9,22 @@ export const useHlsVideo = (m3u8Url) => {
 
   const [isPlaying, setIsPlaying] = useState(false);
 
-  // thời gian và thanh timeline
+  // Thời gian và thanh timeline
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // thay đổi chất lượng hình ảnh
+  // Thay đổi chất lượng hình ảnh
   const [qualities, setQualities] = useState([]);
   const [currentQuality, setCurrentQuality] = useState(-1);
 
-  // tốc đọ video
+  // Tốc độ video
   const [playbackRate, setPlaybackRate] = useState(1);
 
-  // State cho fullscreen
+  // State cho fullscreen & controls
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
-  // Thêm state cho âm lượng (0 đến 1) và trạng thái tắt tiếng
+  // State cho âm lượng (0 đến 1) và tắt tiếng
   const [volume, setVolume] = useState(1);
   const [isMuted, setIsMuted] = useState(false);
   const prevVolumeRef = useRef(1);
@@ -47,18 +47,26 @@ export const useHlsVideo = (m3u8Url) => {
             id: index,
             height: level.height,
             bitrate: level.bitrate,
-          })),
+          }))
         );
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
       video.src = m3u8Url;
-      video.addEventListener("loadedmetadata", () => video.play());
     }
 
     return () => {
       if (hls) hls.destroy();
     };
   }, [m3u8Url]);
+
+  // [ĐIỂM C] Dọn dẹp Timeout khi Unmount
+  useEffect(() => {
+    return () => {
+      if (controlsTimeoutRef.current) {
+        clearTimeout(controlsTimeoutRef.current);
+      }
+    };
+  }, []);
 
   // Lắng nghe sự kiện Fullscreen
   useEffect(() => {
@@ -71,6 +79,7 @@ export const useHlsVideo = (m3u8Url) => {
 
   // Actions
   const togglePlay = () => {
+    if (!videoRef.current) return;
     if (videoRef.current.paused) {
       videoRef.current.play();
       setIsPlaying(true);
@@ -118,14 +127,23 @@ export const useHlsVideo = (m3u8Url) => {
     }, 3500);
   };
 
-  const handleTimeUpdate = () => {
-    if (videoRef.current) {
-      setCurrentTime(videoRef.current.currentTime);
-      setDuration(videoRef.current.duration || 0);
+  // [ĐIỂM B] Bắt thời lượng chuẩn khi video load xong metadata
+  const handleLoadedMetadata = () => {
+    if (videoRef.current && Number.isFinite(videoRef.current.duration)) {
+      setDuration(videoRef.current.duration);
     }
   };
 
-  // Hàm thay đổi âm lượng (giá trị từ 0 đến 1)
+  // [ĐIỂM B] Cập nhật thời gian thực & thời lượng
+  const handleTimeUpdate = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+      if (Number.isFinite(videoRef.current.duration)) {
+        setDuration(videoRef.current.duration);
+      }
+    }
+  };
+
   const handleVolumeChange = (e) => {
     const newVolume = parseFloat(e.target.value);
     setVolume(newVolume);
@@ -136,7 +154,6 @@ export const useHlsVideo = (m3u8Url) => {
     setIsMuted(newVolume === 0);
   };
 
-  // Hàm bật/tắt tiếng
   const toggleMute = () => {
     if (!videoRef.current) return;
 
@@ -166,6 +183,8 @@ export const useHlsVideo = (m3u8Url) => {
     playbackRate,
     showControls,
     isFullscreen,
+    volume,
+    isMuted,
     togglePlay,
     handleSeek,
     handleSliderChange,
@@ -173,9 +192,11 @@ export const useHlsVideo = (m3u8Url) => {
     handleQualityChange,
     toggleFullscreen,
     handleMouseMove,
+    handleLoadedMetadata,
     handleTimeUpdate,
     setShowControls,
     handleVolumeChange,
     toggleMute,
+    setIsPlaying,
   };
 };

@@ -1,3 +1,4 @@
+import "../css/MovieDetailPage.css";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
@@ -7,7 +8,6 @@ import noImg from "../assets/no-image.png";
 import { MovieContext } from "../context/MovieContext";
 import LucideIcon from "../components/LucideIcon";
 import useMovieDetail from "../hooks/useMovieDetail";
-import "../css/MovieDetailPage.css";
 
 const MovieDetailPage = () => {
   const { slug } = useParams();
@@ -102,7 +102,15 @@ const MovieDetailPage = () => {
                   {movie?.episode_current || "Full"}
                 </Badge>
 
-                {movie?.tmdb?.vote_average && (
+                {movie?.imdb?.vote_count != 0 && (
+                  <Badge className="movie-meta-badge movie-rating">
+                    <LucideIcon icon="Star" />
+                    IMDB: {movie.imdb.vote_average} ({movie.imdb.vote_count}{" "}
+                    lượt)
+                  </Badge>
+                )}
+
+                {movie?.tmdb?.vote_count != 0 && (
                   <Badge className="movie-meta-badge movie-rating">
                     <LucideIcon icon="Star" />
                     TMDB: {movie.tmdb.vote_average} ({movie.tmdb.vote_count}{" "}
@@ -246,14 +254,14 @@ const MovieDetailPage = () => {
         {movie?.keywords && movie.keywords.length > 0 && (
           <Row className="mt-4">
             <Col xs={12}>
-              <div className="movie-keywords movie-keyword">
+              <div className="movie-keywords">
                 <small className="text-secondary me-2">Từ khóa:</small>
                 {movie.keywords.map((kw, i) => (
                   <Badge
                     key={i}
                     bg="dark"
                     text="secondary"
-                    className="fw-normal border border-secondary"
+                    className="movie-keyword fw-normal border border-secondary"
                   >
                     #{kw}
                   </Badge>

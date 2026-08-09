@@ -1,10 +1,10 @@
+import "../css/NavbarComponent.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
 import { MovieContext } from "../context/MovieContext";
 import LucideIcon from "./LucideIcon";
 import { useContext, useState } from "react";
 import GenreModal from "./GenreModal";
-import "../css/NavbarComponent.css";
 
 function NavbarComponent() {
   const { favorites } = useContext(MovieContext);
@@ -89,6 +89,7 @@ function NavbarComponent() {
             <LucideIcon icon="BookmarkCheck" />
             <span className="favorite-count">{favorites.length}</span>
           </Button>
+
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -8,57 +8,44 @@
   color: #fff;
 }
 
-/* ==================================================
-   TOP MOVIE SECTION
-================================================== */
-
 .movie-detail-container {
   max-width: 1400px;
 }
 
-/* Poster */
+/* --------------------------------------------------
+   1. POSTER SECTION (Cột trái)
+-------------------------------------------------- */
 
 .movie-poster {
   position: relative;
   overflow: hidden;
-
   aspect-ratio: 2 / 3;
-
   background: #181818;
   border-radius: 10px;
-
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
 
 .movie-poster img {
   width: 100%;
   height: 100%;
-
   object-fit: cover;
-
   transition: transform 0.3s ease;
 }
-
-/* Quality */
 
 .movie-quality {
   position: absolute;
   top: 10px;
   left: 10px;
-
   padding: 5px 9px !important;
-
   border-radius: 5px !important;
-
   font-size: 0.8rem !important;
   font-weight: 700 !important;
-
   background: #ff0000 !important;
 }
 
-/* ==================================================
-   MOVIE INFORMATION
-================================================== */
+/* --------------------------------------------------
+   2. MOVIE INFO SECTION (Cột phải)
+-------------------------------------------------- */
 
 .movie-info {
   padding-left: 12px;
@@ -66,34 +53,24 @@
 
 .movie-title {
   margin-bottom: 4px;
-
   color: #fff;
-
   font-size: clamp(1.7rem, 3vw, 2.5rem);
   line-height: 1.15;
-
   font-weight: 700;
   letter-spacing: -0.5px;
 }
 
 .movie-origin-name {
-  color: #aaa !important;
-
+  color: #aaa;
   font-size: 1rem;
-
   font-style: italic;
 }
 
-/* ==================================================
-   METADATA
-================================================== */
-
+/* Metadata Badges */
 .movie-metadata {
   display: flex;
   flex-wrap: wrap;
-
   gap: 7px;
-
   margin-bottom: 20px;
 }
 
@@ -101,18 +78,13 @@
   display: inline-flex;
   align-items: center;
   gap: 5px;
-
-  padding: 6px 9px !important;
-
+  padding: 6px 9px;
   background: #272727 !important;
-
-  border: 1px solid #383838 !important;
-  border-radius: 5px !important;
-
-  color: #ddd !important;
-
-  font-size: 0.8rem !important;
-  font-weight: 500 !important;
+  border: 1px solid #383838;
+  border-radius: 5px;
+  color: #ddd;
+  font-size: 0.8rem;
+  font-weight: 500;
 }
 
 .movie-meta-badge svg {
@@ -122,61 +94,34 @@
 
 .movie-rating {
   background: #f5c518 !important;
-
   border: none !important;
-
   color: #000 !important;
 }
 
-/* ==================================================
-   INFO ROW
-================================================== */
-
+/* Info Rows (Thể loại, Quốc gia, Đạo diễn, Diễn viên) */
 .movie-detail-row {
   margin-bottom: 10px;
-
   color: #ddd;
-
   font-size: 0.95rem;
   line-height: 1.6;
 }
 
 .movie-detail-label {
   color: #aaa;
-
   font-weight: 600;
 }
 
-.movie-country {
-  color: #e5e5e5;
-  margin-right: 8px;
-}
-
-/* ==================================================
-   CATEGORY BADGE
-================================================== */
-
 .movie-category {
   display: inline-block;
-
   margin-right: 5px;
   margin-bottom: 4px;
-
   padding: 4px 8px !important;
-
   background: #272727 !important;
-
   border: 1px solid #3a3a3a;
-
   border-radius: 4px !important;
-
   color: #ddd !important;
-
   font-size: 0.8rem !important;
-
-  transition:
-    background-color 0.2s ease,
-    color 0.2s ease;
+  transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .movie-category:hover {
@@ -184,37 +129,29 @@
   color: #fff !important;
 }
 
-/* ==================================================
-   ACTION BUTTONS
-================================================== */
+.movie-country {
+  color: #e5e5e5;
+  margin-right: 8px;
+}
 
+/* Action Buttons (Xem phim, Lưu) */
 .movie-actions {
   display: flex;
   align-items: center;
-
   gap: 8px;
-
   margin: 25px 0;
 }
 
 .movie-watch-btn {
   min-height: 44px;
-
   padding: 0 20px !important;
-
   border: none !important;
   border-radius: 5px !important;
-
   background: #ff0000 !important;
-
   color: #fff !important;
-
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-
-  transition:
-    background-color 0.2s ease,
-    transform 0.15s ease;
+  transition: background-color 0.2s ease, transform 0.15s ease;
 }
 
 .movie-watch-btn:hover {
@@ -230,26 +167,17 @@
   color: #aaa !important;
 }
 
-/* Favorite */
-
 .movie-favorite-btn {
   min-height: 44px;
-
   padding: 0 14px !important;
-
   border: none !important;
   border-radius: 5px !important;
-
   background: #272727 !important;
-
   color: #fff !important;
-
   display: inline-flex;
   align-items: center;
   gap: 7px;
-
   text-decoration: none;
-
   transition: background-color 0.2s ease;
 }
 
@@ -262,156 +190,115 @@
   height: 19px;
 }
 
-/* ==================================================
-   DESCRIPTION
-================================================== */
-
+/* Description Block */
 .movie-description {
   margin-top: 20px;
-
   padding: 18px;
-
   background: #181818;
-
   border: 1px solid #272727;
-
   border-radius: 8px;
 }
 
 .movie-description-title {
   margin-bottom: 8px;
-
   color: #fff;
-
   font-size: 1rem;
   font-weight: 600;
 }
 
 .movie-description-title::before {
   content: "";
-
   display: inline-block;
-
   width: 4px;
   height: 18px;
-
   margin-right: 8px;
-
   vertical-align: -3px;
-
   background: #ff0000;
-
   border-radius: 2px;
 }
 
 .movie-description-text {
   margin: 0;
-
   color: #aaa;
-
   font-size: 0.9rem;
   line-height: 1.7;
 }
 
-/* ==================================================
-   EPISODE / SERVER CARD
-================================================== */
+/* --------------------------------------------------
+   3. EPISODES & SERVER CARD SECTION
+-------------------------------------------------- */
 
 .episode-card {
   background: #181818 !important;
-
   border: 1px solid #272727 !important;
-
   border-radius: 8px !important;
-
   overflow: hidden;
 }
 
 .episode-header {
   padding: 15px 18px !important;
-
   background: #181818 !important;
-
   border-bottom: 1px solid #272727 !important;
 }
 
 .episode-title {
   margin: 0;
-
   color: #fff;
-
   font-size: 1rem;
   font-weight: 600;
 }
 
 .episode-title::before {
   content: "";
-
   display: inline-block;
-
   width: 4px;
   height: 17px;
-
   margin-right: 8px;
-
   vertical-align: -3px;
-
   background: #ff0000;
-
   border-radius: 2px;
 }
-
-/* Server buttons */
 
 .server-buttons {
   display: flex;
   flex-wrap: wrap;
-
   gap: 7px;
 }
 
 .server-btn {
   border-radius: 5px !important;
-
   font-size: 0.8rem !important;
   font-weight: 500 !important;
 }
 
 .server-btn.active {
   background: #ff0000 !important;
-
   border-color: #ff0000 !important;
-
   color: #fff !important;
 }
 
-/* ==================================================
-   KEYWORDS
-================================================== */
+/* --------------------------------------------------
+   4. KEYWORDS SECTION
+-------------------------------------------------- */
 
 .movie-keywords {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-
   gap: 6px;
 }
 
 .movie-keyword {
   padding: 4px 8px !important;
-
   background: transparent !important;
-
   border: 1px solid #383838 !important;
   border-radius: 4px !important;
-
   color: #aaa !important;
-
   font-size: 0.75rem !important;
 }
 
 /* ==================================================
-   RESPONSIVE
+   RESPONSIVE (MOBILE / TABLET)
 ================================================== */
 
 @media (max-width: 767.98px) {
