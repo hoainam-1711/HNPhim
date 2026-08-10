@@ -5,7 +5,6 @@
 .youtube-navbar {
   height: 64px;
   background: linear-gradient(180deg, #2b2b2b 0%, #1a1a1a 60%, #0f0f0f 100%) !important;
-  border-bottom: 1px solid #272727;
   z-index: 1030;
 }
 

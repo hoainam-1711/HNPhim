@@ -42,13 +42,14 @@ function MoviesByTypePage() {
   };
   
   if (loading) return <Loading />;
-
-  if (error)
+  
+  if (error) {
     return (
-      <div className="text-white text-center pt-5">
-        Lỗi: {error.message || "Không thể tải phim"}
+      <div className="text-white text-center py-5">
+        Lỗi: {"MoviesByTypePage: " + error.message || "MoviesByTypePage: Không thể tải danh sách phim"}
       </div>
     );
+  }
 
   return (
     <div>

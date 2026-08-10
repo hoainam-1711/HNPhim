@@ -13,18 +13,15 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<MainLayout />}>
-
         <Route index element={<HomePage />} />
 
-        {/* Route danh sách phim đón nhận query parameters (?page=...) */}
-        <Route path="/:type" element={<MoviesByTypePage />} />
+        <Route path="/loai/:type" element={<MoviesByTypePage />} />
 
         <Route path="/ua-thich" element={<FavoritesPage />} />
+        
+        <Route path="/tim-kiem/:keyword" element={<SearchPage />} />
 
         <Route path="/the-loai/:slug" element={<MoviesByGenresPage />} />
-
-        {/* Khai báo tham số động :keyword ở đây */}
-        <Route path="/tim-kiem/:keyword" element={<SearchPage />} />
 
         <Route path="/chi-tiet/:slug" element={<MovieDetailPage />} />
 

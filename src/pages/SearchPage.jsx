@@ -3,6 +3,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import useSearchMovies from "../features/movies/hooks/useSearchMovies";
+import Loading from "../components/ui/Loading";
 
 const SearchPage = () => {
   const { keyword } = useParams();
@@ -13,7 +14,7 @@ const SearchPage = () => {
   // 2. Lấy số trang từ URL (Ví dụ: /danh-sach?page=2 -> pageParam = 2). Mặc định là 1 nếu chưa có
   const page = parseInt(searchParams.get("page")) || 1;
 
-  const { data, loading } = useSearchMovies(keyword, 24, page);
+  const { data, loading, error } = useSearchMovies(keyword, 24, page);
   const movies = data?.data?.items || data?.items || [];
 
   const totalPages = data?.data?.params?.pagination?.totalPages || 1;
@@ -26,6 +27,16 @@ const SearchPage = () => {
     // Tự động cuộn mượt lên đầu trang khi sang trang mới (UX tốt hơn)
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (loading) return <Loading />;
+  
+  if (error) {
+    return (
+      <div className="text-white text-center py-5">
+        Lỗi: {"SearchPage: " + error.message || "SearchPage: Không thể tải danh sách phim"}
+      </div>
+    );
+  }
 
   return (
     <div>

@@ -11,7 +11,7 @@ const MovieSection = ({ title, type, movies }) => {
         <h2 className="section-title text-white fs-4 fw-bold mb-0">{title}</h2>
         <Button
           as={Link}
-          to={`/${type}`}
+          to={`/loai/${type}`}
           variant="link"
           className="see-more-btn text-decoration-none text-secondary d-flex align-items-center gap-1 p-0"
         >
@@ -22,7 +22,7 @@ const MovieSection = ({ title, type, movies }) => {
 
       <Row className="g-3">
         {movies.map((movie) => (
-          <Col key={movie._id || movie.slug} xs={6} sm={4} md={3} lg={2}>
+          <Col key={movie._id || movie.slug} xs={6} md={4} lg={2}>
             <Link
               to={`/chi-tiet/${movie.slug}`}
               style={{ textDecoration: "none", color: "inherit" }}

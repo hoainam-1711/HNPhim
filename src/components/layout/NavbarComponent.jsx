@@ -38,7 +38,7 @@ function NavbarComponent() {
           to="/"
           className="youtube-logo d-flex align-items-center gap-2"
         >
-          <img src="/logo.png" alt="logo" height={30} style={{borderRadius:"50%"}}/>
+          <LucideIcon icon="Logo" />
           <span>HNPHIM</span>
         </Navbar.Brand>
 
@@ -89,7 +89,6 @@ function NavbarComponent() {
             <LucideIcon icon="BookmarkCheck" />
             <span className="favorite-count">{favorites.length}</span>
           </Button>
-
         </Navbar.Collapse>
       </Container>
     </Navbar>

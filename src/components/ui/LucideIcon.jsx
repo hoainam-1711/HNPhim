@@ -12,6 +12,8 @@ const LucideIcon = ({ icon }) => {
       return <ClapperBoard />;
     case "Clock":
       return <Clock />;
+    case "Logo":
+      return <Logo />;
     case "Maximize":
       return <Maximize />;
     case "Minimize":
@@ -160,6 +162,49 @@ function Clock() {
     >
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
+    </svg>
+  );
+}
+
+function Logo() {
+  return (
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="137 54 239 229">
+      <path
+        fill="#ffffff"
+        d="
+      M138 103
+      C138 75 160 54 188 54
+      C207 54 222 62 235 76
+      L302 137
+      L302 186
+      L208 101
+      C201 95 195 91 188 91
+      C181 91 176 97 176 105
+      L176 235
+      C176 243 181 249 189 249
+      L212 249
+      L246 284
+      L188 284
+      C159 284 138 262 138 234
+      Z
+
+      M269 54
+      L326 54
+      C354 54 376 76 376 104
+      L376 234
+      C376 262 354 284 326 284
+      C307 284 291 276 278 263
+      L212 202
+      L212 151
+      L306 237
+      C312 243 318 247 326 247
+      C333 247 338 242 338 234
+      L338 104
+      C338 96 333 91 325 91
+      L303 91
+      Z
+    "
+      />
     </svg>
   );
 }

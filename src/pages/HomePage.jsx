@@ -29,7 +29,7 @@ const HomePage = () => {
   if (error) {
     return (
       <div className="text-white text-center py-5">
-        Lỗi: {error.message || "Không thể tải danh sách phim"}
+        Lỗi: {"HomePage: " + error.message || "HomePage: Không thể tải danh sách phim"}
       </div>
     );
   }

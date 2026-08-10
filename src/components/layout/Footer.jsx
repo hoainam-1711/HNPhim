@@ -1,5 +1,5 @@
 import { Container, Row, Col } from "react-bootstrap";
-import noImg from '../../assets/no-image.png';
+import LucideIcon from "../ui/LucideIcon";
 
 
 const Footer = () => {
@@ -16,8 +16,8 @@ const Footer = () => {
       <Container>
         <Row className="align-items-center">
           <Col className="text-center">
-            <img src={noImg} alt="Logo" height={50} style={{borderRadius:"50%", marginBottom:"10px"}}/>
-            <div style={{ fontSize: "0.75rem" }}>
+            <LucideIcon icon="Logo" />
+            <div style={{ fontSize: "0.75rem", marginTop:"10px" }}>
               © {new Date().getFullYear()} HNPhim.
             </div>
           </Col>

@@ -3,12 +3,13 @@ import { Col, Container, Row } from "react-bootstrap";
 import useMoviesByGenre from "../features/movies/hooks/useMovieByGenres";
 import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
+import Loading from "../components/ui/Loading";
 
 const MoviesByGenresPage = () => {
   const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
-  const { data, loading } = useMoviesByGenre(slug, 24, page);
+  const { data, loading, error } = useMoviesByGenre(slug, 24, page);
 
   const movies = data?.data?.items || data?.items || [];
   
@@ -27,6 +28,17 @@ const MoviesByGenresPage = () => {
     // Tự động cuộn mượt lên đầu trang khi sang trang mới (UX tốt hơn)
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  if (loading) return <Loading />;
+  
+  if (error) {
+    return (
+      <div className="text-white text-center py-5">
+        Lỗi: {"MoviesByGenresPage: " + error.message || "MoviesByGenresPage: Không thể tải danh sách phim"}
+      </div>
+    );
+  }
+
   return (
     <div>
       <MovieList movies={movies} loading={loading} msg={`Phim thuộc thể loại: ${titlePage}`}/>

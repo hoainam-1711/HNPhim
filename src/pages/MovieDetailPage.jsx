@@ -12,7 +12,7 @@ import useMovieDetail from "../features/movies/hooks/useMovieDetail";
 const MovieDetailPage = () => {
   const { slug } = useParams();
 
-  const { data, loading } = useMovieDetail(slug);
+  const { data, loading, error } = useMovieDetail(slug);
   const movie = data?.movie || {};
   const episodesList = data?.episodes || [];
 
@@ -50,6 +50,14 @@ const MovieDetailPage = () => {
   };
 
   if (loading) return <Loading />;
+
+  if (error) {
+    return (
+      <div className="text-white text-center py-5">
+        Lỗi: {"MovieDetailPage: " + error.message || "MovieDetailPage: Không thể tải danh sách phim"}
+      </div>
+    );
+  }
 
   return (
     <div className="movie-detail-page">
