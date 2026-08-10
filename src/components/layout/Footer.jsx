@@ -1,4 +1,6 @@
 import { Container, Row, Col } from "react-bootstrap";
+import noImg from '../../assets/no-image.png';
+
 
 const Footer = () => {
   return (
@@ -14,10 +16,10 @@ const Footer = () => {
       <Container>
         <Row className="align-items-center">
           <Col className="text-center">
-            <p className="mb-1 text-secondary fs-6 fw-light">Web làm cho vui</p>
-            <small className="text-muted style={{ fontSize: '0.75rem' }}">
-              © {new Date().getFullYear()} HNPhim. Built with React & Bootstrap.
-            </small>
+            <img src={noImg} alt="Logo" height={50} style={{borderRadius:"50%", marginBottom:"10px"}}/>
+            <div style={{ fontSize: "0.75rem" }}>
+              © {new Date().getFullYear()} HNPhim.
+            </div>
           </Col>
         </Row>
       </Container>

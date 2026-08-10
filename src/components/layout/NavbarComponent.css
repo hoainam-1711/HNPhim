@@ -42,13 +42,15 @@
   font-size: 0.95rem;
   font-weight: 500;
 
+  background-color: #272727 !important;
+
   transition:
     background-color 0.2s ease,
     color 0.2s ease;
 }
 
 .youtube-nav-btn:hover {
-  background-color: #272727 !important;
+  background-color: #353535 !important;
 }
 
 /* ================================
@@ -144,11 +146,13 @@
 
   border-radius: 20px;
 
+  background-color: #272727 !important;
+
   transition: background-color 0.2s ease;
 }
 
 .youtube-favorite:hover {
-  background: #272727;
+  background: #353535 !important;
 }
 
 .favorite-count {

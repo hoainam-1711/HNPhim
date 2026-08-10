@@ -1,9 +1,9 @@
-import "../css/NavbarComponent.css";
+import "./NavbarComponent.css";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
-import { MovieContext } from "../context/MovieContext";
-import LucideIcon from "./LucideIcon";
+import { MovieContext } from "../../context/MovieContext";
 import { useContext, useState } from "react";
+import LucideIcon from "../ui/LucideIcon";
 import GenreModal from "./GenreModal";
 
 function NavbarComponent() {
@@ -38,7 +38,7 @@ function NavbarComponent() {
           to="/"
           className="youtube-logo d-flex align-items-center gap-2"
         >
-          <img src="/vite.svg" alt="Vite logo" />
+          <img src="/logo.png" alt="logo" height={30} style={{borderRadius:"50%"}}/>
           <span>HNPHIM</span>
         </Navbar.Brand>
 

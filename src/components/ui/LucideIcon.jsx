@@ -12,8 +12,6 @@ const LucideIcon = ({ icon }) => {
       return <ClapperBoard />;
     case "Clock":
       return <Clock />;
-    case "Gauge":
-      return <Gauge />;
     case "Maximize":
       return <Maximize />;
     case "Minimize":
@@ -30,8 +28,6 @@ const LucideIcon = ({ icon }) => {
       return <Search />;
     case "Settings":
       return <Settings />;
-    case "SlidersHorizontal":
-      return <SlidersHorizontal />;
     case "SkipForward":
       return <SkipForward />;
     case "Star":
@@ -164,26 +160,6 @@ function Clock() {
     >
       <circle cx="12" cy="12" r="10" />
       <path d="M12 6v6l4 2" />
-    </svg>
-  );
-}
-
-function Gauge() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-gauge-icon lucide-gauge"
-    >
-      <path d="m12 14 4-4" />
-      <path d="M3.34 19a10 10 0 1 1 17.32 0" />
     </svg>
   );
 }
@@ -351,33 +327,6 @@ function Settings() {
     >
       <path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915" />
       <circle cx="12" cy="12" r="3" />
-    </svg>
-  );
-}
-
-function SlidersHorizontal() {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      className="lucide lucide-sliders-horizontal-icon lucide-sliders-horizontal"
-    >
-      <path d="M10 5H3" />
-      <path d="M12 19H3" />
-      <path d="M14 3v4" />
-      <path d="M16 17v4" />
-      <path d="M21 12h-9" />
-      <path d="M21 19h-5" />
-      <path d="M21 5h-7" />
-      <path d="M8 10v4" />
-      <path d="M8 12H3" />
     </svg>
   );
 }

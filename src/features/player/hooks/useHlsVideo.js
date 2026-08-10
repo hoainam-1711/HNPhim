@@ -47,7 +47,7 @@ export const useHlsVideo = (m3u8Url) => {
             id: index,
             height: level.height,
             bitrate: level.bitrate,
-          }))
+          })),
         );
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
@@ -77,6 +77,128 @@ export const useHlsVideo = (m3u8Url) => {
       document.removeEventListener("fullscreenchange", handleFullscreen);
   }, []);
 
+  // Thêm vào trong CustomVideoPlayer component
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // 1. Kiểm tra nếu người dùng đang nhập văn bản (search, comment...) thì KHÔNG kích hoạt phím tắt
+      const activeElement = document.activeElement;
+      const isInput =
+        activeElement.tagName === "INPUT" ||
+        activeElement.tagName === "TEXTAREA" ||
+        activeElement.isContentEditable;
+
+      if (isInput) return;
+
+      // 2. Kiểm tra tham chiếu thẻ video
+      const video = videoRef.current;
+      if (!video) return;
+
+      switch (e.code) {
+        // Phím Space: Play / Pause
+        case "Space":
+          e.preventDefault(); // Tránh cuộn trang
+          if (video.paused) {
+            video.play();
+          } else {
+            video.pause();
+          }
+          break;
+
+        // Mũi tên trái: Tua lùi 10 giây
+        case "ArrowLeft":
+          e.preventDefault();
+          video.currentTime = Math.max(0, video.currentTime - 10);
+          break;
+
+        // Mũi tên phải: Tua tiến 10 giây
+        case "ArrowRight":
+          e.preventDefault();
+          video.currentTime = Math.min(
+            video.duration || 0,
+            video.currentTime + 10,
+          );
+          break;
+
+        // Mũi tên lên: Tăng âm lượng 10%
+        case "ArrowUp": {
+          e.preventDefault();
+          const newVolUp = Math.min(1, video.volume + 0.1);
+          video.volume = newVolUp;
+          if (setVolume) setVolume(newVolUp); // Cập nhật state UI nếu dùng custom bar
+          if (newVolUp > 0) {
+            video.muted = false;
+            if (setIsMuted) setIsMuted(false);
+          }
+          break;
+        }
+
+        // Mũi tên xuống: Giảm âm lượng 10%
+        case "ArrowDown": {
+          e.preventDefault();
+          const newVolDown = Math.max(0, video.volume - 0.1);
+          video.volume = newVolDown;
+          if (setVolume) setVolume(newVolDown); // Cập nhật state UI
+          if (newVolDown === 0) {
+            video.muted = true;
+            if (setIsMuted) setIsMuted(true);
+          }
+          break;
+        }
+
+        // Phím M: Mute / Unmute
+        case "KeyM":
+          e.preventDefault();
+          video.muted = !video.muted;
+          if (setIsMuted) setIsMuted(video.muted);
+          break;
+
+        // Phím F: Fullscreen / Exit Fullscreen
+        case "KeyF": {
+          e.preventDefault();
+          // Lấy container bọc ngoài player để phóng to cả khung thanh điều khiển
+          const targetContainer = containerRef?.current || video;
+
+          if (!document.fullscreenElement) {
+            if (targetContainer.requestFullscreen) {
+              targetContainer.requestFullscreen();
+            } else if (targetContainer.webkitRequestFullscreen) {
+              /* Safari */
+              targetContainer.webkitRequestFullscreen();
+            }
+          } else {
+            if (document.exitFullscreen) {
+              document.exitFullscreen();
+            } else if (document.webkitExitFullscreen) {
+              /* Safari */
+              document.webkitExitFullscreen();
+            }
+          }
+          break;
+        }
+
+        // Phím S: Skip 30s
+        case "KeyS":
+          e.preventDefault();
+          video.currentTime = Math.min(
+            video.duration || 0,
+            video.currentTime + 29,
+          );
+          break;
+
+        default:
+          break;
+      }
+    };
+
+    // Đăng ký sự kiện
+    window.addEventListener("keydown", handleKeyDown);
+
+    // Dọn dẹp sự kiện khi component unmount
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [videoRef, containerRef]);
+
   // Actions
   const togglePlay = () => {
     if (!videoRef.current) return;
@@ -88,6 +210,10 @@ export const useHlsVideo = (m3u8Url) => {
       setIsPlaying(false);
     }
   };
+
+  const handleVideoClick = () => {
+  setShowControls((prev) => !prev);
+};
 
   const handleSeek = (seconds) => {
     if (videoRef.current) videoRef.current.currentTime += seconds;
@@ -185,6 +311,7 @@ export const useHlsVideo = (m3u8Url) => {
     isFullscreen,
     volume,
     isMuted,
+    handleVideoClick,
     togglePlay,
     handleSeek,
     handleSliderChange,

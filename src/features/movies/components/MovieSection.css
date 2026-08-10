@@ -1,0 +1,58 @@
+/* Styling chung cho Section */
+.movie-section .section-title {
+  border-left: 4px solid #e50914; /* Vạch đỏ điểm nhấn kiểu Netflix */
+  padding-left: 10px;
+}
+
+.see-more-btn {
+  transition: color 0.2s ease;
+}
+
+.see-more-btn:hover {
+  color: #ffffff !important;
+}
+
+/* Styling cho MovieCard */
+.movie-card {
+  transition: transform 0.3s ease;
+}
+
+.card-img-wrapper {
+  aspect-ratio: 2 / 3; /* Tỉ lệ chuẩn của poster phim */
+  background-color: #1a1a1a;
+}
+
+.movie-poster {
+  transition: transform 0.3s ease;
+}
+
+.movie-card:hover {
+  transform: translateY(-5px);
+}
+
+.movie-card:hover .movie-poster {
+  transform: scale(1.05);
+}
+
+.card-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.8) 0%,
+    rgba(0, 0, 0, 0) 60%
+  );
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.movie-card:hover .card-overlay {
+  opacity: 1;
+}
+
+.movie-title {
+  color: #fff;
+  transition: color 0.2s ease;
+}
+
+.movie-card:hover .movie-title {
+  color: #e50914;
+}

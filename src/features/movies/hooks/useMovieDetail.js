@@ -1,6 +1,6 @@
 import { useCallback } from "react";
-import movieApi from "../api/movieApi";
-import useFetch from "./useFetch";
+import movieApi from "../../../api/movieApi";
+import useFetch from "../../../hooks/useFetch";
 
 export default function useMovieDetail(slug) {
   const fetcher = useCallback(() => {

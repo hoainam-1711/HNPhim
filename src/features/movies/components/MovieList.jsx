@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
-import Loading from "./Loading";
 import MovieCard from "./MovieCard";
 import { Link } from "react-router-dom";
+import Loading from "../../../components/ui/Loading";
 
 const MovieList = ({ movies, loading, msg }) => {
   if (loading) return <Loading />;

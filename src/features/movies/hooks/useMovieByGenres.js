@@ -1,8 +1,8 @@
 import { useCallback } from "react";
-import movieApi from "../api/movieApi";
-import useFetch from "./useFetch";
+import movieApi from "../../../api/movieApi";
+import useFetch from "../../../hooks/useFetch";
 
-export default function useMoviesByGenre(slug, limit = 10, page = 1) {
+export default function useMoviesByGenre(slug, limit, page) {
   const fetcher = useCallback(() => {
     if (!slug) return Promise.resolve(null);
     return movieApi.getMoviesByGenre(slug, limit, page);

@@ -8,7 +8,7 @@ const NotFoundPage = () => {
         <img src={noImg} alt="no-image" height="300px" />
 
         <div className="mt-3 text-white-50 fs-5 fw-light tracking-wider">
-          404 NOt FOUND
+          404 NOT FOUND
         </div>
       </Container>
     </div>

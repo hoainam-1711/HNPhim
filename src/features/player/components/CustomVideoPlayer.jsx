@@ -15,12 +15,13 @@ const CustomVideoPlayer = ({ m3u8Url, poster }) => {
     >
       <video
         ref={videoProps.videoRef}
+        autoPlay
         className="w-100 h-100 object-fit-contain"
         onLoadedMetadata={videoProps.handleLoadedMetadata}
         onTimeUpdate={videoProps.handleTimeUpdate}
         onPlay={() => videoProps.setIsPlaying(true)}
         onPause={() => videoProps.setIsPlaying(false)}
-        onClick={videoProps.togglePlay}
+        onClick={videoProps.handleVideoClick}
         poster={poster}
       />
 

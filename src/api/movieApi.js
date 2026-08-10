@@ -5,16 +5,35 @@ import handleError from "../utils/handleError";
 const movieApi = {
   /**
    * Lấy danh sách phim mới cập nhật
-   * @param {number} page
    * @returns {Promise<Object>}
+   * @param {string} type
+   * @param {number} page
+   * @param {number} limit
    */
-  async getNewMovies(page = 1) {
+  async getNewMovies(type, limit = 24, page = 1) {
     try {
-      return await api.get(ENDPOINTS.NEW_MOVIES, {
-        params: { page },
-      });
+      // Nếu là phim-moi thì dùng ENDPOINTS.NEW_MOVIES, ngược lại cộng thêm path /type
+      const url =
+        type === "phim-moi"
+          ? ENDPOINTS.NEW_MOVIES
+          : `${ENDPOINTS.NEW_MOVIES}/${type}`;
+
+      return await api.get(url, { params: { limit, page } });
     } catch (error) {
       handleError("Lỗi khi lấy danh sách phim mới", error);
+    }
+  },
+
+  async getHomeMovies(types = [], limit = 6) {
+    try {
+      const promises = types.map(async (type) => {
+        const data = await this.getNewMovies(type, limit);
+        return { type, data };
+      });
+
+      return await Promise.all(promises);
+    } catch (error) {
+      handleError("Lỗi khi lấy danh sách phim trang chủ", error);
     }
   },
 
@@ -25,7 +44,7 @@ const movieApi = {
    * @param {number} page
    * @returns {Promise<Object>}
    */
-  async searchMovies(keyword, limit = 10, page = 1) {
+  async searchMovies(keyword, limit = 24, page = 1) {
     if (!keyword.trim()) {
       throw new Error("Keyword không được để trống");
     }
@@ -75,7 +94,7 @@ const movieApi = {
    * @param {number} page
    * @returns {Promise<Object>}
    */
-  async getMoviesByGenre(slug, limit = 10, page = 1) {
+  async getMoviesByGenre(slug, limit = 24, page = 1) {
     try {
       return await api.get(`${ENDPOINTS.MOVIESBYGENRES}/${slug}`, {
         params: {

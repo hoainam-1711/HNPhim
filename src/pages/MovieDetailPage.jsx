@@ -1,13 +1,13 @@
-import "../css/MovieDetailPage.css";
+import "./MovieDetailPage.css";
 import { useContext, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import Loading from "../components/Loading";
-import EpisodeSelector from "../components/EpisodeSelector";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import noImg from "../assets/no-image.png";
 import { MovieContext } from "../context/MovieContext";
-import LucideIcon from "../components/LucideIcon";
-import useMovieDetail from "../hooks/useMovieDetail";
+import Loading from "../components/ui/Loading";
+import EpisodeSelector from "../features/player/components/EpisodeSelector";
+import LucideIcon from "../components/ui/LucideIcon";
+import useMovieDetail from "../features/movies/hooks/useMovieDetail";
 
 const MovieDetailPage = () => {
   const { slug } = useParams();

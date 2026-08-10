@@ -1,4 +1,4 @@
-import "../css/EpisodeSelector.css";
+import "./EpisodeSelector.css";
 import { useState, useMemo, useEffect } from "react";
 import { Button } from "react-bootstrap";
 

@@ -1,8 +1,8 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import CustomPagination from "../components/CustomPagination";
-import MovieList from "../components/MovieList";
-import useSearchMovies from "../hooks/useSearchMovies";
+import CustomPagination from "../components/ui/CustomPagination";
+import MovieList from "../features/movies/components/MovieList";
+import useSearchMovies from "../features/movies/hooks/useSearchMovies";
 
 const SearchPage = () => {
   const { keyword } = useParams();

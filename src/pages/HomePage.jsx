@@ -1,51 +1,54 @@
-import { Col, Container, Row } from "react-bootstrap";
-import CustomPagination from "../components/CustomPagination";
-import { useSearchParams } from "react-router-dom";
-import MovieList from "../components/MovieList";
-import useMoviesList from "../hooks/useMoviesList";
+import useHomeMovies from "../features/movies/hooks/useHomeMovies";
+import Loading from "../components/ui/Loading";
+import MovieSection from "../features/movies/components/MovieSection";
+import { Container } from "react-bootstrap";
 
-function HomePage() {
-  // 1. Khởi tạo useSearchParams
-  const [searchParams, setSearchParams] = useSearchParams();
+const MOVIE_TYPES = [
+  "phim-moi",
+  "phim-le",
+  "phim-bo",
+  "hoat-hinh",
+  "phim-chieu-rap",
+  "tv-shows",
+];
 
-  // 2. Lấy số trang từ URL (Ví dụ: /danh-sach?page=2 -> pageParam = 2). Mặc định là 1 nếu chưa có
-  const page = parseInt(searchParams.get("page")) || 1;
+const MOVIE_TITLES = {
+  "phim-moi": "Phim Mới Cập Nhật",
+  "phim-le": "Phim Lẻ",
+  "phim-bo": "Phim Bộ",
+  "hoat-hinh": "Hoạt Hình",
+  "phim-chieu-rap": "Phim Chiếu Rạp",
+  "tv-shows": "TV Shows",
+};
 
-  const { data, loading, error } = useMoviesList(page);
-  const movies = data?.data.items || data?.items || [];
+const HomePage = () => {
+  const { data, loading, error } = useHomeMovies(MOVIE_TYPES, 6);
 
-  const totalPages = data?.data.params?.pagination?.totalPages || 1;
+  if (loading) return <Loading />;
 
-  // 3. Hàm chuyển trang: Thay vì setState, ta cập nhật Param trên URL
-  const handlePageChange = (newPage) => {
-    // Cập nhật URL thành /danh-sach?page=newPage
-    setSearchParams({ page: newPage });
-
-    // Tự động cuộn mượt lên đầu trang khi sang trang mới (UX tốt hơn)
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-  if (error) return <div>{error}</div>;
+  if (error) {
+    return (
+      <div className="text-white text-center py-5">
+        Lỗi: {error.message || "Không thể tải danh sách phim"}
+      </div>
+    );
+  }
 
   return (
-    <div>
-      <MovieList movies={movies} loading={loading} msg={"Phim mới cập nhật"} />
-
-      <Container className="pt-3">
-        {/* Điều khiển phân trang */}
-        {!loading && totalPages > 1 && (
-          <Row>
-            <Col>
-              <CustomPagination
-                page={page}
-                totalPages={totalPages}
-                setPage={handlePageChange}
-              />
-            </Col>
-          </Row>
-        )}
-      </Container>
-    </div>
+    <Container className="py-4">
+      {data?.map(({ type, data: movieData }) => {
+        const movies = movieData?.data?.items || [];
+        return (
+          <MovieSection
+            key={type}
+            title={MOVIE_TITLES[type] || type}
+            type={type}
+            movies={movies.slice(0, 6)}
+          />
+        );
+      })}
+    </Container>
   );
-}
+};
 
 export default HomePage;

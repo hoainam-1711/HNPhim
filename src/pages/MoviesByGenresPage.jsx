@@ -1,10 +1,10 @@
 import { useParams, useSearchParams } from "react-router-dom";
-import useMoviesByGenre from "../hooks/useMovieByGenres";
 import { Col, Container, Row } from "react-bootstrap";
-import CustomPagination from "../components/CustomPagination";
-import MovieList from "../components/MovieList";
+import useMoviesByGenre from "../features/movies/hooks/useMovieByGenres";
+import CustomPagination from "../components/ui/CustomPagination";
+import MovieList from "../features/movies/components/MovieList";
 
-const MoviesByGenresPages = () => {
+const MoviesByGenresPage = () => {
   const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
@@ -48,4 +48,4 @@ const MoviesByGenresPages = () => {
   );
 };
 
-export default MoviesByGenresPages;
+export default MoviesByGenresPage;

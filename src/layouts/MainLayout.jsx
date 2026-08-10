@@ -1,8 +1,8 @@
 import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
-import NavbarComponent from "../components/NavbarComponent";
 import { Outlet } from "react-router-dom";
-import Footer from "../components/Footer";
+import NavbarComponent from "../components/layout/NavbarComponent";
+import Footer from "../components/layout/Footer";
 
 function ScrollToTop() {
   const { pathname } = useLocation();

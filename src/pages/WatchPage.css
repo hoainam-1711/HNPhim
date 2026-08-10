@@ -38,10 +38,10 @@
 .watch-title {
   margin: 0;
 
-  color: #fff;
+  color: #ff0000;
 
   font-size: 1.15rem;
-  font-weight: 600;
+  font-weight: bold;
 
   line-height: 1.4;
 }

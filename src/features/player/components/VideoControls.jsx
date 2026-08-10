@@ -1,7 +1,8 @@
-import "../css/VideoControls.css";
+import "./VideoControls.css";
 import { useState } from "react";
 import { Button, Dropdown } from "react-bootstrap";
-import LucideIcon from "./LucideIcon";
+import LucideIcon from "../../../components/ui/LucideIcon";
+import formatTime from "../../../utils/formatTime";
 
 const VideoControls = ({
   showControls,
@@ -25,17 +26,9 @@ const VideoControls = ({
 }) => {
   const [menuState, setMenuState] = useState("main");
 
-  const formatTime = (time) => {
-    if (isNaN(time)) return "00:00:00";
+  const currentTimeFormat = formatTime(currentTime);
 
-    const hours = Math.floor(time / 3600);
-    const minutes = Math.floor((time % 3600) / 60);
-    const seconds = Math.floor(time % 60);
-
-    return `${hours < 10 ? "0" : ""}${hours}:${
-      minutes < 10 ? "0" : ""
-    }${minutes}:${seconds < 10 ? "0" : ""}${seconds}`;
-  };
+  const durationFormat = formatTime(duration);
 
   return (
     <div
@@ -45,9 +38,9 @@ const VideoControls = ({
     >
       {/* Time */}
       <span className="video-time">
-        <span className="video-time-current">{formatTime(currentTime)}</span>
+        <span className="video-time-current">{currentTimeFormat}</span>
         <span className="video-time-separator">/</span>
-        <span>{formatTime(duration)}</span>
+        <span>{durationFormat}</span>
       </span>
 
       {/* Timeline */}
@@ -107,7 +100,17 @@ const VideoControls = ({
               onClick={toggleMute}
               title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
             >
-              <LucideIcon icon={isMuted ? "VolumeX" : "Volume2"} />
+              <LucideIcon
+                icon={
+                  isMuted
+                    ? "VolumeX"
+                    : volume <= 0.2
+                      ? "Volume"
+                      : volume <= 0.5
+                        ? "Volume1"
+                        : "Volume2"
+                }
+              />
             </Button>
             <input
               type="range"

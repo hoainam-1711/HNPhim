@@ -1,11 +1,11 @@
-import "../css/WatchPage.css";
+import "./WatchPage.css";
 import { useEffect, useMemo, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { Button, Col, Container, Row } from "react-bootstrap";
-import EpisodeSelector from "../components/EpisodeSelector";
-import Loading from "../components/Loading";
-import CustomVideoPlayer from "../components/CustomVideoPlayer";
-import useMovieDetail from "../hooks/useMovieDetail";
+import EpisodeSelector from "../features/player/components/EpisodeSelector";
+import Loading from "../components/ui/Loading";
+import CustomVideoPlayer from "../features/player/components/CustomVideoPlayer";
+import useMovieDetail from "../features/movies/hooks/useMovieDetail";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();
@@ -76,7 +76,12 @@ const WatchPage = () => {
         {/* Tên phim + tập hiện tại */}
         <div className="watch-heading">
           <h5 className="watch-title">
-            {movie?.name}
+            <Link
+              to={`/chi-tiet/${slug}`}
+              style={{ color: "inherit", textDecoration: "none" }}
+            >
+              {movie?.name}
+            </Link>
 
             <span className="watch-episode">{currentEpData?.name || ep}</span>
           </h5>
@@ -84,19 +89,15 @@ const WatchPage = () => {
 
         <Row className="watch-layout g-3">
           {/* ================================
-          VIDEO PLAYER
-      ================================= */}
+              VIDEO PLAYER
+          ================================= */}
           <Col xs={12} xl={8}>
             <div className="watch-player-wrapper">
               {currentEpData?.link_m3u8 ? (
-                <>
-                  <CustomVideoPlayer
-                    m3u8Url={currentEpData.link_m3u8}
-                    poster={movie?.poster_url || movie?.thumb_url}
-                  />
-
-                  {console.log("đang phát bằng link m3u8")}
-                </>
+                <CustomVideoPlayer
+                  m3u8Url={currentEpData.link_m3u8}
+                  poster={movie?.poster_url || movie?.thumb_url}
+                />
               ) : currentEpData?.link_embed ? (
                 <div className="watch-embed ratio ratio-16x9">
                   <iframe
@@ -114,8 +115,8 @@ const WatchPage = () => {
           </Col>
 
           {/* ================================
-          EPISODE SIDEBAR
-      ================================= */}
+              EPISODE SIDEBAR
+          ================================= */}
           <Col xs={12} xl={4}>
             <div className="watch-sidebar">
               {/* Header */}

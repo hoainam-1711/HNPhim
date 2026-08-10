@@ -1,8 +1,8 @@
 import { memo, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
-import LucideIcon from "./LucideIcon";
-import noImg from "../assets/no-image.png";
-import { MovieContext } from "../context/MovieContext";
+import { MovieContext } from "../../../context/MovieContext";
+import LucideIcon from "../../../components/ui/LucideIcon";
+import noImg from "../../../assets/no-image.png";
 
 const MovieCard = ({ movie }) => {
   const { poster_url, thumb_url, name } = movie || {};
