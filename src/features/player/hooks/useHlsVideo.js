@@ -212,7 +212,7 @@ export const useHlsVideo = (m3u8Url) => {
   };
 
   const handleVideoClick = () => {
-  setShowControls((prev) => !prev);
+  setShowControls(true);
 };
 
   const handleSeek = (seconds) => {
