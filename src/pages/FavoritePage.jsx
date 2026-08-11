@@ -12,13 +12,11 @@ function FavoritesPage() {
   // Lấy mảng favorites từ Context
   const { favorites } = useContext(MovieContext);
   const length = favorites.length;
-  console.log("length: ", length);
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
 
   const totalPages = Math.ceil(length / ITEMSPERPAGE);
-  console.log("Total Pages: " + totalPages);
 
   // Cắt mảng lấy 24 items theo trang
   const startIndex = (page - 1) * ITEMSPERPAGE;
