@@ -5,7 +5,7 @@ import LucideIcon from "../ui/LucideIcon";
 const Footer = () => {
   return (
     <footer
-      className="text-white-50 py-4"
+      className="text-white-50 pb-4"
       style={{
         // Gradient ngược lại: Màu nền đen HomePage (#0f0f0f) ở đỉnh -> Đậm hơn/Tối hẳn ở đáy
         background: "linear-gradient(180deg, #0f0f0f 0%, #050505 100%)",

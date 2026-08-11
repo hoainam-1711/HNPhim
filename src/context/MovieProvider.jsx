@@ -16,7 +16,7 @@ export const MovieProvider = ({ children }) => {
       const isExist = prev.some((item) => item.slug === movie.slug);
       return isExist 
         ? prev.filter((item) => item.slug !== movie.slug)
-        : [...prev, movie];
+        : [movie, ...prev];
     });
   };
 

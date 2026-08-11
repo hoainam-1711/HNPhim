@@ -45,7 +45,7 @@ function NavbarComponent() {
 
         <Navbar.Collapse id="basic-navbar-nav">
           {/* Bọc cả 3 phần tử vào 1 container flex ngang */}
-          <div className="navbar-row-content d-flex align-items-center gap-2 w-100 mt-2 mt-lg-0">
+          <div className="navbar-row-content d-flex align-items-center justify-content-center gap-2 w-100 mt-2 mt-lg-0">
             {/* Thể loại */}
             <Button
               variant="link"

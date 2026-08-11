@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const COLOR_PALETTE = {
   dayColor: "#333333",
@@ -158,12 +160,9 @@ export default function NotFoundPage() {
   return (
     <>
       <Helmet>
-        <title>Không tìm thấy đường link - HNPhim</title>
+        <title>Không tìm thấy trang - HNPhim</title>
 
-        <meta
-          name="description"
-          content="Đường link sai hoặc lỗi"
-        />
+        <meta name="description" content="Đường link sai hoặc lỗi" />
       </Helmet>
 
       <div style={styles.body}>
@@ -178,6 +177,13 @@ export default function NotFoundPage() {
           <div style={styles.score}>
             day {score.day} | night {score.night}
           </div>
+          <p style={styles.msg}>
+            Trang bạn đang tìm kiếm không tồn tại. Vui lòng kiểm tra đường dẫn
+            hoặc quay về trang chủ
+          </p>
+          <Button variant="link" style={{textDecoration:"none"}} as={Link} to={"/"}>
+            Về trang chủ
+          </Button>
         </div>
       </div>
     </>
@@ -202,21 +208,17 @@ const styles = {
     display: "block",
     borderRadius: "4px",
     overflow: "hidden",
-    width: "100%",
+    width: "88%",
     marginTop: "auto",
     boxShadow: "0 0 20px rgba(0, 0, 0, 0.2)",
   },
   score: {
-    fontFamily: "monospace",
-    marginTop: "30px",
-    fontSize: "16px",
-    paddingLeft: "20px",
+    marginTop: "10px",
+    fontSize: "15px",
   },
   msg: {
     textAlign: "center",
     lineHeight: 1.5,
-    fontFamily: "monospace",
-    marginTop: "30px",
-    marginBottom: "30px",
+    marginTop:"20px"
   },
 };

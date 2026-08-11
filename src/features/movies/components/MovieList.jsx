@@ -5,7 +5,7 @@ import Loading from "../../../components/ui/Loading";
 
 const MovieList = ({ movies, loading, msg }) => {
   if (loading) return <Loading />;
-  
+
   return (
     <Container>
       {/* Tiêu đề */}
@@ -27,7 +27,8 @@ const MovieList = ({ movies, loading, msg }) => {
 
       {/* Danh sách phim */}
       <Row xs={2} sm={3} md={4} lg={6} className="g-3 g-md-4">
-        {movies && movies.length > 0 ? (
+        {movies &&
+          movies.length > 0 &&
           movies?.map((movie) => (
             <Col key={movie._id || movie.id}>
               <Link
@@ -37,11 +38,10 @@ const MovieList = ({ movies, loading, msg }) => {
                 <MovieCard movie={movie} />
               </Link>
             </Col>
-          ))
-        ) : (
-          <p>Không có phim nào!</p>
-        )}
+          ))}
       </Row>
+
+      {(!movies || movies.length == 0) && <p>Không có phim nào!</p>}
     </Container>
   );
 };
