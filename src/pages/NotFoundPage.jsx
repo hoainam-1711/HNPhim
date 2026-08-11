@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { Helmet } from "react-helmet-async";
 
 const COLOR_PALETTE = {
   dayColor: "#333333",
@@ -155,20 +156,31 @@ export default function NotFoundPage() {
   }, []);
 
   return (
-    <div style={styles.body}>
-      <div style={styles.container}>
-        <p style={styles.msg}>404 NOT FOUND</p>
-        <canvas
-          ref={canvasRef}
-          width={CANVAS_SIZE}
-          height={CANVAS_SIZE}
-          style={styles.canvas}
+    <>
+      <Helmet>
+        <title>Không tìm thấy đường link - HNPhim</title>
+
+        <meta
+          name="description"
+          content="Đường link sai hoặc lỗi"
         />
-        <div style={styles.score}>
-          day {score.day} | night {score.night}
+      </Helmet>
+
+      <div style={styles.body}>
+        <div style={styles.container}>
+          <p style={styles.msg}>404 NOT FOUND</p>
+          <canvas
+            ref={canvasRef}
+            width={CANVAS_SIZE}
+            height={CANVAS_SIZE}
+            style={styles.canvas}
+          />
+          <div style={styles.score}>
+            day {score.day} | night {score.night}
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -204,7 +216,7 @@ const styles = {
     textAlign: "center",
     lineHeight: 1.5,
     fontFamily: "monospace",
-    marginTop: "30px",  
+    marginTop: "30px",
     marginBottom: "30px",
-  }
+  },
 };

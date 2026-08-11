@@ -398,6 +398,39 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+.speed-options {
+  display: flex;
+  gap: 5px;
+  padding: 5px;
+}
+
+.speed-option {
+  flex: 1; /* Giúp tất cả các nút chia đều chiều rộng */
+
+  height: 36px; /* Giảm chiều cao (cũ: 50px) */
+  padding: 0 10px; /* Giảm khoảng cách trong (cũ: 20px) */
+
+  border: none;
+  border-radius: 8px; /* Giảm bo góc cho hợp với cỡ nhỏ */
+
+  background: #333;
+  color: #fff;
+
+  font-size: 12px; /* Giảm cỡ chữ (cũ: 16px) */
+  font-weight: 500;
+
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.speed-option:hover {
+  background: #444;
+}
+
+.speed-option.active {
+  background: #555;
+}
+
 /* =========================================================
    6. RESPONSIVE MEDIA QUERIES
 ========================================================= */

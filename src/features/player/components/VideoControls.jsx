@@ -23,6 +23,8 @@ const VideoControls = ({
   toggleFullscreen,
   handleVolumeChange,
   toggleMute,
+  onNextEpisode,
+  isLastEpisode,
 }) => {
   const [menuState, setMenuState] = useState("main");
 
@@ -77,7 +79,7 @@ const VideoControls = ({
             variant="link"
             className="video-control-btn"
             onClick={togglePlay}
-            title={isPlaying ? "Tạm dừng" : "Phát"}
+            title={`(Space) ${isPlaying ? "Tạm dừng" : "Phát"}`}
           >
             <LucideIcon icon={isPlaying ? "Pause" : "Play"} />
           </Button>
@@ -98,7 +100,7 @@ const VideoControls = ({
               variant="link"
               className="video-control-btn"
               onClick={toggleMute}
-              title={isMuted ? "Bật âm thanh" : "Tắt âm thanh"}
+              title={`(M) ${isMuted ? "Bật âm thanh" : "Tắt âm thanh"}`}
             >
               <LucideIcon
                 icon={
@@ -135,9 +137,19 @@ const VideoControls = ({
             size="sm"
             className="skip-ads-btn"
             onClick={() => handleSeek(29)}
-            title="Thật ra là tua 30s"
+            title="(S) Thật ra là tua 30s"
           >
             <span>Skip ads</span>
+            <LucideIcon icon="SkipForward" />
+          </Button>
+
+          <Button
+            variant="link"
+            onClick={onNextEpisode}
+            disabled={isLastEpisode()}
+            className="settings-dropdown-toggle"
+            title="Tập tiếp theo"
+          >
             <LucideIcon icon="SkipForward" />
           </Button>
 
@@ -149,6 +161,7 @@ const VideoControls = ({
             <Dropdown.Toggle
               variant="link"
               className="settings-dropdown-toggle"
+              title="Settings"
             >
               <LucideIcon icon="Settings" />
             </Dropdown.Toggle>
@@ -192,16 +205,20 @@ const VideoControls = ({
                     <strong>Tốc độ phát</strong>
                   </div>
 
-                  {[0.5, 0.75, 1, 1.25, 1.5, 2].map((rate) => (
-                    <Dropdown.Item
-                      key={rate}
-                      active={playbackRate === rate}
-                      onClick={() => handleSpeedChange(rate)}
-                      className="settings-dropdown-item"
-                    >
-                      {rate === 1 ? "Chuẩn" : `${rate}x`}
-                    </Dropdown.Item>
-                  ))}
+                  <div className="speed-options">
+                    {[1, 1.25, 1.5, 2].map((rate) => (
+                      <button
+                        key={rate}
+                        type="button"
+                        className={`speed-option ${
+                          playbackRate === rate ? "active" : ""
+                        }`}
+                        onClick={() => handleSpeedChange(rate)}
+                      >
+                        {rate}
+                      </button>
+                    ))}
+                  </div>
                 </>
               )}
 
@@ -243,7 +260,7 @@ const VideoControls = ({
             variant="link"
             className="video-control-btn"
             onClick={toggleFullscreen}
-            title={isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"}
+            title={`(F) ${isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"}`}
           >
             <LucideIcon icon={isFullscreen ? "Minimize" : "Maximize"} />
           </Button>

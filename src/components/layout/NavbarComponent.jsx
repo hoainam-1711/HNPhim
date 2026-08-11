@@ -10,7 +10,6 @@ function NavbarComponent() {
   const { favorites } = useContext(MovieContext);
   const [keyword, setKeyword] = useState("");
 
-  //Handle Open Modal
   const [showModal, setShowModal] = useState(false);
 
   const handleClose = () => setShowModal(false);
@@ -21,10 +20,7 @@ function NavbarComponent() {
   const handleSearch = (e) => {
     e.preventDefault();
     if (keyword.trim()) {
-      // Điều hướng tới đường dẫn /tim-kiem/keyword-vừa-nhập
       navigate(`/tim-kiem/${encodeURIComponent(keyword.trim())}`);
-
-      // Tự động cuộn mượt lên đầu trang khi tìm từ khóa khác (UX tốt hơn)
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -48,47 +44,47 @@ function NavbarComponent() {
         />
 
         <Navbar.Collapse id="basic-navbar-nav">
-          {/* Thể loại */}
-          <Button
-            variant="link"
-            onClick={handleShow}
-            className="youtube-nav-btn"
-          >
-            Thể loại
-          </Button>
+          {/* Bọc cả 3 phần tử vào 1 container flex ngang */}
+          <div className="navbar-row-content d-flex align-items-center gap-2 w-100 mt-2 mt-lg-0">
+            {/* Thể loại */}
+            <Button
+              variant="link"
+              onClick={handleShow}
+              className="youtube-nav-btn text-nowrap"
+            >
+              Thể loại
+            </Button>
 
-          <GenreModal show={showModal} handleClose={handleClose} />
+            <GenreModal show={showModal} handleClose={handleClose} />
 
-          {/* Search */}
-          <Form
-            onSubmit={handleSearch}
-            className="youtube-search-form d-flex ms-auto my-2 my-lg-0 me-lg-4"
-          >
-            <InputGroup className="youtube-search">
-              <Form.Control
-                type="text"
-                placeholder="Tìm kiếm"
-                value={keyword}
-                onChange={(e) => setKeyword(e.target.value)}
-                className="youtube-search-input"
-              />
+            {/* Search */}
+            <Form onSubmit={handleSearch} className="youtube-search-form flex-grow-1 my-0 ms-lg-auto me-lg-4">
+              <InputGroup className="youtube-search">
+                <Form.Control
+                  type="text"
+                  placeholder="Tìm kiếm"
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
+                  className="youtube-search-input"
+                />
 
-              <Button type="submit" className="youtube-search-btn">
-                <LucideIcon icon="Search" />
-              </Button>
-            </InputGroup>
-          </Form>
+                <Button type="submit" className="youtube-search-btn">
+                  <LucideIcon icon="Search" />
+                </Button>
+              </InputGroup>
+            </Form>
 
-          {/* Favorites */}
-          <Button
-            as={Link}
-            to="/ua-thich"
-            variant="link"
-            className="youtube-favorite"
-          >
-            <LucideIcon icon="BookmarkCheck" />
-            <span className="favorite-count">{favorites.length}</span>
-          </Button>
+            {/* Favorites */}
+            <Button
+              as={Link}
+              to="/ua-thich"
+              variant="link"
+              className="youtube-favorite text-nowrap"
+            >
+              <LucideIcon icon="BookmarkCheck" />
+              <span className="favorite-count">{favorites.length}</span>
+            </Button>
+          </div>
         </Navbar.Collapse>
       </Container>
     </Navbar>

@@ -6,6 +6,7 @@ import EpisodeSelector from "../features/player/components/EpisodeSelector";
 import Loading from "../components/ui/Loading";
 import CustomVideoPlayer from "../features/player/components/CustomVideoPlayer";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
+import { Helmet } from "react-helmet-async";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();
@@ -15,7 +16,7 @@ const WatchPage = () => {
   const { data, loading, error } = useMovieDetail(slug);
 
   // 2. Trích xuất dữ liệu phim và danh sách tập
-  const movie = data?.movie || data?.data?.item;
+  const movie = data?.movie || {};
   const episodesList = useMemo(() => {
     return data?.episodes || data?.data?.item?.episodes || [];
   }, [data]);
@@ -63,103 +64,154 @@ const WatchPage = () => {
     }
   };
 
+  const handleNextEpisode = () => {
+    if (!currentEpData || !serverData.length) return;
+
+    const currentIndex = serverData.findIndex(
+      (item) => item.slug === currentEpData.slug,
+    );
+
+    if (currentIndex === -1) return;
+
+    const nextEpisode = serverData[currentIndex + 1];
+
+    if (!nextEpisode) {
+      console.log("Đã là tập cuối");
+      return;
+    }
+
+    const epSlug = nextEpisode.slug || nextEpisode.name;
+
+    navigate(`/xem/${slug}/${epSlug}`);
+  };
+
+  const isLastEpisode = () => {
+    const currentIndex = serverData.findIndex(
+      (item) => item.slug === currentEpData?.slug,
+    );
+
+    return currentIndex === -1 || currentIndex === serverData.length - 1;
+  };
+    
+
   if (loading) return <Loading />;
-  
+
   if (error) {
     return (
       <div className="text-white text-center py-5">
-        Lỗi: {"WatchPage: " + error.message || "WatchPage: Không thể tải danh sách phim"}
+        Lỗi:{" "}
+        {"WatchPage: " + error.message ||
+          "WatchPage: Không thể tải danh sách phim"}
       </div>
     );
   }
 
   return (
-    <div className="watch-page">
-      <Container fluid className="watch-container">
-        {/* Tên phim + tập hiện tại */}
-        <div className="watch-heading">
-          <h5 className="watch-title">
-            <Link
-              to={`/chi-tiet/${slug}`}
-              style={{ color: "inherit", textDecoration: "none" }}
-            >
-              {movie?.name}
-            </Link>
+    <>
+      <Helmet>
+        <title>
+          {movie?.name} - {currentEpData?.name || ep} - HNPhim
+        </title>
 
-            <span className="watch-episode">{currentEpData?.name || ep}</span>
-          </h5>
-        </div>
+        <meta
+          name="description"
+          content={movie?.content || `Xem ${movie?.name} online.`}
+        />
 
-        <Row className="watch-layout g-3">
-          {/* ================================
+        <meta property="og:title" content={movie?.name} />
+        <meta property="og:description" content={movie?.content} />
+        <meta property="og:image" content={movie?.poster_url} />
+      </Helmet>
+
+      <div className="watch-page">
+        <Container fluid className="watch-container">
+          {/* Tên phim + tập hiện tại */}
+          <div className="watch-heading">
+            <h5 className="watch-title">
+              <Link
+                to={`/chi-tiet/${slug}`}
+                style={{ color: "inherit", textDecoration: "none" }}
+              >
+                {movie?.name}
+              </Link>
+
+              <span className="watch-episode">{currentEpData?.name || ep}</span>
+            </h5>
+          </div>
+
+          <Row className="watch-layout g-3">
+            {/* ================================
               VIDEO PLAYER
           ================================= */}
-          <Col xs={12} xl={8}>
-            <div className="watch-player-wrapper">
-              {currentEpData?.link_m3u8 ? (
-                <CustomVideoPlayer
-                  m3u8Url={currentEpData.link_m3u8}
-                  poster={movie?.poster_url || movie?.thumb_url}
-                />
-              ) : currentEpData?.link_embed ? (
-                <div className="watch-embed ratio ratio-16x9">
-                  <iframe
-                    src={currentEpData.link_embed}
-                    title={currentEpData.name}
-                    allowFullScreen
+            <Col xs={12} xl={8}>
+              <div className="watch-player-wrapper">
+                {currentEpData?.link_m3u8 ? (
+                  <CustomVideoPlayer
+                    m3u8Url={currentEpData.link_m3u8}
+                    poster={movie?.poster_url || movie?.thumb_url}
+                    onNextEpisode={handleNextEpisode}
+                    isLastEpisode={isLastEpisode}
                   />
-                </div>
-              ) : (
-                <div className="watch-player-error">
-                  <p>{error || "Không thể phát tập phim này."}</p>
-                </div>
-              )}
-            </div>
-          </Col>
-
-          {/* ================================
-              EPISODE SIDEBAR
-          ================================= */}
-          <Col xs={12} xl={4}>
-            <div className="watch-sidebar">
-              {/* Header */}
-              <div className="watch-sidebar-header">
-                <h6 className="watch-sidebar-title">Danh sách tập</h6>
-
-                {/* Server */}
-                {episodesList?.length > 1 && (
-                  <div className="watch-server-list">
-                    {episodesList.map((server, idx) => (
-                      <Button
-                        key={idx}
-                        size="sm"
-                        variant="link"
-                        className={`watch-server-btn ${
-                          selectedServer === idx ? "active" : ""
-                        }`}
-                        onClick={() => setSelectedServer(idx)}
-                      >
-                        {server.server_name || `Server ${idx + 1}`}
-                      </Button>
-                    ))}
+                ) : currentEpData?.link_embed ? (
+                  <div className="watch-embed ratio ratio-16x9">
+                    <iframe
+                      src={currentEpData.link_embed}
+                      title={currentEpData.name}
+                      allowFullScreen
+                    />
+                  </div>
+                ) : (
+                  <div className="watch-player-error">
+                    <p>{error || "Không thể phát tập phim này."}</p>
                   </div>
                 )}
               </div>
+            </Col>
 
-              {/* Episodes */}
-              <div className="watch-sidebar-body">
-                <EpisodeSelector
-                  pageType="watch"
-                  serverData={serverData}
-                  handleWatchMovie={handleWatchMovie}
-                  currentEpSlug={ep}
-                />
+            {/* ================================
+              EPISODE SIDEBAR
+          ================================= */}
+            <Col xs={12} xl={4}>
+              <div className="watch-sidebar">
+                {/* Header */}
+                <div className="watch-sidebar-header">
+                  <h6 className="watch-sidebar-title">Danh sách tập</h6>
+
+                  {/* Server */}
+                  {episodesList?.length > 1 && (
+                    <div className="watch-server-list">
+                      {episodesList.map((server, idx) => (
+                        <Button
+                          key={idx}
+                          size="sm"
+                          variant="link"
+                          className={`watch-server-btn ${
+                            selectedServer === idx ? "active" : ""
+                          }`}
+                          onClick={() => setSelectedServer(idx)}
+                        >
+                          {server.server_name || `Server ${idx + 1}`}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                {/* Episodes */}
+                <div className="watch-sidebar-body">
+                  <EpisodeSelector
+                    pageType="watch"
+                    serverData={serverData}
+                    handleWatchMovie={handleWatchMovie}
+                    currentEpSlug={ep}
+                  />
+                </div>
               </div>
-            </div>
-          </Col>
-        </Row>
-      </Container>
-    </div>
+            </Col>
+          </Row>
+        </Container>
+      </div>
+    </>
   );
 };
 

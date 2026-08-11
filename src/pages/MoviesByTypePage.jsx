@@ -4,22 +4,30 @@ import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import useNewMovies from "../features/movies/hooks/useNewMovies";
 import Loading from "../components/ui/Loading";
+import { Helmet } from "react-helmet-async";
 
 function MoviesByTypePage() {
   const type = useParams();
   const typeSlug = type?.type || "";
-  
+
   const msg = (typeParams) => {
-    switch (typeParams){
-      case "phim-moi": return "Phim Mới Cập Nhật";
-      case "phim-le": return "Phim Lẻ";
-      case "phim-bo": return "Phim Bộ";
-      case "hoat-hinh": return "Hoạt Hình";
-      case "phim-chieu-rap": return "Phim Chiếu Rạp";
-      case "tv-shows": return "TV Shows";
-      default: return "";
+    switch (typeParams) {
+      case "phim-moi":
+        return "Phim Mới Cập Nhật";
+      case "phim-le":
+        return "Phim Lẻ";
+      case "phim-bo":
+        return "Phim Bộ";
+      case "hoat-hinh":
+        return "Hoạt Hình";
+      case "phim-chieu-rap":
+        return "Phim Chiếu Rạp";
+      case "tv-shows":
+        return "TV Shows";
+      default:
+        return "";
     }
-  }
+  };
 
   // 1. Khởi tạo useSearchParams
   const [searchParams, setSearchParams] = useSearchParams();
@@ -40,19 +48,30 @@ function MoviesByTypePage() {
     // Tự động cuộn mượt lên đầu trang khi sang trang mới (UX tốt hơn)
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  
+
   if (loading) return <Loading />;
-  
+
   if (error) {
     return (
       <div className="text-white text-center py-5">
-        Lỗi: {"MoviesByTypePage: " + error.message || "MoviesByTypePage: Không thể tải danh sách phim"}
+        Lỗi:{" "}
+        {"MoviesByTypePage: " + error.message ||
+          "MoviesByTypePage: Không thể tải danh sách phim"}
       </div>
     );
   }
 
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>{msg(typeSlug)} - HNPhim{page > 1 ? ` - Trang ${page}` : ""}</title>
+
+        <meta
+          name="description"
+          content={`Trang phim theo loại: ${msg(typeSlug)}`}
+        />
+      </Helmet>
+
       <MovieList movies={movies} loading={loading} msg={`${msg(typeSlug)}`} />
 
       <Container className="pt-3">
@@ -69,7 +88,7 @@ function MoviesByTypePage() {
           </Row>
         )}
       </Container>
-    </div>
+    </>
   );
 }
 

@@ -4,6 +4,7 @@ import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import useSearchMovies from "../features/movies/hooks/useSearchMovies";
 import Loading from "../components/ui/Loading";
+import { Helmet } from "react-helmet-async";
 
 const SearchPage = () => {
   const { keyword } = useParams();
@@ -29,17 +30,28 @@ const SearchPage = () => {
   };
 
   if (loading) return <Loading />;
-  
+
   if (error) {
     return (
       <div className="text-white text-center py-5">
-        Lỗi: {"SearchPage: " + error.message || "SearchPage: Không thể tải danh sách phim"}
+        Lỗi:{" "}
+        {"SearchPage: " + error.message ||
+          "SearchPage: Không thể tải danh sách phim"}
       </div>
     );
   }
 
   return (
-    <div>
+    <>
+      <Helmet>
+        <title>{keyword} - HNPhim{page > 1 ? ` - Trang ${page}` : ""}</title>
+
+        <meta
+          name="description"
+          content={`Kết quả tìm kiếm cho ${keyword}`}
+        />
+      </Helmet>
+
       <MovieList
         movies={movies}
         loading={loading}
@@ -60,7 +72,7 @@ const SearchPage = () => {
           </Row>
         )}
       </Container>
-    </div>
+    </>
   );
 };
 

@@ -1,7 +1,7 @@
 import { useHlsVideo } from "../hooks/useHlsVideo";
 import VideoControls from "./VideoControls";
 
-const CustomVideoPlayer = ({ m3u8Url, poster }) => {
+const CustomVideoPlayer = ({ m3u8Url, poster, onNextEpisode, isLastEpisode }) => {
   const videoProps = useHlsVideo(m3u8Url);
 
   return (
@@ -25,7 +25,7 @@ const CustomVideoPlayer = ({ m3u8Url, poster }) => {
         poster={poster}
       />
 
-      <VideoControls {...videoProps} />
+      <VideoControls {...videoProps} onNextEpisode={onNextEpisode} isLastEpisode={isLastEpisode} />
     </div>
   );
 };
