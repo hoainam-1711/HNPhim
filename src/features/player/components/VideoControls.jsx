@@ -25,6 +25,8 @@ const VideoControls = ({
   toggleMute,
   onNextEpisode,
   isLastEpisode,
+  isPiP,
+  togglePiP,
 }) => {
   const [menuState, setMenuState] = useState("main");
 
@@ -67,7 +69,7 @@ const VideoControls = ({
           {/* Back 10s */}
           <Button
             variant="link"
-            className="video-control-btn btn-seek-back"
+            className="video-control-btn"
             onClick={() => handleSeek(-10)}
             title="Lùi 10 giây"
           >
@@ -87,7 +89,7 @@ const VideoControls = ({
           {/* Forward 10s */}
           <Button
             variant="link"
-            className="video-control-btn btn-seek-forward"
+            className="video-control-btn"
             onClick={() => handleSeek(10)}
             title="Tua 10 giây"
           >
@@ -135,7 +137,7 @@ const VideoControls = ({
           <Button
             variant="warning"
             size="sm"
-            className="skip-ads-btn"
+            className="skip-ads-btn btn-seek-desktop"
             onClick={() => handleSeek(29)}
             title="(S) Thật ra là tua 30s"
           >
@@ -147,7 +149,7 @@ const VideoControls = ({
             variant="link"
             onClick={onNextEpisode}
             disabled={isLastEpisode()}
-            className="settings-dropdown-toggle"
+            className="settings-dropdown-toggle btn-seek-desktop"
             title="Tập tiếp theo"
           >
             <LucideIcon icon="SkipForward" />
@@ -254,6 +256,18 @@ const VideoControls = ({
               )}
             </Dropdown.Menu>
           </Dropdown>
+
+          {/* Nút Picture-in-Picture (PiP) */}
+          <Button
+            variant="link"
+            className="video-control-btn"
+            onClick={togglePiP}
+            title={
+              isPiP ? "Thoát Picture-in-Picture" : "Picture-in-Picture (PiP)"
+            }
+          >
+            <LucideIcon icon="PictureInPicture" />
+          </Button>
 
           {/* Fullscreen */}
           <Button

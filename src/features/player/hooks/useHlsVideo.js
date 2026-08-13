@@ -6,6 +6,7 @@ export const useHlsVideo = (m3u8Url) => {
   const videoRef = useRef(null);
   const hlsRef = useRef(null);
   const controlsTimeoutRef = useRef(null);
+  const [isPiP, setIsPiP] = useState(false);
 
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -185,6 +186,7 @@ export const useHlsVideo = (m3u8Url) => {
           );
           break;
 
+        // Mặc định
         default:
           break;
       }
@@ -212,8 +214,8 @@ export const useHlsVideo = (m3u8Url) => {
   };
 
   const handleVideoClick = () => {
-  setShowControls(true);
-};
+    setShowControls(true);
+  };
 
   const handleSeek = (seconds) => {
     if (videoRef.current) videoRef.current.currentTime += seconds;
@@ -298,6 +300,43 @@ export const useHlsVideo = (m3u8Url) => {
     }
   };
 
+  // Hàm chuyển đổi chế độ Picture-in-Picture
+  const togglePiP = async () => {
+    try {
+      if (!document.pictureInPictureEnabled) {
+        alert("Trình duyệt của bạn không hỗ trợ Picture-in-Picture!");
+        return;
+      }
+
+      if (document.pictureInPictureElement) {
+        // Nếu đang ở chế độ PiP -> Thoát PiP
+        await document.exitPictureInPicture();
+      } else if (videoRef.current) {
+        // Nếu chưa bật -> Bật PiP
+        await videoRef.current.requestPictureInPicture();
+      }
+    } catch (error) {
+      console.error("Lỗi khi chuyển đổi chế độ PiP:", error);
+    }
+  };
+
+  // Đồng bộ trạng thái khi người dùng thoát PiP bằng nút mặc định của trình duyệt
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleEnterPiP = () => setIsPiP(true);
+    const handleLeavePiP = () => setIsPiP(false);
+
+    video.addEventListener("enterpictureinpicture", handleEnterPiP);
+    video.addEventListener("leavepictureinpicture", handleLeavePiP);
+
+    return () => {
+      video.removeEventListener("enterpictureinpicture", handleEnterPiP);
+      video.removeEventListener("leavepictureinpicture", handleLeavePiP);
+    };
+  }, [videoRef]);
+
   return {
     containerRef,
     videoRef,
@@ -311,6 +350,7 @@ export const useHlsVideo = (m3u8Url) => {
     isFullscreen,
     volume,
     isMuted,
+    isPiP,
     handleVideoClick,
     togglePlay,
     handleSeek,
@@ -325,5 +365,6 @@ export const useHlsVideo = (m3u8Url) => {
     handleVolumeChange,
     toggleMute,
     setIsPlaying,
+    togglePiP,
   };
 };

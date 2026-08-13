@@ -432,16 +432,14 @@
 }
 
 /* =========================================================
-   6. RESPONSIVE MEDIA QUERIES
+   RESPONSIVE - MOBILE
 ========================================================= */
 @media (max-width: 576px) {
   .video-controls {
     padding: 0 10px 9px;
   }
 
-  /* Ẩn 2 nút tua 10s khi màn hình hẹp */
-  .btn-seek-back,
-  .btn-seek-forward {
+  .btn-seek-desktop {
     display: none !important;
   }
 
