@@ -221,7 +221,7 @@
 }
 
 /* =========================================================
-   4. VOLUME CONTROL (Hover to Expand & Theme Match)
+   4. VOLUME CONTROL
 ========================================================= */
 .video-volume-container {
   display: flex;
@@ -249,7 +249,6 @@
   transition: width 0.2s ease, opacity 0.2s ease, margin-left 0.2s ease;
 }
 
-/* Kích hoạt mở rộng khi di chuột vào container âm thanh */
 .video-volume-container:hover .video-volume-slider {
   width: 60px;
   opacity: 1;
@@ -405,20 +404,15 @@
 }
 
 .speed-option {
-  flex: 1; /* Giúp tất cả các nút chia đều chiều rộng */
-
-  height: 36px; /* Giảm chiều cao (cũ: 50px) */
-  padding: 0 10px; /* Giảm khoảng cách trong (cũ: 20px) */
-
+  flex: 1;
+  height: 36px;
+  padding: 0 10px;
   border: none;
-  border-radius: 8px; /* Giảm bo góc cho hợp với cỡ nhỏ */
-
+  border-radius: 8px;
   background: #333;
   color: #fff;
-
-  font-size: 12px; /* Giảm cỡ chữ (cũ: 16px) */
+  font-size: 12px;
   font-weight: 500;
-
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -432,14 +426,15 @@
 }
 
 /* =========================================================
-   RESPONSIVE - MOBILE
+   6. RESPONSIVE MEDIA QUERIES
 ========================================================= */
 @media (max-width: 576px) {
   .video-controls {
     padding: 0 10px 9px;
   }
 
-  .btn-seek-desktop {
+  /* Ẩn nút Forward 10s, Tập tiếp theo, PiP */
+  .hide-lt-576 {
     display: none !important;
   }
 
@@ -469,8 +464,9 @@
   }
 }
 
-@media (max-width: 390px) {
-  .btn-seek-desktop-sm{
+@media (max-width: 340px) {
+  /* Ẩn thêm nút Skip ads */
+  .hide-lt-320 {
     display: none !important;
   }
 }

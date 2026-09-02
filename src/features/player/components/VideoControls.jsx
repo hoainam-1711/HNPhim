@@ -31,7 +31,6 @@ const VideoControls = ({
   const [menuState, setMenuState] = useState("main");
 
   const currentTimeFormat = formatTime(currentTime);
-
   const durationFormat = formatTime(duration);
 
   return (
@@ -86,10 +85,10 @@ const VideoControls = ({
             <LucideIcon icon={isPlaying ? "Pause" : "Play"} />
           </Button>
 
-          {/* Forward 10s */}
+          {/* Forward 10s (Ẩn khi < 576px) */}
           <Button
             variant="link"
-            className="video-control-btn btn-seek-desktop-sm"
+            className="video-control-btn hide-lt-576"
             onClick={() => handleSeek(10)}
             title="Tua 10 giây"
           >
@@ -133,11 +132,11 @@ const VideoControls = ({
 
         {/* ================= RIGHT ================= */}
         <div className="video-controls-right">
-          {/* Skip ads */}
+          {/* Skip ads (Ẩn khi < 320px) */}
           <Button
             variant="warning"
             size="sm"
-            className="skip-ads-btn btn-seek-desktop-sm"
+            className="skip-ads-btn hide-lt-320"
             onClick={() => handleSeek(29)}
             title="(S) Thật ra là tua 30s"
           >
@@ -145,11 +144,12 @@ const VideoControls = ({
             <LucideIcon icon="SkipForward" />
           </Button>
 
+          {/* Next Episode (Ẩn khi < 576px) */}
           <Button
             variant="link"
             onClick={onNextEpisode}
-            disabled={isLastEpisode()}
-            className="settings-dropdown-toggle btn-seek-desktop"
+            disabled={isLastEpisode?.()}
+            className="settings-dropdown-toggle hide-lt-576"
             title="Tập tiếp theo"
           >
             <LucideIcon icon="SkipForward" />
@@ -257,10 +257,10 @@ const VideoControls = ({
             </Dropdown.Menu>
           </Dropdown>
 
-          {/* Nút Picture-in-Picture (PiP) */}
+          {/* Picture-in-Picture (Ẩn khi < 576px) */}
           <Button
             variant="link"
-            className="video-control-btn btn-seek-desktop-sm"
+            className="video-control-btn hide-lt-576"
             onClick={togglePiP}
             title={
               isPiP ? "Thoát Picture-in-Picture" : "Picture-in-Picture (PiP)"
