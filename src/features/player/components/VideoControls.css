@@ -468,3 +468,9 @@
     min-width: 185px;
   }
 }
+
+@media (max-width: 390px) {
+  .btn-seek-desktop-sm{
+    display: none !important;
+  }
+}

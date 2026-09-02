@@ -5,20 +5,20 @@ import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 
 const MOVIE_TYPES = [
+  "phim-chieu-rap",
+  "hoat-hinh",
   "phim-moi",
   "phim-le",
   "phim-bo",
-  "hoat-hinh",
-  "phim-chieu-rap",
   "tv-shows",
 ];
 
 const MOVIE_TITLES = {
+  "phim-chieu-rap": "Phim Chiếu Rạp",
+  "hoat-hinh": "Hoạt Hình",
   "phim-moi": "Phim Mới Cập Nhật",
   "phim-le": "Phim Lẻ",
   "phim-bo": "Phim Bộ",
-  "hoat-hinh": "Hoạt Hình",
-  "phim-chieu-rap": "Phim Chiếu Rạp",
   "tv-shows": "TV Shows",
 };
 
@@ -39,12 +39,12 @@ const HomePage = () => {
 
   return (
     <>
-    <Helmet>
-      <title>HNPhim - Xem phim trực tuyến</title>
-      <meta name="description" content="Trang chủ chọn phim theo loại"/>
-    </Helmet>
-    
-      <Container className="py-4">
+      <Helmet>
+        <title>HNPhim - Xem phim trực tuyến</title>
+        <meta name="description" content="Trang chủ chọn phim theo loại" />
+      </Helmet>
+
+      <Container fluid="lg" className="px-3 px-md-4 py-4 home-container">
         {data?.map(({ type, data: movieData }) => {
           const movies = movieData?.data?.items || [];
           return (

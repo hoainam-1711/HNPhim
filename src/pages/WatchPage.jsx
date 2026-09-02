@@ -92,7 +92,6 @@ const WatchPage = () => {
 
     return currentIndex === -1 || currentIndex === serverData.length - 1;
   };
-    
 
   if (loading) return <Loading />;
 
@@ -198,12 +197,12 @@ const WatchPage = () => {
                 </div>
 
                 {/* Episodes */}
-                <div className="watch-sidebar-body">
+                <div className="p-3 overflow-hidden">
                   <EpisodeSelector
-                    pageType="watch"
                     serverData={serverData}
                     handleWatchMovie={handleWatchMovie}
                     currentEpSlug={ep}
+                    pageType="watch"
                   />
                 </div>
               </div>

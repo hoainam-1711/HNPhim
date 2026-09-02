@@ -89,7 +89,7 @@ const VideoControls = ({
           {/* Forward 10s */}
           <Button
             variant="link"
-            className="video-control-btn"
+            className="video-control-btn btn-seek-desktop-sm"
             onClick={() => handleSeek(10)}
             title="Tua 10 giây"
           >
@@ -137,7 +137,7 @@ const VideoControls = ({
           <Button
             variant="warning"
             size="sm"
-            className="skip-ads-btn btn-seek-desktop"
+            className="skip-ads-btn btn-seek-desktop-sm"
             onClick={() => handleSeek(29)}
             title="(S) Thật ra là tua 30s"
           >
@@ -260,7 +260,7 @@ const VideoControls = ({
           {/* Nút Picture-in-Picture (PiP) */}
           <Button
             variant="link"
-            className="video-control-btn"
+            className="video-control-btn btn-seek-desktop-sm"
             onClick={togglePiP}
             title={
               isPiP ? "Thoát Picture-in-Picture" : "Picture-in-Picture (PiP)"

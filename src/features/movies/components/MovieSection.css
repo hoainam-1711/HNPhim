@@ -1,6 +1,8 @@
-/* Styling chung cho Section */
+/* =========================================================
+   1. SECTION & HEADER
+========================================================= */
 .movie-section .section-title {
-  border-left: 4px solid #e50914; /* Vạch đỏ điểm nhấn kiểu Netflix */
+  border-left: 4px solid #e50914; /* Vạch đỏ điểm nhấn Netflix */
   padding-left: 10px;
 }
 
@@ -12,22 +14,24 @@
   color: #ffffff !important;
 }
 
-/* Styling cho MovieCard */
+/* =========================================================
+   2. MOVIE CARD STYLING
+========================================================= */
 .movie-card {
-  transition: transform 0.3s ease;
-}
-
-.card-img-wrapper {
-  aspect-ratio: 2 / 3; /* Tỉ lệ chuẩn của poster phim */
-  background-color: #1a1a1a;
-}
-
-.movie-poster {
   transition: transform 0.3s ease;
 }
 
 .movie-card:hover {
   transform: translateY(-5px);
+}
+
+.card-img-wrapper {
+  aspect-ratio: 2 / 3; /* Tỉ lệ poster phim chuẩn */
+  background-color: #1a1a1a;
+}
+
+.movie-poster {
+  transition: transform 0.3s ease;
 }
 
 .movie-card:hover .movie-poster {
@@ -55,4 +59,106 @@
 
 .movie-card:hover .movie-title {
   color: #e50914;
+}
+
+/* =========================================================
+   3. CAROUSEL WRAPPER & NAVIGATION BUTTONS
+========================================================= */
+.movie-carousel-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+/* Nút bấm chuyển hướng (Chỉ kích hoạt khi ở màn hình cần cuộn) */
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(0, 0, 0, 0.65);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  transition: all 0.25s ease;
+  opacity: 0.85;
+}
+
+.carousel-btn:hover {
+  background: rgba(229, 9, 20, 0.9);
+  border-color: rgba(229, 9, 20, 1);
+  color: #ffffff;
+  transform: translateY(-50%) scale(1.1);
+}
+
+.carousel-btn-prev {
+  left: 6px;
+}
+
+.carousel-btn-next {
+  right: 6px;
+}
+
+/* =========================================================
+   4. MOVIE LIST CONTAINER (RESPONSIVE & SCROLL)
+========================================================= */
+/* Cấu hình cuộn ngang mặc định (Mobile & Tablet) */
+.movie-list-container {
+  display: flex;
+  gap: 0.75rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+  padding: 4px 0 8px 0;
+  scrollbar-width: none; /* Ẩn scrollbar trên Firefox */
+}
+
+.movie-list-container::-webkit-scrollbar {
+  display: none; /* Ẩn scrollbar trên Chrome, Safari */
+}
+
+/* Mobile (< 576px): Hiện ~2.3 card để gợi ý người dùng vuốt */
+.movie-item {
+  flex: 0 0 43%;
+  scroll-snap-align: start;
+}
+
+/* Tablet (576px - 991.98px): Hiện ~3.3 card */
+@media (min-width: 576px) and (max-width: 991.98px) {
+  .movie-item {
+    flex: 0 0 29%;
+  }
+
+  .carousel-btn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+/* Desktop (>= 992px): Hiển thị đủ 6 card thẳng hàng -> ẨN 2 NÚT TRÁI/PHẢI */
+@media (min-width: 992px) {
+  /* Tự động ẩn 2 nút Chevron vì đã hiện đủ 6 phim */
+  .carousel-btn {
+    display: none !important;
+  }
+
+  /* Khóa scroll ngang, hiển thị dàn đều đúng 6 card */
+  .movie-list-container {
+    overflow-x: visible;
+    gap: 1rem;
+  }
+
+  .movie-item {
+    flex: 0 0 calc((100% - 5 * 1rem) / 6);
+  }
 }

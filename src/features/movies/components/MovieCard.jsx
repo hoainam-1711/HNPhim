@@ -1,3 +1,4 @@
+import "./MovieCard.css"
 import { memo, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
 import { MovieContext } from "../../../context/MovieContext";
@@ -15,12 +16,7 @@ const MovieCard = ({ movie }) => {
   const favorited = isFavorite(movie.slug);
 
   return (
-    <Card
-      className="h-100 border-0 bg-secondary bg-opacity-10 text-white overflow-hidden shadow"
-      style={{ transition: "transform 0.3s ease", cursor: "pointer" }}
-      onMouseEnter={(e) => (e.currentTarget.style.transform = "scale(1.05)")}
-      onMouseLeave={(e) => (e.currentTarget.style.transform = "scale(1)")}
-    >
+    <Card className="movie-card h-100 border-0 bg-secondary bg-opacity-10 text-white overflow-hidden shadow">
       {/* Dùng wrapper với tỉ lệ khung hình 2:3 (Aspect Ratio chuẩn cho poster phim) */}
       <div
         className="position-relative w-100"
