@@ -37,8 +37,8 @@ const EpisodeSelector = ({
 
     const chunkIndex = episodeChunks.findIndex((chunk) =>
       chunk.data.some(
-        (ep) => ep.slug === currentEpSlug || ep.name === currentEpSlug
-      )
+        (ep) => ep.slug === currentEpSlug || ep.name === currentEpSlug,
+      ),
     );
 
     if (chunkIndex !== -1) {
@@ -48,13 +48,20 @@ const EpisodeSelector = ({
 
   // 3. Tự động cuộn nút chunk active vào khung nhìn
   useEffect(() => {
-    if (!chunkListRef.current) return;
-    const activeBtn = chunkListRef.current.querySelector(".episode-chunk-btn.active");
+    const container = chunkListRef.current;
+    if (!container) return;
+
+    const activeBtn = container.querySelector(".episode-chunk-btn.active");
     if (activeBtn) {
-      activeBtn.scrollIntoView({
+      // Tính toán vị trí tâm nút so với container
+      const scrollTarget =
+        activeBtn.offsetLeft -
+        container.clientWidth / 2 +
+        activeBtn.clientWidth / 2;
+
+      container.scrollTo({
+        left: scrollTarget,
         behavior: "smooth",
-        block: "nearest",
-        inline: "center",
       });
     }
   }, [selectedChunkIndex]);
@@ -69,7 +76,10 @@ const EpisodeSelector = ({
     <div className={`episode-selector ${pageType}`}>
       {/* Thanh cuộn ngang chọn nhóm tập */}
       {episodeChunks.length > 1 && (
-        <div className="episode-chunk-list custom-scrollbar-h" ref={chunkListRef}>
+        <div
+          className="episode-chunk-list custom-scrollbar-h"
+          ref={chunkListRef}
+        >
           {episodeChunks.map((chunk, idx) => (
             <Button
               key={idx}
@@ -88,7 +98,8 @@ const EpisodeSelector = ({
       <div className="episode-list custom-scrollbar">
         {currentChunkEpisodes.map((ep, idx) => {
           const isSelected =
-            currentEpSlug && (currentEpSlug === ep.slug || currentEpSlug === ep.name);
+            currentEpSlug &&
+            (currentEpSlug === ep.slug || currentEpSlug === ep.name);
 
           return (
             <Button

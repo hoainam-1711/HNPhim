@@ -1,25 +1,26 @@
 import useHomeMovies from "../features/movies/hooks/useHomeMovies";
 import Loading from "../components/ui/Loading";
 import MovieSection from "../features/movies/components/MovieSection";
+import HeroSection from "../features/movies/components/HeroSection";
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet-async";
 
 const MOVIE_TYPES = [
-  "phim-chieu-rap",
-  "hoat-hinh",
   "phim-moi",
   "phim-le",
   "phim-bo",
+  "hoat-hinh",
+  "phim-chieu-rap",
   "tv-shows",
 ];
 
 const MOVIE_TITLES = {
-  "phim-chieu-rap": "Phim Chiếu Rạp",
-  "hoat-hinh": "Hoạt Hình",
   "phim-moi": "Phim Mới Cập Nhật",
   "phim-le": "Phim Lẻ",
   "phim-bo": "Phim Bộ",
+  "hoat-hinh": "Hoạt Hình",
   "tv-shows": "TV Shows",
+  "phim-chieu-rap": "Phim Chiếu Rạp",
 };
 
 const HomePage = () => {
@@ -37,6 +38,11 @@ const HomePage = () => {
     );
   }
 
+  // Tách phim-chieu-rap để hiển thị Hero Section trên cùng
+  const heroGroup = data?.find((item) => item.type === "phim-chieu-rap");
+  const heroMovies =
+    heroGroup?.data?.data?.items || heroGroup?.data?.items || [];
+
   return (
     <>
       <Helmet>
@@ -44,9 +50,13 @@ const HomePage = () => {
         <meta name="description" content="Trang chủ chọn phim theo loại" />
       </Helmet>
 
-      <Container fluid="lg" className="px-3 px-md-4 py-4 home-container">
-        {data?.map(({ type, data: movieData }) => {
-          const movies = movieData?.data?.items || [];
+      <Container fluid className="px-3 px-md-4 py-4 home-container">
+        {/* HERO SECTION CHO PHIM CHIẾU RẠP */}
+        {heroMovies.length > 0 && <HeroSection movies={heroMovies} />}
+
+        {/* CÁC SECTION PHIM CÒN LẠI DẠNG CAROUSEL */}
+        {data.map(({ type, data: movieData }) => {
+          const movies = movieData?.data?.items || movieData?.items || [];
           return (
             <MovieSection
               key={type}

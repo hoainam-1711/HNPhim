@@ -34,7 +34,7 @@ const MovieSection = ({ title, type, movies }) => {
           className="see-more-btn text-decoration-none text-secondary d-flex align-items-center gap-1 p-0"
         >
           <span>Xem tất cả</span>
-          <LucideIcon icon="ChevronRight" size={18} />
+          <LucideIcon icon="ChevronRight" />
         </Button>
       </div>
 
@@ -47,7 +47,7 @@ const MovieSection = ({ title, type, movies }) => {
           onClick={() => handleScroll("left")}
           aria-label="Cuộn sang trái"
         >
-          <LucideIcon icon="ChevronLeft" size={20} />
+          <LucideIcon icon="ChevronLeft" />
         </button>
 
         {/* Danh sách phim */}
@@ -71,7 +71,7 @@ const MovieSection = ({ title, type, movies }) => {
           onClick={() => handleScroll("right")}
           aria-label="Cuộn sang phải"
         >
-          <LucideIcon icon="ChevronRight" size={20} />
+          <LucideIcon icon="ChevronRight" />
         </button>
       </div>
     </section>

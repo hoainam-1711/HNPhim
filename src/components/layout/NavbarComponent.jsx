@@ -26,8 +26,8 @@ function NavbarComponent() {
   };
 
   return (
-    <Navbar variant="dark" expand="lg" sticky="top" className="youtube-navbar">
-      <Container fluid className="px-3 px-lg-4">
+    <Navbar variant="dark" expand="sm" sticky="top" className="youtube-navbar">
+      <Container fluid className="px-2 px-sm-3 px-lg-4">
         {/* Logo */}
         <Navbar.Brand
           as={Link}
@@ -40,7 +40,7 @@ function NavbarComponent() {
 
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
-          className="border-0 shadow-none"
+          className="border-0 shadow-none p-1"
         />
 
         <Navbar.Collapse id="basic-navbar-nav">
@@ -57,8 +57,11 @@ function NavbarComponent() {
 
             <GenreModal show={showModal} handleClose={handleClose} />
 
-            {/* Search */}
-            <Form onSubmit={handleSearch} className="youtube-search-form flex-grow-1 my-0 ms-lg-auto me-lg-4">
+            {/* Ô tìm kiếm */}
+            <Form
+              onSubmit={handleSearch}
+              className="youtube-search-form flex-grow-1 my-0 ms-auto me-1"
+            >
               <InputGroup className="youtube-search">
                 <Form.Control
                   type="text"
@@ -67,14 +70,13 @@ function NavbarComponent() {
                   onChange={(e) => setKeyword(e.target.value)}
                   className="youtube-search-input"
                 />
-
                 <Button type="submit" className="youtube-search-btn">
                   <LucideIcon icon="Search" />
                 </Button>
               </InputGroup>
             </Form>
 
-            {/* Favorites */}
+            {/* Danh sách yêu thích */}
             <Button
               as={Link}
               to="/ua-thich"

@@ -77,7 +77,7 @@ const MovieDetailPage = () => {
           {/* TOP SECTION: Poster & Thông tin chi tiết */}
           <Row className="g-4 mb-5">
             {/* Poster Phim */}
-            <Col xs={12} md={4} lg={3}>
+            <Col xs={12} md={5} lg={4} xl={3}>
               <div className="movie-poster">
                 <img
                   src={movie?.poster_url || movie?.thumb_url}
@@ -95,7 +95,7 @@ const MovieDetailPage = () => {
             </Col>
 
             {/* Thông tin Phim */}
-            <Col xs={12} md={8} lg={9} className="movie-info">
+            <Col className="movie-info">
               <div>
                 <h1 className="movie-title">{movie?.name}</h1>
 

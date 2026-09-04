@@ -1,4 +1,4 @@
-import "./MovieCard.css"
+import "./MovieCard.css";
 import { memo, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
 import { MovieContext } from "../../../context/MovieContext";

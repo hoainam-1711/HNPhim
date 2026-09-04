@@ -4,7 +4,6 @@
 
 .movie-detail-page {
   min-height: calc(100vh - 64px);
-  background: #0f0f0f;
   color: #fff;
 }
 
@@ -20,7 +19,6 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 2 / 3;
-  background: #181818;
   border-radius: 10px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }

@@ -40,7 +40,7 @@ function FavoritesPage() {
 
       <MovieList movies={currentFavorites} msg={"Phim Đã Lưu"} />
 
-      <Container className="pt-3">
+      <Container fluid className="pt-3">
         {/* Điều khiển phân trang */}
         {totalPages > 1 && (
           <Row>
