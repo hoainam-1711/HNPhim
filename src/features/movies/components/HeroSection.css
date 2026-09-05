@@ -251,6 +251,26 @@
   transform: scale(1.08);
 }
 
+/* Bổ sung khung bọc thumb list & nút xem thêm */
+.hero-thumb-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Căn nút xem thêm về cuối (bên phải) */
+  gap: 0.5rem;
+  pointer-events: auto;
+}
+
+/* Khóa cố định cụm thumbnail */
+.hero-thumb-list {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  pointer-events: auto;
+}
+
+
 /* =========================================================
    BREAKPOINT 1: < 1120px
 ========================================================= */
@@ -357,5 +377,17 @@
   .hero-thumb-item.active {
     border: 2px solid #ffffff;
     transform: scale(1.1);
+  }
+
+  .hero-thumb-wrapper {
+    width: 100%;
+    align-items: flex-end; /* Hoặc center nếu bạn muốn trên mobile nút nằm giữa */
+    margin-top: 0.5rem;
+  }
+
+  .hero-thumb-list {
+    width: 100%;
+    justify-content: center;
+    gap: 0.55rem;
   }
 }

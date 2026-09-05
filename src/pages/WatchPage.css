@@ -4,6 +4,8 @@
 
 .watch-page {
   min-height: calc(100vh - 64px);
+
+  background: #0f0f0f;
   color: #fff;
 }
 

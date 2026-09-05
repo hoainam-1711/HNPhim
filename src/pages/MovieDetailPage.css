@@ -4,6 +4,7 @@
 
 .movie-detail-page {
   min-height: calc(100vh - 64px);
+  background: #0f0f0f;
   color: #fff;
 }
 
@@ -19,6 +20,7 @@
   position: relative;
   overflow: hidden;
   aspect-ratio: 2 / 3;
+  background: #181818;
   border-radius: 10px;
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
 }
@@ -192,9 +194,7 @@
 .movie-description {
   margin-top: 20px;
   padding: 18px;
-  background: #272727;
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
+  background: #181818;
   border: 1px solid #272727;
   border-radius: 8px;
 }
@@ -229,15 +229,16 @@
 -------------------------------------------------- */
 
 .episode-card {
-  background: #272727 !important;
-  border: 1px solid #181818 !important;
+  background: #181818 !important;
+  border: 1px solid #272727 !important;
   border-radius: 8px !important;
   overflow: hidden;
 }
 
 .episode-header {
   padding: 15px 18px !important;
-  background: #272727 !important;
+  background: #181818 !important;
+  border-bottom: 1px solid #272727 !important;
 }
 
 .episode-title {

@@ -33,7 +33,7 @@ const MovieSection = ({ title, type, movies }) => {
           variant="link"
           className="see-more-btn text-decoration-none text-secondary d-flex align-items-center gap-1 p-0"
         >
-          <span>Xem tất cả</span>
+          <span>Xem thêm</span>
           <LucideIcon icon="ChevronRight" />
         </Button>
       </div>

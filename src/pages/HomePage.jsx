@@ -38,8 +38,8 @@ const HomePage = () => {
     );
   }
 
-  // Tách phim-chieu-rap để hiển thị Hero Section trên cùng
-  const heroGroup = data?.find((item) => item.type === "phim-chieu-rap");
+  // Tách phim để hiển thị Hero Section trên cùng
+  const heroGroup = data?.find((item) => item.type === "phim-le");
   const heroMovies =
     heroGroup?.data?.data?.items || heroGroup?.data?.items || [];
 
@@ -51,10 +51,12 @@ const HomePage = () => {
       </Helmet>
 
       <Container fluid className="px-3 px-md-4 py-4 home-container">
-        {/* HERO SECTION CHO PHIM CHIẾU RẠP */}
-        {heroMovies.length > 0 && <HeroSection movies={heroMovies} />}
+        {/* HERO SECTION */}
+        {heroMovies.length > 0 && (
+          <HeroSection movies={heroMovies} type={heroGroup.type} />
+        )}
 
-        {/* CÁC SECTION PHIM CÒN LẠI DẠNG CAROUSEL */}
+        {/* MovieSection */}
         {data.map(({ type, data: movieData }) => {
           const movies = movieData?.data?.items || movieData?.items || [];
           return (

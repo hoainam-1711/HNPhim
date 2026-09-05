@@ -1,4 +1,3 @@
-import "./MainLayout.css";
 import { useLocation, Outlet } from "react-router-dom";
 import { useEffect } from "react";
 import NavbarComponent from "../components/layout/NavbarComponent";
@@ -16,25 +15,19 @@ function ScrollToTop() {
 
 function MainLayout() {
   return (
-    <div className="text-white min-vh-100 aura-bg">
-      {/* 4 lớp hiệu ứng nền của Smoked Glass */}
-      <div className="aura-layer-1" aria-hidden="true" />
-      <div className="aura-layer-2" aria-hidden="true" />
-      <div className="aura-layer-3" aria-hidden="true" />
-      <div className="aura-layer-4" aria-hidden="true" />
+    <div
+      style={{ backgroundColor: "#0f0f0f" }}
+      className="text-white d-flex flex-column min-vh-100"
+    >
+      <ScrollToTop />
 
-      {/* Wrapper nội dung chính - Giữ Flexbox để đẩy Footer xuống đáy */}
-      <div className="aura-content d-flex flex-column min-vh-100">
-        <ScrollToTop />
+      <NavbarComponent />
 
-        <NavbarComponent />
+      <main className="flex-grow-1">
+        <Outlet />
+      </main>
 
-        <main className="flex-grow-1">
-          <Outlet />
-        </main>
-
-        <Footer />
-      </div>
+      <Footer />
     </div>
   );
 }

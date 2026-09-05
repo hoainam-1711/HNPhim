@@ -1,11 +1,12 @@
 import "./HeroSection.css";
 import { useState, useContext, useRef } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MovieContext } from "../../../context/MovieContext";
 import LucideIcon from "../../../components/ui/LucideIcon";
 import noImg from "../../../assets/no-image.png";
+import { Button } from "react-bootstrap";
 
-const HeroSection = ({ movies = [] }) => {
+const HeroSection = ({ movies = [], type }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { toggleFavorite, isFavorite } = useContext(MovieContext);
   const navigate = useNavigate();
@@ -26,7 +27,7 @@ const HeroSection = ({ movies = [] }) => {
   };
 
   const backdropSrc = getImageSrc(
-    currentMovie?.thumb_url || currentMovie?.poster_url,
+    currentMovie?.thumb_url || currentMovie?.poster_url
   );
 
   // Xử lý cử chỉ vuốt (Swipe)
@@ -43,9 +44,9 @@ const HeroSection = ({ movies = [] }) => {
     const diffX = touchEndX.current - touchStartX.current;
     if (Math.abs(diffX) > 40) {
       if (diffX < 0) {
-        setSelectedIndex((prev) => (prev + 1) % total); // Vuốt sang trái -> xem phim tiếp theo
+        setSelectedIndex((prev) => (prev + 1) % total);
       } else {
-        setSelectedIndex((prev) => (prev - 1 + total) % total); // Vuốt sang phải -> xem phim trước đó
+        setSelectedIndex((prev) => (prev - 1 + total) % total);
       }
     }
   };
@@ -175,29 +176,44 @@ const HeroSection = ({ movies = [] }) => {
           </div>
         </div>
 
-        {/* Danh sách thumbnail */}
-        <div className="hero-thumb-list">
-          {movies.slice(0, 6).map((m, idx) => (
-            <div
-              key={m._id || m.slug || idx}
-              className={`hero-thumb-item ${selectedIndex === idx ? "active" : ""}`}
-              onClick={(e) => {
-                e.stopPropagation();
-                setSelectedIndex(idx);
-              }}
-              title={m.name}
-            >
-              <img
-                src={getImageSrc(m.thumb_url || m.poster_url)}
-                alt={m.name}
-                className="hero-thumb-img"
-                onError={(e) => {
-                  e.target.onerror = null;
-                  e.target.src = noImg;
+        {/* Khối bọc danh sách thumbnail và nút Xem thêm */}
+        <div className="hero-thumb-wrapper">
+          <div className="hero-thumb-list">
+            {movies.slice(0, 6).map((m, idx) => (
+              <div
+                key={m._id || m.slug || idx}
+                className={`hero-thumb-item ${
+                  selectedIndex === idx ? "active" : ""
+                }`}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setSelectedIndex(idx);
                 }}
-              />
-            </div>
-          ))}
+                title={m.name}
+              >
+                <img
+                  src={getImageSrc(m.thumb_url || m.poster_url)}
+                  alt={m.name}
+                  className="hero-thumb-img"
+                  onError={(e) => {
+                    e.target.onerror = null;
+                    e.target.src = noImg;
+                  }}
+                />
+              </div>
+            ))}
+          </div>
+
+          {/* Nút Xem thêm nằm dưới thumb list và ở cuối */}
+          <Button
+            as={Link}
+            to={`/loai/${type}`}
+            variant="link"
+            className="see-more-btn text-decoration-none text-secondary d-flex align-items-center gap-1 p-0"
+          >
+            <span>Xem thêm</span>
+            <LucideIcon icon="ChevronRight" />
+          </Button>
         </div>
       </div>
     </section>
