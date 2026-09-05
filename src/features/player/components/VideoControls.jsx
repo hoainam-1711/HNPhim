@@ -85,7 +85,6 @@ const VideoControls = ({
             <LucideIcon icon={isPlaying ? "Pause" : "Play"} />
           </Button>
 
-          {/* Forward 10s (Ẩn khi < 576px) */}
           <Button
             variant="link"
             className="video-control-btn hide-lt-576"
@@ -95,8 +94,8 @@ const VideoControls = ({
             <LucideIcon icon="RotateRight" />
           </Button>
 
-          {/* Volume Control */}
-          <div className="video-volume-container">
+          {/* Volume Control (Ẩn khi < 460px) */}
+          <div className="video-volume-container hide-btn-460">
             <Button
               variant="link"
               className="video-control-btn"
@@ -136,7 +135,7 @@ const VideoControls = ({
           <Button
             variant="warning"
             size="sm"
-            className="skip-ads-btn hide-lt-320"
+            className="skip-ads-btn hide-btn-320"
             onClick={() => handleSeek(29)}
             title="(S) Thật ra là tua 30s"
           >
@@ -149,7 +148,7 @@ const VideoControls = ({
             variant="link"
             onClick={onNextEpisode}
             disabled={isLastEpisode?.()}
-            className="settings-dropdown-toggle hide-lt-576"
+            className="settings-dropdown-toggle hide-btn-576"
             title="Tập tiếp theo"
           >
             <LucideIcon icon="SkipForward" />
@@ -257,10 +256,10 @@ const VideoControls = ({
             </Dropdown.Menu>
           </Dropdown>
 
-          {/* Picture-in-Picture (Ẩn khi < 576px) */}
+          {/* Picture-in-Picture (Ẩn khi < 460px) */}
           <Button
             variant="link"
-            className="video-control-btn hide-lt-576"
+            className="video-control-btn hide-btn-460"
             onClick={togglePiP}
             title={
               isPiP ? "Thoát Picture-in-Picture" : "Picture-in-Picture (PiP)"

@@ -8,7 +8,8 @@ import Loading from "../components/ui/Loading";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
 import LucideIcon from "../components/ui/LucideIcon";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
+import cleanDescription from "../utils/cleanDescription";
 
 const MovieDetailPage = () => {
   const { slug } = useParams();
@@ -64,20 +65,19 @@ const MovieDetailPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{movie?.name} - HNPhim</title>
-        <meta name="description" content="Trang chi tiết thông tin phim" />
-        <meta property="og:title" content={movie?.name}/>
-        <meta property="og:description" content={movie?.content} />
-        <meta property="og:image" content={movie?.poster_url} />
-      </Helmet>
+      <SEO
+        title={`${movie?.name} - ${movie?.year}`}
+        description={cleanDescription(movie?.content)}
+        image={movie?.thumb_url}
+        url={`/chi-tiet/${movie?.slug}`}
+      />
 
       <div className="movie-detail-page">
         <Container className="movie-detail-container py-4">
           {/* TOP SECTION: Poster & Thông tin chi tiết */}
           <Row className="g-4 mb-5">
             {/* Poster Phim */}
-            <Col xs={12} md={4} lg={3}>
+            <Col xs={12} md={5} lg={4} xl={3}>
               <div className="movie-poster">
                 <img
                   src={movie?.poster_url || movie?.thumb_url}
@@ -95,7 +95,7 @@ const MovieDetailPage = () => {
             </Col>
 
             {/* Thông tin Phim */}
-            <Col xs={12} md={8} lg={9} className="movie-info">
+            <Col className="movie-info">
               <div>
                 <h1 className="movie-title">{movie?.name}</h1>
 

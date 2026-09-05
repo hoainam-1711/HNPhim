@@ -4,7 +4,7 @@ import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import useNewMovies from "../features/movies/hooks/useNewMovies";
 import Loading from "../components/ui/Loading";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 
 function MoviesByTypePage() {
   const type = useParams();
@@ -63,14 +63,11 @@ function MoviesByTypePage() {
 
   return (
     <>
-      <Helmet>
-        <title>{msg(typeSlug)} - HNPhim{page > 1 ? ` - Trang ${page}` : ""}</title>
-
-        <meta
-          name="description"
-          content={`Trang phim theo loại: ${msg(typeSlug)}`}
-        />
-      </Helmet>
+      <SEO
+        title={`${msg(typeSlug)}${page > 1 ? ` - Trang ${page}` : ""}`}
+        description={`Tổng hợp ${msg(typeSlug)} hay và mới nhất. Xem ${msg(typeSlug)} online chất lượng HD với nhiều bộ phim hấp dẫn.`}
+        url="/the-loai/hanh-dong"
+      />
 
       <MovieList movies={movies} loading={loading} msg={`${msg(typeSlug)}`} />
 

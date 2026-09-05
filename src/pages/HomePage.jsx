@@ -2,24 +2,24 @@ import useHomeMovies from "../features/movies/hooks/useHomeMovies";
 import Loading from "../components/ui/Loading";
 import MovieSection from "../features/movies/components/MovieSection";
 import { Container } from "react-bootstrap";
-import { Helmet } from "react-helmet-async";
 import HeroSection from "../features/movies/components/HeroSection";
+import SEO from "../components/SEO";
 
 const MOVIE_TYPES = [
-  "phim-chieu-rap",
-  "hoat-hinh",
   "phim-moi",
   "phim-le",
   "phim-bo",
+  "phim-chieu-rap",
+  "hoat-hinh",
   "tv-shows",
 ];
 
 const MOVIE_TITLES = {
-  "phim-chieu-rap": "Phim Chiếu Rạp",
-  "hoat-hinh": "Hoạt Hình",
   "phim-moi": "Phim Mới Cập Nhật",
   "phim-le": "Phim Lẻ",
   "phim-bo": "Phim Bộ",
+  "phim-chieu-rap": "Phim Chiếu Rạp",
+  "hoat-hinh": "Hoạt Hình",
   "tv-shows": "TV Shows",
 };
 
@@ -43,12 +43,16 @@ const HomePage = () => {
   const heroMovies =
     heroGroup?.data?.data?.items || heroGroup?.data?.items || [];
 
+  // Các section còn lại, không bao gồm "phim-le"
+  const otherSection = data?.filter((item) => item.type !== "phim-le") || [];
+
   return (
     <>
-      <Helmet>
-        <title>HNPhim - Xem phim trực tuyến</title>
-        <meta name="description" content="Trang chủ chọn phim theo loại" />
-      </Helmet>
+      <SEO
+        title="Xem Phim Online HD"
+        description="Xem phim online miễn phí với chất lượng HD, cập nhật phim mới, phim bộ, phim lẻ, hoạt hình và nhiều thể loại hấp dẫn."
+        url="/"
+      />
 
       <Container fluid className="px-3 px-md-4 py-4 home-container">
         {/* HERO SECTION */}
@@ -57,7 +61,7 @@ const HomePage = () => {
         )}
 
         {/* MovieSection */}
-        {data.map(({ type, data: movieData }) => {
+        {otherSection.map(({ type, data: movieData }) => {
           const movies = movieData?.data?.items || movieData?.items || [];
           return (
             <MovieSection

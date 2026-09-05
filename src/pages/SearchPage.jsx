@@ -4,7 +4,7 @@ import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import useSearchMovies from "../features/movies/hooks/useSearchMovies";
 import Loading from "../components/ui/Loading";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 
 const SearchPage = () => {
   const { keyword } = useParams();
@@ -43,14 +43,12 @@ const SearchPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{keyword} - HNPhim{page > 1 ? ` - Trang ${page}` : ""}</title>
-
-        <meta
-          name="description"
-          content={`Kết quả tìm kiếm cho ${keyword}`}
-        />
-      </Helmet>
+      <SEO
+        title={`${keyword}${page > 1 ? ` - Trang ${page}` : ""}`}
+        description={`Kết quả tìm kiếm phim cho từ khóa "${keyword}".`}
+        url={`/tim-kiem/${keyword}`}
+        robots="noindex, follow"
+      />
 
       <MovieList
         movies={movies}

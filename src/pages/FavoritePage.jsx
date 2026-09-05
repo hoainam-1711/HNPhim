@@ -1,10 +1,10 @@
 import { MovieContext } from "../context/MovieContext";
 import { useContext } from "react";
 import MovieList from "../features/movies/components/MovieList";
-import { Helmet } from "react-helmet-async";
 import { Col, Container, Row } from "react-bootstrap";
 import CustomPagination from "../components/ui/CustomPagination";
 import { useSearchParams } from "react-router-dom";
+import SEO from "../components/SEO";
 
 const ITEMSPERPAGE = 24;
 
@@ -22,7 +22,7 @@ function FavoritesPage() {
   const startIndex = (page - 1) * ITEMSPERPAGE;
   const endIndex = startIndex + ITEMSPERPAGE;
   const currentFavorites = favorites.slice(startIndex, endIndex);
-  
+
   const handlePageChange = (newPage) => {
     // Cập nhật URL thành /danh-sach?page=newPage
     setSearchParams({ page: newPage });
@@ -33,10 +33,12 @@ function FavoritesPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Phim đã lưu - HNPhim</title>
-        <meta name="description" content="Mục phim ưa thích" />
-      </Helmet>
+      <SEO
+        title={`Phim Yêu Thích${page > 1 ? ` - Trang ${page}` : ""}`}
+        description="Danh sách những bộ phim bạn đã lưu yêu thích."
+        url="/ua-thich"
+        robots="noindex, nofollow"
+      />
 
       <MovieList movies={currentFavorites} msg={"Phim Đã Lưu"} />
 

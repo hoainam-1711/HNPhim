@@ -7,7 +7,7 @@ const MovieList = ({ movies, loading, msg }) => {
   if (loading) return <Loading />;
 
   return (
-    <Container>
+    <Container fluid>
       {/* Tiêu đề */}
       <Row className="mb-4 align-items-center">
         <Col>

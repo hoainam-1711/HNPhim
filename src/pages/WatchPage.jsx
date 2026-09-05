@@ -6,7 +6,7 @@ import EpisodeSelector from "../features/player/components/EpisodeSelector";
 import Loading from "../components/ui/Loading";
 import CustomVideoPlayer from "../features/player/components/CustomVideoPlayer";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();
@@ -107,20 +107,13 @@ const WatchPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>
-          {movie?.name} - {currentEpData?.name || ep} - HNPhim
-        </title>
-
-        <meta
-          name="description"
-          content={movie?.content || `Xem ${movie?.name} online.`}
-        />
-
-        <meta property="og:title" content={movie?.name} />
-        <meta property="og:description" content={movie?.content} />
-        <meta property="og:image" content={movie?.poster_url} />
-      </Helmet>
+      <SEO
+        title={`${movie.name} - ${currentEpData?.name || ep}`}
+        description={`Xem ${movie.name} ${currentEpData?.name || ep} online chất lượng cao. Xem phim với đầy đủ các tập mới nhất.`}
+        image={movie.thumb_url}
+        url={`/xem/${movie.slug}/${currentEpData?.slug}`}
+        robots="noindex, follow"
+      />
 
       <div className="watch-page">
         <Container fluid className="watch-container">

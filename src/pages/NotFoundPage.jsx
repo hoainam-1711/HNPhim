@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { Helmet } from "react-helmet-async";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import SEO from "../components/SEO";
 
 const COLOR_PALETTE = {
   dayColor: "#333333",
@@ -159,11 +159,10 @@ export default function NotFoundPage() {
 
   return (
     <>
-      <Helmet>
-        <title>Không tìm thấy trang - HNPhim</title>
-
-        <meta name="description" content="Đường link sai hoặc lỗi" />
-      </Helmet>
+      <SEO
+        title="Không tìm thấy trang"
+        description="Không tìm thấy trang, đường dẫn sai hoặc lỗi."
+      />
 
       <div style={styles.body}>
         <div style={styles.container}>
@@ -181,7 +180,12 @@ export default function NotFoundPage() {
             Trang bạn đang tìm kiếm không tồn tại. Vui lòng kiểm tra đường dẫn
             hoặc quay về trang chủ
           </p>
-          <Button variant="link" style={{textDecoration:"none"}} as={Link} to={"/"}>
+          <Button
+            variant="link"
+            style={{ textDecoration: "none" }}
+            as={Link}
+            to={"/"}
+          >
             Về trang chủ
           </Button>
         </div>
@@ -218,6 +222,6 @@ const styles = {
   msg: {
     textAlign: "center",
     lineHeight: 1.5,
-    marginTop:"20px"
+    marginTop: "20px",
   },
 };

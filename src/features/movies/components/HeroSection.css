@@ -39,15 +39,15 @@
   background:
     linear-gradient(
       90deg,
-      rgba(11, 15, 20, 0.75) 0%,
-      rgba(11, 15, 20, 0.45) 35%,
-      rgba(11, 15, 20, 0.05) 70%,
-      rgba(11, 15, 20, 0.6) 100%
+      rgba(11, 15, 20, 0.55) 0%,
+      rgba(11, 15, 20, 0.3) 35%,
+      rgba(11, 15, 20, 0.03) 70%,
+      rgba(11, 15, 20, 0.4) 100%
     ),
     linear-gradient(
       0deg,
-      rgba(11, 15, 20, 0.85) 2%,
-      rgba(11, 15, 20, 0.25) 25%,
+      rgba(11, 15, 20, 0.6) 2%,
+      rgba(11, 15, 20, 0.15) 25%,
       transparent 60%
     );
   pointer-events: none;
@@ -219,7 +219,7 @@
 /* Thumbnails list */
 /* 4. QUAN TRỌNG: Khóa cố định cụm thumbnail, tuyệt đối không cho co ép */
 .hero-thumb-list {
-  flex-shrink: 0; /* Không bao giờ bị ép méo hay đẩy mất dạng */
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 0.6rem;
@@ -259,6 +259,11 @@
   align-items: flex-end; /* Căn nút xem thêm về cuối (bên phải) */
   gap: 0.5rem;
   pointer-events: auto;
+
+  padding: 0.6rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
 }
 
 /* Khóa cố định cụm thumbnail */
@@ -269,7 +274,6 @@
   gap: 0.6rem;
   pointer-events: auto;
 }
-
 
 /* =========================================================
    BREAKPOINT 1: < 1120px
@@ -283,7 +287,8 @@
   }
 
   .hero-title {
-    font-size: 1.6rem}
+    font-size: 1.6rem;
+  }
 
   .hero-thumb-item {
     width: 34px;
@@ -319,7 +324,7 @@
     border-radius: 16px;
   }
 
-  .hero-backdrop-img{
+  .hero-backdrop-img {
     border-radius: 16px;
   }
 
@@ -332,7 +337,7 @@
     );
   }
 
-  .hero-origin-name{
+  .hero-origin-name {
     display: none;
   }
 

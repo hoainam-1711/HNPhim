@@ -4,7 +4,7 @@ import useMoviesByGenre from "../features/movies/hooks/useMovieByGenres";
 import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import Loading from "../components/ui/Loading";
-import { Helmet } from "react-helmet-async";
+import SEO from "../components/SEO";
 
 const MoviesByGenresPage = () => {
   const { slug } = useParams();
@@ -43,14 +43,11 @@ const MoviesByGenresPage = () => {
 
   return (
     <>
-      <Helmet>
-        <title>Thể loại - {titlePage} - HNPhim{page > 1 ? ` - Trang ${page}` : ""}</title>
-
-        <meta
-          name="description"
-          content={`Trang phim theo thể loại ${titlePage}`}
-        />
-      </Helmet>
+      <SEO
+        title={`Phim ${titlePage}${page > 1 ? ` - Trang ${page}` : ""}`}
+        description={`Tổng hợp phim ${titlePage} hay và mới nhất. Xem phim ${titlePage} online chất lượng HD với nhiều bộ phim hấp dẫn.`}
+        url={`/the-loai/${slug}`}
+      />
 
       <MovieList
         movies={movies}
