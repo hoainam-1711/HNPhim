@@ -85,7 +85,7 @@
 
   border: 1px solid #333 !important;
   border-radius: 4px !important;
-  background: #1f1f1f !important;
+  background: #242424 !important;
   color: #ddd !important;
   text-decoration: none !important;
 
@@ -96,7 +96,7 @@
 }
 
 .episode-item:hover {
-  background: #303030 !important;
+  background: #383838 !important;
   border-color: #555 !important;
   color: #fff !important;
 }

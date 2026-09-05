@@ -57,7 +57,7 @@ const HeroSection = ({ movies = [] }) => {
     }
   };
 
-  const goToWatchFirstEpisode = (e) => {
+  const goToWatchEpisodeCurrent = (e) => {
     e.stopPropagation();
     if (currentMovie?.slug) {
       navigate(`/xem/${currentMovie.slug}/${currentMovie?.episode_current}`);
@@ -103,27 +103,21 @@ const HeroSection = ({ movies = [] }) => {
 
           {/* Badges */}
           <div className="hero-badges">
-            {currentMovie?.imdb?.vote_count > 0 && (
-              <span className="hero-badge-item hero-badge-imdb">
-                <strong>IMDb</strong> {currentMovie?.imdb?.vote_average}
-              </span>
-            )}
+            <span className="hero-badge-item hero-badge-quality">
+              <strong>{currentMovie?.quality || "FHD"}</strong>
+            </span>
 
             {currentMovie?.year && (
               <span className="hero-badge-item">{currentMovie.year}</span>
             )}
 
-            <span className="hero-badge-item">
-              {currentMovie?.quality || "FHD"}
-            </span>
+            <span className="hero-badge-item">{currentMovie?.time}</span>
 
             {currentMovie?.episode_current && (
               <span className="hero-badge-item truncate-text">
                 {currentMovie.episode_current}
               </span>
             )}
-
-            <span className="hero-badge-item">{currentMovie?.time}</span>
           </div>
 
           {/* Categories */}
@@ -145,9 +139,9 @@ const HeroSection = ({ movies = [] }) => {
             <button
               type="button"
               className="hero-btn-play"
-              title="Xem ngay Tập 1"
-              aria-label="Xem ngay Tập 1"
-              onClick={goToWatchFirstEpisode}
+              title="Xem ngay"
+              aria-label="Xem ngay"
+              onClick={goToWatchEpisodeCurrent}
             >
               <LucideIcon icon="Play" />
             </button>

@@ -84,7 +84,7 @@
 
 /* 3. Khống chế tiêu đề: Chỉ tối đa 2 dòng, quá dài sẽ hiện "..." */
 .hero-title {
-  font-size: 2.8rem;
+  font-size: 2.2rem;
   font-weight: 800;
   color: #ffffff;
   line-height: 1.15;
@@ -93,8 +93,8 @@
 
   /* Giới hạn 2 dòng và hiện dấu ba chấm */
   display: -webkit-box;
-  line-clamp: 2;
-  -webkit-line-clamp: 2;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -141,13 +141,13 @@
   vertical-align: middle;
 }
 
-.hero-badge-imdb {
+.hero-badge-quality {
   background: #1e2530;
   border-color: #f3ca3e;
   color: #ffffff;
 }
 
-.hero-badge-imdb strong {
+.hero-badge-quality strong {
   color: #f3ca3e;
   margin-right: 2px;
 }
@@ -263,8 +263,7 @@
   }
 
   .hero-title {
-    font-size: 2.2rem;
-  }
+    font-size: 1.6rem}
 
   .hero-thumb-item {
     width: 34px;
@@ -278,19 +277,29 @@
   }
 }
 
+@media (max-width: 798px) {
+  /* Ẩn bớt các nút khi màn hình nhỏ */
+  .hero-categories,
+  .hero-actions {
+    display: none;
+  }
+}
+
 /* =========================================================
    BREAKPOINT 2: < 640px (Mobile)
 ========================================================= */
 @media (max-width: 640px) {
   .hero-section {
-    border-radius: 16px !important;
-    margin-bottom: 1.5rem;
     overflow: visible;
   }
 
   .hero-backdrop-wrapper {
     position: relative;
     width: 100%;
+    border-radius: 16px;
+  }
+
+  .hero-backdrop-img{
     border-radius: 16px;
   }
 
@@ -303,13 +312,17 @@
     );
   }
 
+  .hero-origin-name{
+    display: none;
+  }
+
   .hero-main-container {
     position: relative;
     inset: auto;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 1rem 1.2rem 1rem;
-    margin-top: -15px;
+    padding: 0 1rem 0.75rem 1rem;
+    margin-top: -25%;
     pointer-events: auto;
   }
 
@@ -331,28 +344,14 @@
 
   .hero-badges {
     gap: 0.35rem;
-    margin-bottom: 0.5rem;
-  }
-
-  /* Ẩn bớt các nút khi màn hình nhỏ */
-  .hero-categories,
-  .hero-actions {
-    display: none;
+    margin-top: 0.2rem;
+    margin-bottom: 0;
   }
 
   .hero-thumb-list {
     width: 100%;
     justify-content: center;
-    margin-top: 0.8rem;
     gap: 0.55rem;
-  }
-
-  .hero-thumb-item {
-    width: 12vw;
-    height: 12vw;
-    max-width: 48px;
-    max-height: 48px;
-    border-radius: 12%;
   }
 
   .hero-thumb-item.active {

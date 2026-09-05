@@ -1,6 +1,6 @@
-import { useLocation } from "react-router-dom";
+import "./MainLayout.css";
+import { useLocation, Outlet } from "react-router-dom";
 import { useEffect } from "react";
-import { Outlet } from "react-router-dom";
 import NavbarComponent from "../components/layout/NavbarComponent";
 import Footer from "../components/layout/Footer";
 
@@ -16,19 +16,25 @@ function ScrollToTop() {
 
 function MainLayout() {
   return (
-    <div
-      style={{ backgroundColor: "#0f0f0f" }}
-      className="text-white d-flex flex-column min-vh-100"
-    >
-      <ScrollToTop />
+    <div className="text-white min-vh-100 aura-bg">
+      {/* 4 lớp hiệu ứng nền của Smoked Glass */}
+      <div className="aura-layer-1" aria-hidden="true" />
+      <div className="aura-layer-2" aria-hidden="true" />
+      <div className="aura-layer-3" aria-hidden="true" />
+      <div className="aura-layer-4" aria-hidden="true" />
 
-      <NavbarComponent />
+      {/* Wrapper nội dung chính - Giữ Flexbox để đẩy Footer xuống đáy */}
+      <div className="aura-content d-flex flex-column min-vh-100">
+        <ScrollToTop />
 
-      <main className="flex-grow-1">
-        <Outlet />
-      </main>
+        <NavbarComponent />
 
-      <Footer />
+        <main className="flex-grow-1">
+          <Outlet />
+        </main>
+
+        <Footer />
+      </div>
     </div>
   );
 }
