@@ -46,19 +46,6 @@ const EpisodeSelector = ({
     }
   }, [currentEpSlug, episodeChunks]);
 
-  // 3. Tự động cuộn nút chunk active vào khung nhìn
-  useEffect(() => {
-    if (!chunkListRef.current) return;
-    const activeBtn = chunkListRef.current.querySelector(".episode-chunk-btn.active");
-    if (activeBtn) {
-      activeBtn.scrollIntoView({
-        behavior: "smooth",
-        block: "nearest",
-        inline: "center",
-      });
-    }
-  }, [selectedChunkIndex]);
-
   if (!serverData?.length) {
     return <p className="text-secondary mb-0">Chưa có danh sách tập phim.</p>;
   }

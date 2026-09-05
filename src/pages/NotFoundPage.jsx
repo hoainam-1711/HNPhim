@@ -196,7 +196,6 @@ const styles = {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    background: "#0f0f0f",
   },
   container: {
     display: "flex",
