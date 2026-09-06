@@ -1,36 +1,50 @@
 import "./HeroSection.css";
 import { useState, useContext, useRef } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 import { MovieContext } from "../../../context/MovieContext";
 import LucideIcon from "../../../components/ui/LucideIcon";
 import noImg from "../../../assets/no-image.png";
-import { Button } from "react-bootstrap";
+
+// Ngưỡng khoảng cách tối thiểu (pixel) để kích hoạt cử chỉ vuốt
+const SWIPE_THRESHOLD = 40;
 
 const HeroSection = ({ movies = [], type }) => {
+  // =========================================================
+  // 1. STATE & HOOKS
+  // =========================================================
   const [selectedIndex, setSelectedIndex] = useState(0);
   const { toggleFavorite, isFavorite } = useContext(MovieContext);
   const navigate = useNavigate();
 
+  // Tọa độ chạm để tính toán cử chỉ vuốt ngang (Touch swipe)
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
 
+  // =========================================================
+  // 2. DATA EXTRACTION & FALLBACKS
+  // =========================================================
   if (!movies || movies.length === 0) return null;
 
   const total = movies.length;
   const currentMovie = movies[selectedIndex] || movies[0];
-
   const favorited = isFavorite(currentMovie?.slug);
 
+  /**
+   * Chuẩn hóa URL ảnh đại diện / poster
+   */
   const getImageSrc = (img) => {
     if (!img) return noImg;
     return img.startsWith("http") ? img : `https://phimimg.com/${img}`;
   };
 
   const backdropSrc = getImageSrc(
-    currentMovie?.thumb_url || currentMovie?.poster_url
+    currentMovie?.thumb_url || currentMovie?.poster_url,
   );
 
-  // Xử lý cử chỉ vuốt (Swipe)
+  // =========================================================
+  // 3. EVENT HANDLERS (TOUCH & NAVIGATION)
+  // =========================================================
   const handleTouchStart = (e) => {
     touchStartX.current = e.touches[0].clientX;
     touchEndX.current = e.touches[0].clientX;
@@ -42,15 +56,18 @@ const HeroSection = ({ movies = [], type }) => {
 
   const handleTouchEnd = () => {
     const diffX = touchEndX.current - touchStartX.current;
-    if (Math.abs(diffX) > 40) {
+    if (Math.abs(diffX) > SWIPE_THRESHOLD) {
       if (diffX < 0) {
+        // Vuốt sang trái -> Xem phim kế tiếp
         setSelectedIndex((prev) => (prev + 1) % total);
       } else {
+        // Vuốt sang phải -> Quay lại phim trước
         setSelectedIndex((prev) => (prev - 1 + total) % total);
       }
     }
   };
 
+  // Điều hướng đến trang chi tiết
   const goToDetail = (e) => {
     e.stopPropagation();
     if (currentMovie?.slug) {
@@ -58,6 +75,7 @@ const HeroSection = ({ movies = [], type }) => {
     }
   };
 
+  // Điều hướng đến trang xem tập phim hiện tại
   const goToWatchEpisodeCurrent = (e) => {
     e.stopPropagation();
     if (currentMovie?.slug) {
@@ -65,6 +83,15 @@ const HeroSection = ({ movies = [], type }) => {
     }
   };
 
+  // Xử lý fallback ảnh khi link hỏng (404/error)
+  const handleImgError = (e) => {
+    e.currentTarget.onerror = null;
+    e.currentTarget.src = noImg;
+  };
+
+  // =========================================================
+  // 4. RENDER
+  // =========================================================
   return (
     <section
       className="hero-section"
@@ -72,7 +99,7 @@ const HeroSection = ({ movies = [], type }) => {
       onTouchMove={handleTouchMove}
       onTouchEnd={handleTouchEnd}
     >
-      {/* Click vào khung ảnh sẽ vào chi tiết */}
+      {/* 4.1 Khung ảnh nền (Backdrop) */}
       <div
         className="hero-backdrop-wrapper cursor-pointer"
         onClick={goToDetail}
@@ -81,16 +108,14 @@ const HeroSection = ({ movies = [], type }) => {
           src={backdropSrc}
           alt={currentMovie?.name}
           className="hero-backdrop-img"
-          onError={(e) => {
-            e.target.onerror = null;
-            e.target.src = noImg;
-          }}
+          onError={handleImgError}
         />
-        <div className="hero-backdrop-gradient"></div>
+        <div className="hero-backdrop-gradient" />
       </div>
 
-      {/* Khung nội dung */}
+      {/* 4.2 Khung nội dung chính */}
       <div className="hero-main-container">
+        {/* Thông tin chi tiết phim */}
         <div className="hero-info">
           <h1 className="hero-title" title={currentMovie?.name}>
             {currentMovie?.name}
@@ -102,7 +127,7 @@ const HeroSection = ({ movies = [], type }) => {
             </div>
           )}
 
-          {/* Badges */}
+          {/* Huy hiệu thông số (Badges) */}
           <div className="hero-badges">
             <span className="hero-badge-item hero-badge-quality">
               <strong>{currentMovie?.quality || "FHD"}</strong>
@@ -112,7 +137,9 @@ const HeroSection = ({ movies = [], type }) => {
               <span className="hero-badge-item">{currentMovie.year}</span>
             )}
 
-            <span className="hero-badge-item">{currentMovie?.time}</span>
+            {currentMovie?.time && (
+              <span className="hero-badge-item">{currentMovie.time}</span>
+            )}
 
             {currentMovie?.episode_current && (
               <span className="hero-badge-item truncate-text">
@@ -121,7 +148,7 @@ const HeroSection = ({ movies = [], type }) => {
             )}
           </div>
 
-          {/* Categories */}
+          {/* Danh sách thể loại (Tối đa 4 mục) */}
           {currentMovie?.category && currentMovie.category.length > 0 && (
             <div className="hero-categories">
               {currentMovie.category.slice(0, 4).map((cat) => (
@@ -135,8 +162,9 @@ const HeroSection = ({ movies = [], type }) => {
             </div>
           )}
 
-          {/* Nút hành động */}
+          {/* Các nút hành động */}
           <div className="hero-actions">
+            {/* Nút Xem ngay */}
             <button
               type="button"
               className="hero-btn-play"
@@ -147,6 +175,7 @@ const HeroSection = ({ movies = [], type }) => {
               <LucideIcon icon="Play" />
             </button>
 
+            {/* Cụm nút phụ: Chi tiết & Lưu yêu thích */}
             <div className="hero-action-pill">
               <button
                 type="button"
@@ -176,7 +205,7 @@ const HeroSection = ({ movies = [], type }) => {
           </div>
         </div>
 
-        {/* Khối bọc danh sách thumbnail và nút Xem thêm */}
+        {/* 4.3 Khối thumbnail và nút Xem thêm */}
         <div className="hero-thumb-wrapper">
           <div className="hero-thumb-list">
             {movies.slice(0, 6).map((m, idx) => (
@@ -195,16 +224,12 @@ const HeroSection = ({ movies = [], type }) => {
                   src={getImageSrc(m.thumb_url || m.poster_url)}
                   alt={m.name}
                   className="hero-thumb-img"
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = noImg;
-                  }}
+                  onError={handleImgError}
                 />
               </div>
             ))}
           </div>
 
-          {/* Nút Xem thêm nằm dưới thumb list và ở cuối */}
           <Button
             as={Link}
             to={`/loai/${type}`}

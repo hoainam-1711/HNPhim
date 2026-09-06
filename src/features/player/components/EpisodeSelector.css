@@ -1,24 +1,24 @@
 /* ==================================================
-   EPISODE SELECTOR
+   1. KHUNG CHỨA CHÍNH (CONTAINER)
 ================================================== */
 .episode-selector {
   width: 100%;
-  min-width: 0; /* Quan trọng: Ngăn thẻ con Flexbox làm bung chiều rộng */
+  min-width: 0; /* Ngăn container con làm vỡ layout Flexbox/Grid cha */
   color: #fff;
 }
 
 /* ==================================================
-   CHUNK / GROUP (SCROLL NGANG)
+   2. THANH CUỘN NGANG CHỌN NHÓM TẬP (CHUNK)
 ================================================== */
 .episode-chunk-list {
   display: flex;
-  flex-wrap: nowrap;     /* Không cho rớt dòng */
+  flex-wrap: nowrap;
   align-items: center;
   gap: 8px;
 
-  width: 100%;           /* Chiều rộng bằng đúng container cha */
+  width: 100%;
   max-width: 100%;
-  overflow-x: auto !important; /* Luôn bật cuộn ngang */
+  overflow-x: auto !important;
   overflow-y: hidden;
 
   margin-bottom: 14px;
@@ -28,8 +28,8 @@
 }
 
 .episode-chunk-btn {
-  flex-shrink: 0 !important;             /* Không bị co ép khi nhiều chunk */
-  width: auto;                /* Độ dài ôm sát nội dung nhãn */
+  flex-shrink: 0 !important;
+  width: auto;
   min-height: 32px;
   padding: 4px 12px !important;
 
@@ -63,7 +63,7 @@
 }
 
 /* ==================================================
-   EPISODE LIST
+   3. LƯỚI DANH SÁCH TẬP PHIM (EPISODE LIST)
 ================================================== */
 .episode-list {
   display: grid;
@@ -82,6 +82,7 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
+  white-space: nowrap;
 
   border: 1px solid #333 !important;
   border-radius: 4px !important;
@@ -91,7 +92,6 @@
 
   font-size: 0.82rem !important;
   font-weight: 500 !important;
-  white-space: nowrap;
   transition: background-color 0.15s ease, border-color 0.15s ease, transform 0.1s ease;
 }
 
@@ -113,14 +113,28 @@
 }
 
 /* ==================================================
-   SCROLLBAR (DỌC & NGANG)
+   4. TÙY CHỈNH GIAO DIỆN TRANG XEM PHIM (WATCH PAGE)
+================================================== */
+.episode-selector.watch .episode-list {
+  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
+  max-height: 480px;
+  gap: 6px;
+}
+
+.episode-selector.watch .episode-item {
+  min-height: 32px;
+  font-size: 0.76rem !important;
+}
+
+/* ==================================================
+   5. THANH CUỘN (SCROLLBAR DỌC & NGANG)
 ================================================== */
 .custom-scrollbar::-webkit-scrollbar {
   width: 5px;
 }
 
 .custom-scrollbar-h::-webkit-scrollbar {
-  height: 4px;                /* Thanh cuộn ngang mỏng nhẹ */
+  height: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-track,
@@ -137,18 +151,4 @@
 .custom-scrollbar::-webkit-scrollbar-thumb:hover,
 .custom-scrollbar-h::-webkit-scrollbar-thumb:hover {
   background: #666;
-}
-
-/* ==================================================
-   WATCH PAGE OVERRIDES
-================================================== */
-.episode-selector.watch .episode-list {
-  grid-template-columns: repeat(auto-fill, minmax(52px, 1fr));
-  max-height: 480px;
-  gap: 6px;
-}
-
-.episode-selector.watch .episode-item {
-  min-height: 32px;
-  font-size: 0.76rem !important;
 }

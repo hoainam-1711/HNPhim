@@ -4,10 +4,9 @@ const Loading = () => {
   return (
     <div 
       className="d-flex align-items-center justify-content-center min-vh-100 w-100"
-      style={{ backgroundColor: "#0f0f0f" }}
     >
       <Container className="text-center">
-        {/* Vòng xoay loading màu đỏ (dựa trên màu chủ đạo của logo HNPhim) */}
+        {/* Vòng xoay loading màu đỏ */}
         <Spinner 
           animation="border" 
           variant="danger" 

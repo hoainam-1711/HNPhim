@@ -8,29 +8,51 @@ const CustomVideoPlayer = ({
   isLastEpisode,
   togglePiP,
 }) => {
+  // Lấy toàn bộ logic điều khiển và phát video HLS từ custom hook
   const videoProps = useHlsVideo(m3u8Url);
 
+  // Phân rã các thuộc tính để code ngắn gọn, dễ đọc hơn
+  const {
+    containerRef,
+    videoRef,
+    isPlaying,
+    setShowControls,
+    handleMouseMove,
+    handleLoadedMetadata,
+    handleTimeUpdate,
+    setIsPlaying,
+    handleVideoClick,
+  } = videoProps;
+
+  // Xử lý ẩn thanh điều khiển khi chuột rời khỏi khung hình lúc video đang chạy
+  const handleMouseLeave = () => {
+    if (isPlaying) {
+      setShowControls(false);
+    }
+  };
+
   return (
+    /* Khung chứa toàn bộ player (giữ tỷ lệ 16:9, bo góc và nền đen) */
     <div
-      ref={videoProps.containerRef}
+      ref={containerRef}
       className="position-relative w-100 bg-black overflow-hidden rounded shadow-lg ratio ratio-16x9"
-      onMouseMove={videoProps.handleMouseMove}
-      onMouseLeave={() =>
-        videoProps.isPlaying && videoProps.setShowControls(false)
-      }
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
     >
+      {/* Thẻ video chính */}
       <video
-        ref={videoProps.videoRef}
+        ref={videoRef}
         autoPlay
         className="w-100 h-100 object-fit-contain"
-        onLoadedMetadata={videoProps.handleLoadedMetadata}
-        onTimeUpdate={videoProps.handleTimeUpdate}
-        onPlay={() => videoProps.setIsPlaying(true)}
-        onPause={() => videoProps.setIsPlaying(false)}
-        onClick={videoProps.handleVideoClick}
         poster={poster}
+        onClick={handleVideoClick}
+        onLoadedMetadata={handleLoadedMetadata}
+        onTimeUpdate={handleTimeUpdate}
+        onPlay={() => setIsPlaying(true)}
+        onPause={() => setIsPlaying(false)}
       />
 
+      {/* Giao diện thanh điều khiển (nút bấm, thanh tua, âm lượng,...) */}
       <VideoControls
         {...videoProps}
         onNextEpisode={onNextEpisode}

@@ -1,26 +1,30 @@
 import "./NavbarComponent.css";
+import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
 import { MovieContext } from "../../context/MovieContext";
-import { useContext, useState } from "react";
 import LucideIcon from "../ui/LucideIcon";
 import GenreModal from "./GenreModal";
 
 function NavbarComponent() {
+  // 1. Context & Navigation Hooks
   const { favorites } = useContext(MovieContext);
-  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
 
+  // 2. Local States
+  const [keyword, setKeyword] = useState("");
   const [showModal, setShowModal] = useState(false);
 
+  // 3. Modal Handlers
   const handleClose = () => setShowModal(false);
   const handleShow = () => setShowModal(true);
 
-  const navigate = useNavigate();
-
+  // 4. Xử lý tìm kiếm phim (điều hướng URL kèm keyword và cuộn lên đầu trang)
   const handleSearch = (e) => {
     e.preventDefault();
-    if (keyword.trim()) {
-      navigate(`/tim-kiem/${encodeURIComponent(keyword.trim())}`);
+    const trimmedKeyword = keyword.trim();
+    if (trimmedKeyword) {
+      navigate(`/tim-kiem/${encodeURIComponent(trimmedKeyword)}`);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };
@@ -28,25 +32,26 @@ function NavbarComponent() {
   return (
     <Navbar variant="dark" expand="sm" sticky="top" className="youtube-navbar">
       <Container fluid className="px-2 px-sm-3 px-lg-4">
-        {/* Logo */}
+        {/* Logo HNPHIM */}
         <Navbar.Brand
           as={Link}
           to="/"
-          className="youtube-logo d-flex align-items-center gap-2"
+          className="youtube-logo d-flex align-items-center"
         >
-          <LucideIcon icon="Logo" />
-          <span>HNPHIM</span>
+          <LucideIcon icon="Logo" fill="#fe0033"/>
+          <span>HNPhim</span>
         </Navbar.Brand>
 
+        {/* Nút Hamburger menu toggle trên Mobile */}
         <Navbar.Toggle
           aria-controls="basic-navbar-nav"
           className="border-0 shadow-none p-1"
         />
 
+        {/* Khối menu mở rộng */}
         <Navbar.Collapse id="basic-navbar-nav">
-          {/* Bọc cả 3 phần tử vào 1 container flex ngang */}
           <div className="navbar-row-content d-flex align-items-center justify-content-center gap-2 w-100 mt-2 mt-lg-0">
-            {/* Thể loại */}
+            {/* 1. Nút mở Modal Thể loại */}
             <Button
               variant="link"
               onClick={handleShow}
@@ -57,7 +62,7 @@ function NavbarComponent() {
 
             <GenreModal show={showModal} handleClose={handleClose} />
 
-            {/* Ô tìm kiếm */}
+            {/* 2. Ô tìm kiếm từ khóa */}
             <Form
               onSubmit={handleSearch}
               className="youtube-search-form flex-grow-1 my-0 ms-auto me-1"
@@ -76,7 +81,7 @@ function NavbarComponent() {
               </InputGroup>
             </Form>
 
-            {/* Danh sách yêu thích */}
+            {/* 3. Nút dẫn đến danh sách phim ưa thích */}
             <Button
               as={Link}
               to="/ua-thich"

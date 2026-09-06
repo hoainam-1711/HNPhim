@@ -1,7 +1,6 @@
-/* ==============================
-   Pagination
-   ============================== */
-
+/* =========================================================
+   1. PAGINATION CONTAINER
+========================================================= */
 .custom-pagination {
   display: flex;
   justify-content: center;
@@ -10,7 +9,9 @@
   margin: 24px 0;
 }
 
-/* Nút chung */
+/* =========================================================
+   2. BASE BUTTON STYLING (NÚT CHUNG)
+========================================================= */
 .pagination-btn {
   min-width: 36px;
   height: 36px;
@@ -22,7 +23,6 @@
 
   border-radius: 6px !important;
   border: 1px solid #383838 !important;
-
   background-color: #2b2b2b !important;
   color: #fff !important;
 
@@ -36,24 +36,24 @@
     transform 0.15s ease;
 }
 
-/* Hover */
+/* Hiệu ứng rê chuột & bấm (Hover / Active) */
 .pagination-btn:not(:disabled):hover {
   background-color: #3a3a3a !important;
   border-color: #555 !important;
 }
 
-/* Click */
 .pagination-btn:not(:disabled):active {
   transform: scale(0.95);
 }
 
-/* Trang hiện tại */
+/* =========================================================
+   3. BUTTON VARIANTS & STATES (ACTIVE / ARROWS / DISABLED)
+========================================================= */
+/* Trang hiện tại đang chọn (Active) */
 .pagination-active {
   background-color: #b11515 !important;
   border-color: #b11515 !important;
-
   font-weight: 700;
-
   box-shadow: 0 0 8px rgba(197, 47, 21, 0.45);
 }
 
@@ -62,12 +62,12 @@
   border-color: #c21a1a !important;
 }
 
-/* Nút trái / phải */
+/* Nút điều hướng Trái / Phải (< / >) */
 .pagination-arrow {
   background-color: #1a1a1a !important;
 }
 
-/* Disabled */
+/* Trạng thái bị vô hiệu hóa (Disabled) */
 .pagination-arrow:disabled {
   opacity: 1 !important;
   color: #555 !important;
@@ -76,22 +76,19 @@
   cursor: not-allowed;
 }
 
-/* Dấu ... */
+/* Dấu ba chấm ngăn cách (...) */
 .pagination-dots {
   padding: 0 2px;
-
   color: #777;
   font-size: 14px;
   font-weight: 700;
-
   user-select: none;
 }
 
-
-/* ==============================
-   Mobile
-   ============================== */
-
+/* =========================================================
+   4. RESPONSIVE MEDIA QUERIES
+========================================================= */
+/* Mobile phổ thông (<= 576px) */
 @media (max-width: 576px) {
   .custom-pagination {
     gap: 4px;
@@ -102,11 +99,8 @@
     min-width: 32px;
     width: 32px;
     height: 32px;
-
     padding: 0;
-
     border-radius: 5px !important;
-
     font-size: 13px;
   }
 
@@ -121,11 +115,7 @@
   }
 }
 
-
-/* ==============================
-   Mobile rất nhỏ
-   ============================== */
-
+/* Mobile màn hình nhỏ (<= 380px) */
 @media (max-width: 380px) {
   .custom-pagination {
     gap: 2px;
@@ -135,7 +125,6 @@
     min-width: 29px;
     width: 29px;
     height: 30px;
-
     font-size: 12px;
   }
 

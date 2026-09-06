@@ -33,7 +33,7 @@ const MovieCard = ({ movie }) => {
           loading="lazy" // Tải ảnh khi lướt tới
           onError={(e) => {
             e.target.onerror = null; // Chống lặp vô hạn nếu ảnh fallback cũng lỗi
-            e.target.src = noImg; // Thay bằng link ảnh mặc định của bạn
+            e.target.src = noImg; // Thay bằng link ảnh của bạn
           }}
           style={{ height: "100%", objectFit: "cover" }}
         />

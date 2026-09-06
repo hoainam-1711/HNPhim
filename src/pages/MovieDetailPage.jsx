@@ -1,6 +1,6 @@
 import "./MovieDetailPage.css";
 import { useContext, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
 import noImg from "../assets/no-image.png";
 import { MovieContext } from "../context/MovieContext";
@@ -23,6 +23,15 @@ const MovieDetailPage = () => {
   // Lấy hàm toggleFavorite và isFavorite từ Context
   const { toggleFavorite, isFavorite } = useContext(MovieContext);
   const favorited = isFavorite(movie.slug);
+
+  // 1. Khai báo state trong component MovieDetailPage:
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  // Reset lại khi chuyển phim:
+  useEffect(() => {
+    setSelectedServer(0);
+    setIsExpanded(false);
+  }, [slug]);
 
   // State chọn Server (Vietsub / Lồng Tiếng)
   const [selectedServer, setSelectedServer] = useState(0);
@@ -139,16 +148,25 @@ const MovieDetailPage = () => {
                   )}
                 </div>
 
-                {/* Thể loại, Quốc gia, Đạo diễn, Diễn viên */}
+                {/* Thể loại */}
                 <div className="movie-detail-row">
                   <span className="movie-detail-label">Thể loại:</span>{" "}
                   {movie?.category?.map((cat) => (
                     <Badge key={cat.id || cat._id} className="movie-category">
-                      {cat.name}
+                      <Button
+                        variant="link"
+                        as={Link}
+                        to={`/the-loai/${cat.slug}`}
+                        className="text-white text-decoration-none p-0 border-0 align-baseline fw-semibold"
+                        style={{ fontSize: "0.8rem", lineHeight: "inherit" }}
+                      >
+                        {cat.name}
+                      </Button>
                     </Badge>
                   ))}
                 </div>
 
+                {/* Quốc gia */}
                 <div className="movie-detail-row">
                   <span className="movie-detail-label">Quốc gia:</span>{" "}
                   {movie?.country?.map((c) => (
@@ -158,6 +176,7 @@ const MovieDetailPage = () => {
                   ))}
                 </div>
 
+                {/* Đạo diễn */}
                 <div className="movie-detail-row">
                   <span className="movie-detail-label">Đạo diễn:</span>{" "}
                   {/* Đạo diễn */}
@@ -171,6 +190,7 @@ const MovieDetailPage = () => {
                   </span>
                 </div>
 
+                {/* Diễn viên */}
                 <div className="movie-detail-row">
                   <span className="movie-detail-label">Diễn viên:</span>{" "}
                   {/* Diễn viên */}
@@ -218,11 +238,21 @@ const MovieDetailPage = () => {
                 <h5 className="movie-description-title">Nội dung phim</h5>
 
                 <div
-                  className="movie-description-text"
+                  className={`movie-description-text ${!isExpanded ? "collapsed" : ""}`}
                   dangerouslySetInnerHTML={{
                     __html: movie?.content || "Chưa có mô tả cho phim này.",
                   }}
                 />
+
+                {movie?.content && (
+                  <Button
+                    variant="link"
+                    className="btn-toggle-desc"
+                    onClick={() => setIsExpanded(!isExpanded)}
+                  >
+                    {isExpanded ? "Thu gọn" : "Xem thêm"}
+                  </Button>
+                )}
               </div>
             </Col>
           </Row>

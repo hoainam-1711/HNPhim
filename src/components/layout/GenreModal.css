@@ -1,30 +1,25 @@
+/* ===================================================
+   1. MODAL DIALOG & CONTAINER
+   =================================================== */
 .genre-modal {
-  margin: 0;
-  margin-top: 68px;
-  margin-left: 20px;
-
+  margin: 68px 0 0 20px;
   max-width: 650px;
 }
 
 .genre-modal-content {
   background: #181818 !important;
   color: #fff;
-
   border: 1px solid #303030 !important;
   border-radius: 12px !important;
-
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.55);
-
   overflow: hidden;
 }
 
-/* ================================
-   HEADER
-================================ */
-
+/* ===================================================
+   2. MODAL HEADER
+   =================================================== */
 .genre-modal .modal-header {
   padding: 16px 20px;
-
   background: #181818;
   border-bottom: 1px solid #303030;
 }
@@ -43,19 +38,16 @@
   opacity: 1;
 }
 
-/* ================================
-   BODY
-================================ */
-
+/* ===================================================
+   3. MODAL BODY & SCROLLBAR
+   =================================================== */
 .genre-modal .modal-body {
   padding: 18px 20px;
-
   max-height: 420px;
   overflow-y: auto;
 }
 
-/* Scrollbar */
-
+/* Custom Scrollbar cho Modal Body */
 .genre-modal .modal-body::-webkit-scrollbar {
   width: 7px;
 }
@@ -73,48 +65,33 @@
   background: #666;
 }
 
-/* ================================
-   GENRE GRID
-================================ */
-
+/* ===================================================
+   4. GRID & GENRE ITEMS
+   =================================================== */
 .genre-grid {
   display: grid;
-
   grid-template-columns: repeat(4, 1fr);
-
   gap: 8px;
 }
-
-/* ================================
-   GENRE BUTTON
-================================ */
 
 .genre-item {
   display: flex !important;
   align-items: center;
   justify-content: flex-start;
-
   min-height: 40px;
-
   padding: 8px 12px !important;
-
+  
   background: transparent !important;
   border: none !important;
-
   border-radius: 6px !important;
-
+  
   color: #e5e5e5 !important;
-
   font-size: 0.9rem;
   font-weight: 400;
-
   text-align: left;
-
   text-decoration: none !important;
-
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+  
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .genre-item:hover {
@@ -126,16 +103,20 @@
   background: #333 !important;
 }
 
-/* ================================
-   MOBILE
-================================ */
+/* ===================================================
+   5. RESPONSIVE BREAKPOINTS
+   =================================================== */
+/* Tablet (768px - 991px): Lưới 3 cột */
+@media (min-width: 768px) and (max-width: 991.98px) {
+  .genre-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
+/* Mobile (< 768px): Lưới 2 cột, căn giữa lề và mở rộng chiều cao tối đa */
 @media (max-width: 767.98px) {
   .genre-modal {
-    margin-left: 10px;
-    margin-right: 10px;
-    margin-top: 68px;
-
+    margin: 68px 10px 0 10px;
     max-width: none;
   }
 
@@ -145,11 +126,5 @@
 
   .genre-modal .modal-body {
     max-height: 60vh;
-  }
-}
-
-@media (min-width: 768px) and (max-width: 991.98px) {
-  .genre-grid {
-    grid-template-columns: repeat(3, 1fr);
   }
 }

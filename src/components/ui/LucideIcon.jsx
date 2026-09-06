@@ -1,4 +1,4 @@
-const LucideIcon = ({ icon }) => {
+const LucideIcon = ({ icon, fill="#fff" }) => {
   switch (icon) {
     case "Bookmark":
       return <Bookmark />;
@@ -15,7 +15,7 @@ const LucideIcon = ({ icon }) => {
     case "Info":
       return <Info />;
     case "Logo":
-      return <Logo />;
+      return <Logo fill={fill} />;
     case "Maximize":
       return <Maximize />;
     case "Minimize":
@@ -182,19 +182,20 @@ function Info() {
       strokeWidth="2"
       strokeLinecap="round"
       strokeLinejoin="round"
-      className="lucide lucide-clock-icon lucide-clock"
+      className="lucide lucide-info"
     >
       <circle cx="12" cy="12" r="10" />
-      <path d="M12 6v6l4 2" />
+      <path d="M12 16v-4" />
+      <path d="M12 8h.01" />
     </svg>
   );
 }
 
-function Logo() {
+function Logo({fill}) {
   return (
     <svg xmlns="http://www.w3.org/2000/svg" width="24" viewBox="137 54 239 229">
       <path
-        fill="#ffffff"
+        fill={fill}
         d="
       M138 103
       C138 75 160 54 188 54

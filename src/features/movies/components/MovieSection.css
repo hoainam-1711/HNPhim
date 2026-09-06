@@ -2,7 +2,7 @@
    1. SECTION & HEADER
 ========================================================= */
 .movie-section .section-title {
-  border-left: 4px solid #e50914; /* Vạch đỏ điểm nhấn Netflix */
+  border-left: 4px solid #e50914;
   padding-left: 10px;
 }
 

@@ -1,16 +1,11 @@
-/* ================================
-   NAVBAR
-================================ */
-
+/* ===================================================
+   1. NAVBAR CONTAINER & BRAND LOGO
+   =================================================== */
 .youtube-navbar {
   height: 64px;
   background: #0f0f0f;
   z-index: 1030;
 }
-
-/* ================================
-   LOGO
-================================ */
 
 .youtube-logo {
   color: #fff !important;
@@ -25,10 +20,9 @@
   opacity: 0.85;
 }
 
-/* ================================
-   NAV BUTTON
-================================ */
-
+/* ===================================================
+   2. NAV BUTTON (THỂ LOẠI)
+   =================================================== */
 .youtube-nav-btn {
   color: #fff !important;
   text-decoration: none !important;
@@ -44,10 +38,9 @@
   background-color: #353535 !important;
 }
 
-/* ================================
-   SEARCH
-================================ */
-
+/* ===================================================
+   3. SEARCH FORM & INPUT GROUP
+   =================================================== */
 .youtube-search-form {
   max-width: 400px;
 }
@@ -66,8 +59,7 @@
   background: #121212;
 }
 
-/* Input */
-
+/* Input text */
 .youtube-search-input {
   background: #121212 !important;
   color: #fff !important;
@@ -87,8 +79,7 @@
   color: #fff !important;
 }
 
-/* Search button */
-
+/* Nút Submit kính lúp */
 .youtube-search-btn {
   width: 50px;
   display: flex !important;
@@ -104,10 +95,9 @@
   background: #3a3a3a !important;
 }
 
-/* ================================
-   FAVORITE
-================================ */
-
+/* ===================================================
+   4. FAVORITE / BOOKMARK BUTTON
+   =================================================== */
 .youtube-favorite {
   min-width: 42px;
   height: 40px;
@@ -132,10 +122,10 @@
   color: #aaa;
 }
 
-/* ================================
-   MOBILE
-================================ */
-
+/* ===================================================
+   5. RESPONSIVE BREAKPOINTS
+   =================================================== */
+/* Màn hình nhỏ (< 992px): Giữ 3 nút trên cùng một hàng ngang khi mở Toggle */
 @media (max-width: 991.98px) {
   .youtube-navbar {
     height: auto;

@@ -1,5 +1,5 @@
 /* =========================================================
-   1. MAIN CONTAINER & VISIBILITY
+   1. KHUNG CHỨA VÀ HIỆU ỨNG HIỂN THỊ (VISIBILITY)
 ========================================================= */
 .video-controls {
   position: absolute;
@@ -11,7 +11,7 @@
   flex-direction: column;
   justify-content: flex-end;
   z-index: 10;
-  color: white;
+  color: #fff;
   background: linear-gradient(
     to top,
     rgba(0, 0, 0, 0.92) 0%,
@@ -19,9 +19,7 @@
     rgba(0, 0, 0, 0.18) 75%,
     transparent 100%
   );
-  transition:
-    opacity 0.3s ease,
-    visibility 0.3s ease;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 .video-controls-visible {
@@ -37,7 +35,7 @@
 }
 
 /* =========================================================
-   2. TIMELINE & TIME DISPLAY
+   2. HIỂN THỊ THỜI GIAN (TIME DISPLAY)
 ========================================================= */
 .video-time {
   display: flex;
@@ -51,7 +49,7 @@
 }
 
 .video-time-current {
-  color: white;
+  color: #fff;
 }
 
 .video-time-separator {
@@ -59,6 +57,9 @@
   color: rgba(255, 255, 255, 0.4);
 }
 
+/* =========================================================
+   3. THANH TIẾN TRÌNH PHÁT (TIMELINE SLIDER)
+========================================================= */
 .video-timeline {
   width: 100%;
   margin-bottom: 8px;
@@ -84,28 +85,15 @@
   transition: height 0.15s ease;
 }
 
+.video-progress:hover {
+  height: 5px;
+}
+
+/* Track timeline */
 .video-progress::-webkit-slider-runnable-track {
   height: 4px;
   background: transparent;
   border-radius: 999px;
-}
-
-.video-progress::-webkit-slider-thumb {
-  appearance: none;
-  -webkit-appearance: none;
-  width: 12px;
-  height: 12px;
-  margin-top: -4px;
-  border: none;
-  border-radius: 50%;
-  background: #ff0000;
-  box-shadow:
-    0 0 0 2px rgba(255, 0, 0, 0.15),
-    0 1px 4px rgba(0, 0, 0, 0.4);
-  opacity: 0;
-  transition:
-    opacity 0.15s ease,
-    transform 0.15s ease;
 }
 
 .video-progress::-moz-range-track {
@@ -120,6 +108,21 @@
   border-radius: 999px;
 }
 
+/* Nút kéo timeline (Thumb) */
+.video-progress::-webkit-slider-thumb {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 12px;
+  height: 12px;
+  margin-top: -4px;
+  border: none;
+  border-radius: 50%;
+  background: #ff0000;
+  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.4);
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+}
+
 .video-progress::-moz-range-thumb {
   width: 12px;
   height: 12px;
@@ -129,10 +132,6 @@
   opacity: 0;
 }
 
-.video-progress:hover {
-  height: 5px;
-}
-
 .video-progress:hover::-webkit-slider-thumb,
 .video-progress:hover::-moz-range-thumb {
   opacity: 1;
@@ -140,7 +139,7 @@
 }
 
 /* =========================================================
-   3. TOOLBAR & BUTTONS
+   4. THANH CÔNG CỤ VÀ NÚT ĐIỀU KHIỂN (TOOLBAR)
 ========================================================= */
 .video-toolbar {
   width: 100%;
@@ -156,6 +155,7 @@
   gap: 8px;
 }
 
+/* Nút bấm tròn cơ bản */
 .video-control-btn {
   width: 36px;
   height: 36px;
@@ -163,19 +163,16 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
-  color: white !important;
+  color: #fff !important;
   border: none !important;
   border-radius: 50%;
   background: transparent !important;
   box-shadow: none !important;
-  transition:
-    background-color 0.18s ease,
-    transform 0.18s ease,
-    color 0.18s ease;
+  transition: background-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
 }
 
 .video-control-btn:hover {
-  color: white !important;
+  color: #fff !important;
   background: rgba(255, 255, 255, 0.12) !important;
   transform: scale(1.05);
 }
@@ -190,6 +187,7 @@
   stroke-width: 2;
 }
 
+/* Nút Play/Pause lớn hơn một chút để tạo điểm nhấn */
 .video-controls-left .video-control-btn:nth-child(2) {
   width: 40px;
   height: 40px;
@@ -200,13 +198,14 @@
   height: 22px;
 }
 
+/* Nút Skip Ads */
 .skip-ads-btn {
   height: 32px;
   display: flex !important;
   align-items: center;
   gap: 6px;
   padding: 0 10px !important;
-  color: white !important;
+  color: #fff !important;
   font-size: 12px !important;
   font-weight: 600 !important;
   border: 1px solid rgba(255, 193, 7, 0.4) !important;
@@ -214,14 +213,11 @@
   background: rgba(255, 193, 7, 0.12) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition:
-    background-color 0.2s ease,
-    border-color 0.2s ease,
-    transform 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
 }
 
 .skip-ads-btn:hover {
-  color: white !important;
+  color: #fff !important;
   background: rgba(255, 193, 7, 0.25) !important;
   border-color: rgba(255, 193, 7, 0.7) !important;
   transform: translateY(-1px);
@@ -233,7 +229,7 @@
 }
 
 /* =========================================================
-   4. VOLUME CONTROL
+   5. ĐIỀU KHIỂN ÂM LƯỢNG (VOLUME SLIDER)
 ========================================================= */
 .video-volume-container {
   display: flex;
@@ -258,10 +254,7 @@
     rgba(255, 255, 255, 0.3) var(--volume-progress),
     rgba(255, 255, 255, 0.3) 100%
   );
-  transition:
-    width 0.2s ease,
-    opacity 0.2s ease,
-    margin-left 0.2s ease;
+  transition: width 0.2s ease, opacity 0.2s ease, margin-left 0.2s ease;
 }
 
 .video-volume-container:hover .video-volume-slider {
@@ -290,7 +283,7 @@
 }
 
 /* =========================================================
-   5. SETTINGS DROPDOWN MENU
+   6. MENU CÀI ĐẶT (SETTINGS DROPDOWN)
 ========================================================= */
 .settings-dropdown-toggle {
   width: 36px;
@@ -299,14 +292,12 @@
   display: flex !important;
   align-items: center;
   justify-content: center;
-  color: white !important;
+  color: #fff !important;
   border: none !important;
   border-radius: 50%;
   background: transparent !important;
   box-shadow: none !important;
-  transition:
-    background-color 0.18s ease,
-    transform 0.18s ease;
+  transition: background-color 0.18s ease, transform 0.18s ease;
 }
 
 .settings-dropdown-toggle::after {
@@ -315,7 +306,7 @@
 }
 
 .settings-dropdown-toggle:hover {
-  color: white !important;
+  color: #fff !important;
   background: rgba(255, 255, 255, 0.12) !important;
   transform: scale(1.05);
 }
@@ -323,7 +314,7 @@
 .settings-dropdown-toggle:active,
 .settings-dropdown-toggle:focus,
 .settings-dropdown-toggle.show {
-  color: white !important;
+  color: #fff !important;
   background: rgba(255, 255, 255, 0.16) !important;
   box-shadow: none !important;
 }
@@ -348,9 +339,7 @@
   border-radius: 12px !important;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow:
-    0 12px 35px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .settings-dropdown-item {
@@ -363,19 +352,17 @@
   font-size: 13px;
   border-radius: 8px !important;
   background: transparent !important;
-  transition:
-    background-color 0.15s ease,
-    color 0.15s ease;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
 .settings-dropdown-item:hover {
-  color: white !important;
+  color: #fff !important;
   background: rgba(255, 255, 255, 0.1) !important;
 }
 
 .settings-dropdown-item:active,
 .settings-dropdown-item.active {
-  color: white !important;
+  color: #fff !important;
   background: rgba(255, 255, 255, 0.12) !important;
   font-weight: 500;
 }
@@ -393,6 +380,7 @@
   height: 14px;
 }
 
+/* Tiêu đề thanh quay lại submenu */
 .settings-submenu-header {
   height: 36px;
   margin-bottom: 5px;
@@ -400,7 +388,7 @@
   display: flex;
   align-items: center;
   gap: 7px;
-  color: white;
+  color: #fff;
   font-size: 13px;
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   cursor: pointer;
@@ -418,6 +406,7 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
+/* Tùy chọn tốc độ */
 .speed-options {
   display: flex;
   gap: 5px;
@@ -447,14 +436,15 @@
 }
 
 /* =========================================================
-   6. RESPONSIVE MEDIA QUERIES
+   7. ĐÁP ỨNG THIẾT BỊ (RESPONSIVE)
 ========================================================= */
 @media (max-width: 576px) {
   .video-controls {
     padding: 0 10px 9px;
   }
 
-  /* Ẩn Tập tiếp theo, PiP */
+  /* Ẩn tua 10s bên phải và nút tập tiếp theo */
+  .hide-lt-576,
   .hide-btn-576 {
     display: none !important;
   }
@@ -486,13 +476,14 @@
 }
 
 @media (max-width: 460px) {
+  /* Ẩn thanh âm lượng và Picture-in-Picture */
   .hide-btn-460 {
     display: none !important;
   }
 }
 
 @media (max-width: 340px) {
-  /* Ẩn thêm nút Skip ads */
+  /* Ẩn nút Skip ads trên màn hình siêu nhỏ */
   .hide-btn-320 {
     display: none !important;
   }

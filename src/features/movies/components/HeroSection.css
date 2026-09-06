@@ -1,7 +1,6 @@
 /* =========================================================
-   HERO SECTION CHUẨN ROPHIM (16:9 RATIO)
+   1. MAIN SECTION & BACKDROP WRAPPER
 ========================================================= */
-
 .hero-section {
   position: relative;
   width: 100%;
@@ -10,14 +9,13 @@
   background-color: #0f0f0f;
   margin-bottom: 2rem;
   user-select: none;
-  touch-action: pan-y; /* Cho phép cuộn dọc nhưng bắt cử chỉ vuốt ngang mượt mà */
+  touch-action: pan-y; /* Cho phép cuộn dọc tự nhiên, bắt mượt mà cử chỉ vuốt ngang */
 }
 
 .cursor-pointer {
   cursor: pointer;
 }
 
-/* 1. Khung hiển thị ảnh cố định chuẩn tỉ lệ 16:9 */
 .hero-backdrop-wrapper {
   position: relative;
   width: 100%;
@@ -53,8 +51,9 @@
   pointer-events: none;
 }
 
-/* 2. Khung nội dung */
-/* Đảm bảo container cha quản lý không gian hai bên chuẩn xác */
+/* =========================================================
+   2. CONTENT CONTAINER & INFO SECTION
+========================================================= */
 .hero-main-container {
   position: absolute;
   inset: 0;
@@ -64,44 +63,36 @@
   padding: 3rem;
   z-index: 5;
   pointer-events: none;
-  gap: 1.5rem; /* Tạo khoảng đệm an toàn giữa chữ và danh sách thumbnail */
+  gap: 1.5rem; /* Khoảng đệm an toàn giữa khối text và danh sách thumbnail */
 }
 
-.hero-info,
-.hero-thumb-list {
-  pointer-events: auto; /* Bật lại tương tác cho nội dung và nút bấm */
-}
-
-/* 2. Ép khối text không tự bung quá rộng làm lấn át thumbnail */
 .hero-info {
   flex: 1 1 auto;
-  min-width: 0; /* Bắt buộc để flexbox cho phép các thẻ con bên trong co lại và cắt ngắn bằng ellipsis */
+  min-width: 0; /* Cho phép text co lại và cắt ngắn bằng ellipsis */
   max-width: 580px;
   display: flex;
   flex-direction: column;
   pointer-events: auto;
 }
 
-/* 3. Khống chế tiêu đề: Chỉ tối đa 2 dòng, quá dài sẽ hiện "..." */
 .hero-title {
-  font-size: 2.2rem;
+  font-size: 1.6rem;
   font-weight: 800;
   color: #ffffff;
   line-height: 1.15;
   margin-bottom: 0.35rem;
   letter-spacing: -0.5px;
 
-  /* Giới hạn 2 dòng và hiện dấu ba chấm */
+  /* Cắt ngắn tối đa 1 dòng */
   display: -webkit-box;
   line-clamp: 1;
   -webkit-line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  word-break: break-word; /* Tự bẻ từ dài tránh tràn */
+  word-break: break-word;
 }
 
-/* Tên gốc / phụ đề: Cắt gọn trên 1 dòng duy nhất nếu quá dài */
 .hero-origin-name {
   font-size: 1.05rem;
   color: #bbb8b0;
@@ -132,15 +123,6 @@
   background: rgba(255, 255, 255, 0.04);
 }
 
-.truncate-text {
-  max-width: 120px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  display: inline-block;
-  vertical-align: middle;
-}
-
 .hero-badge-quality {
   background: #1e2530;
   border-color: #f3ca3e;
@@ -152,7 +134,16 @@
   margin-right: 2px;
 }
 
-/* Categories */
+.truncate-text {
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Thể loại phim (Categories) */
 .hero-categories {
   display: flex;
   flex-wrap: wrap;
@@ -168,7 +159,9 @@
   border-radius: 4px;
 }
 
-/* Buttons */
+/* =========================================================
+   3. ACTION BUTTONS
+========================================================= */
 .hero-actions {
   display: flex;
   align-items: center;
@@ -216,8 +209,22 @@
   transition: color 0.2s;
 }
 
-/* Thumbnails list */
-/* 4. QUAN TRỌNG: Khóa cố định cụm thumbnail, tuyệt đối không cho co ép */
+/* =========================================================
+   4. THUMBNAIL LIST & WRAPPER
+========================================================= */
+.hero-thumb-wrapper {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; /* Căn nút xem thêm về mép phải */
+  gap: 0.5rem;
+  padding: 0.6rem;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 12px;
+  pointer-events: auto;
+}
+
 .hero-thumb-list {
   flex-shrink: 0;
   display: flex;
@@ -251,43 +258,21 @@
   transform: scale(1.08);
 }
 
-/* Bổ sung khung bọc thumb list & nút xem thêm */
-.hero-thumb-wrapper {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* Căn nút xem thêm về cuối (bên phải) */
-  gap: 0.5rem;
-  pointer-events: auto;
-
-  padding: 0.6rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 12px;
-}
-
-/* Khóa cố định cụm thumbnail */
-.hero-thumb-list {
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-  pointer-events: auto;
-}
-
 /* =========================================================
-   BREAKPOINT 1: < 1120px
+   5. RESPONSIVE BREAKPOINTS
 ========================================================= */
+/* Breakpoint 1: Tablet ngang & Laptop nhỏ (<= 1120px) */
 @media (max-width: 1120px) {
   .hero-backdrop-wrapper {
     aspect-ratio: 16 / 9;
   }
+
   .hero-main-container {
     padding: 2rem;
   }
 
   .hero-title {
-    font-size: 1.6rem;
+    font-size: 1.5rem;
   }
 
   .hero-thumb-item {
@@ -302,24 +287,25 @@
   }
 }
 
+/* Breakpoint 2: Tablet dọc (<= 798px) */
 @media (max-width: 798px) {
-  /* Ẩn bớt các nút khi màn hình nhỏ */
+  .hero-title {
+    font-size: 1.2rem;
+  }
+
   .hero-categories,
   .hero-actions {
     display: none;
   }
 }
 
-/* =========================================================
-   BREAKPOINT 2: < 640px (Mobile)
-========================================================= */
+/* Breakpoint 3: Điện thoại (<= 640px) */
 @media (max-width: 640px) {
   .hero-section {
     overflow: visible;
   }
 
   .hero-backdrop-wrapper {
-    position: relative;
     width: 100%;
     border-radius: 16px;
   }
@@ -357,20 +343,21 @@
   }
 
   .hero-title {
-    font-size: 1.6rem;
+    font-size: 1rem;
     line-height: 1.2;
     margin-bottom: 0.2rem;
-  }
-
-  .hero-origin-name {
-    font-size: 0.85rem;
-    margin-bottom: 0.5rem;
   }
 
   .hero-badges {
     gap: 0.35rem;
     margin-top: 0.2rem;
     margin-bottom: 0;
+  }
+
+  .hero-thumb-wrapper {
+    width: 100%;
+    align-items: flex-end;
+    margin-top: 0.5rem;
   }
 
   .hero-thumb-list {
@@ -382,17 +369,5 @@
   .hero-thumb-item.active {
     border: 2px solid #ffffff;
     transform: scale(1.1);
-  }
-
-  .hero-thumb-wrapper {
-    width: 100%;
-    align-items: flex-end; /* Hoặc center nếu bạn muốn trên mobile nút nằm giữa */
-    margin-top: 0.5rem;
-  }
-
-  .hero-thumb-list {
-    width: 100%;
-    justify-content: center;
-    gap: 0.55rem;
   }
 }

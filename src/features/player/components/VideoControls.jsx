@@ -1,37 +1,67 @@
 import "./VideoControls.css";
-import { useState } from "react";
+import { useState, useMemo } from "react";
 import { Button, Dropdown } from "react-bootstrap";
 import LucideIcon from "../../../components/ui/LucideIcon";
 import formatTime from "../../../utils/formatTime";
 
+// Danh sách các mốc tốc độ phát hỗ trợ
+const PLAYBACK_RATES = [1, 1.25, 1.5, 2];
+
+// Helper chọn icon âm lượng theo trạng thái mute và mức âm lượng
+const getVolumeIcon = (isMuted, volume) => {
+  if (isMuted || volume === 0) return "VolumeX";
+  if (volume <= 0.2) return "Volume";
+  if (volume <= 0.5) return "Volume1";
+  return "Volume2";
+};
+
 const VideoControls = ({
+  // Trạng thái hiển thị controls
   showControls,
+
+  // Thời gian và tiến trình phát
   currentTime,
   duration,
-  isPlaying,
-  playbackRate,
-  qualities,
-  currentQuality,
-  isFullscreen,
-  volume = 1,
-  isMuted = false,
-  togglePlay,
   handleSeek,
   handleSliderChange,
+
+  // Điều khiển phát / tạm dừng & Tốc độ
+  isPlaying,
+  playbackRate,
+  togglePlay,
   handleSpeedChange,
-  handleQualityChange,
-  toggleFullscreen,
-  handleVolumeChange,
+
+  // Điều khiển âm lượng
+  volume = 1,
+  isMuted = false,
   toggleMute,
+  handleVolumeChange,
+
+  // Chất lượng video
+  qualities = [],
+  currentQuality,
+  handleQualityChange,
+
+  // Chuyển tập
   onNextEpisode,
   isLastEpisode,
+
+  // Chế độ hiển thị (Fullscreen / PiP)
+  isFullscreen,
+  toggleFullscreen,
   isPiP,
   togglePiP,
 }) => {
+  // Quản lý trạng thái menu settings ("main" | "speed" | "quality")
   const [menuState, setMenuState] = useState("main");
 
-  const currentTimeFormat = formatTime(currentTime);
-  const durationFormat = formatTime(duration);
+  /* ==================================================
+     1. FORMAT THỜI GIAN VÀ TIẾN TRÌNH
+  ================================================== */
+  const currentTimeFormat = useMemo(() => formatTime(currentTime), [currentTime]);
+  const durationFormat = useMemo(() => formatTime(duration), [duration]);
+  const progressPercent = duration ? (currentTime / duration) * 100 : 0;
+  const currentVolumePercent = (isMuted ? 0 : volume) * 100;
 
   return (
     <div
@@ -39,14 +69,14 @@ const VideoControls = ({
         showControls ? "video-controls-visible" : "video-controls-hidden"
       }`}
     >
-      {/* Time */}
+      {/* ================= THỜI GIAN PHÁT ================= */}
       <span className="video-time">
         <span className="video-time-current">{currentTimeFormat}</span>
         <span className="video-time-separator">/</span>
         <span>{durationFormat}</span>
       </span>
 
-      {/* Timeline */}
+      {/* ================= THANH TIẾN TRÌNH (TIMELINE) ================= */}
       <div className="video-timeline">
         <input
           type="range"
@@ -55,17 +85,15 @@ const VideoControls = ({
           max={duration || 100}
           value={currentTime}
           onChange={handleSliderChange}
-          style={{
-            "--progress": `${duration ? (currentTime / duration) * 100 : 0}%`,
-          }}
+          style={{ "--progress": `${progressPercent}%` }}
         />
       </div>
 
-      {/* Toolbar */}
+      {/* ================= THANH CÔNG CỤ ĐIỀU KHIỂN ================= */}
       <div className="video-toolbar">
-        {/* ================= LEFT ================= */}
+        {/* --- CỤM ĐIỀU KHIỂN BÊN TRÁI --- */}
         <div className="video-controls-left">
-          {/* Back 10s */}
+          {/* Lùi 10s */}
           <Button
             variant="link"
             className="video-control-btn"
@@ -75,7 +103,7 @@ const VideoControls = ({
             <LucideIcon icon="RotateLeft" />
           </Button>
 
-          {/* Play / Pause */}
+          {/* Phát / Tạm dừng */}
           <Button
             variant="link"
             className="video-control-btn"
@@ -87,14 +115,14 @@ const VideoControls = ({
 
           <Button
             variant="link"
-            className="video-control-btn hide-lt-576"
+            className="video-control-btn"
             onClick={() => handleSeek(10)}
             title="Tua 10 giây"
           >
             <LucideIcon icon="RotateRight" />
           </Button>
 
-          {/* Volume Control (Ẩn khi < 460px) */}
+          {/* Điều khiển âm lượng (Ẩn khi màn hình < 460px) */}
           <div className="video-volume-container hide-btn-460">
             <Button
               variant="link"
@@ -102,17 +130,7 @@ const VideoControls = ({
               onClick={toggleMute}
               title={`(M) ${isMuted ? "Bật âm thanh" : "Tắt âm thanh"}`}
             >
-              <LucideIcon
-                icon={
-                  isMuted
-                    ? "VolumeX"
-                    : volume <= 0.2
-                      ? "Volume"
-                      : volume <= 0.5
-                        ? "Volume1"
-                        : "Volume2"
-                }
-              />
+              <LucideIcon icon={getVolumeIcon(isMuted, volume)} />
             </Button>
             <input
               type="range"
@@ -122,28 +140,26 @@ const VideoControls = ({
               step={0.05}
               value={isMuted ? 0 : volume}
               onChange={handleVolumeChange}
-              style={{
-                "--volume-progress": `${(isMuted ? 0 : volume) * 100}%`,
-              }}
+              style={{ "--volume-progress": `${currentVolumePercent}%` }}
             />
           </div>
         </div>
 
-        {/* ================= RIGHT ================= */}
+        {/* --- CỤM ĐIỀU KHIỂN BÊN PHẢI --- */}
         <div className="video-controls-right">
-          {/* Skip ads (Ẩn khi < 320px) */}
+          {/* Bỏ qua giới thiệu / QC (Ẩn khi màn hình < 340px) */}
           <Button
             variant="warning"
             size="sm"
             className="skip-ads-btn hide-btn-320"
-            onClick={() => handleSeek(29)}
+            onClick={() => handleSeek(28)}
             title="(S) Thật ra là tua 30s"
           >
             <span>Skip ads</span>
             <LucideIcon icon="SkipForward" />
           </Button>
 
-          {/* Next Episode (Ẩn khi < 576px) */}
+          {/* Chuyển tập tiếp theo (Ẩn khi màn hình < 576px) */}
           <Button
             variant="link"
             onClick={onNextEpisode}
@@ -154,7 +170,7 @@ const VideoControls = ({
             <LucideIcon icon="SkipForward" />
           </Button>
 
-          {/* Settings */}
+          {/* Cài đặt (Tốc độ & Độ phân giải) */}
           <Dropdown
             autoClose="outside"
             onToggle={(isOpen) => !isOpen && setMenuState("main")}
@@ -168,6 +184,7 @@ const VideoControls = ({
             </Dropdown.Toggle>
 
             <Dropdown.Menu className="settings-dropdown-menu">
+              {/* Menu chính */}
               {menuState === "main" && (
                 <>
                   <Dropdown.Item
@@ -196,6 +213,7 @@ const VideoControls = ({
                 </>
               )}
 
+              {/* Submenu chọn tốc độ */}
               {menuState === "speed" && (
                 <>
                   <div
@@ -207,7 +225,7 @@ const VideoControls = ({
                   </div>
 
                   <div className="speed-options">
-                    {[1, 1.25, 1.5, 2].map((rate) => (
+                    {PLAYBACK_RATES.map((rate) => (
                       <button
                         key={rate}
                         type="button"
@@ -223,6 +241,7 @@ const VideoControls = ({
                 </>
               )}
 
+              {/* Submenu chọn chất lượng */}
               {menuState === "quality" && (
                 <>
                   <div
@@ -256,7 +275,7 @@ const VideoControls = ({
             </Dropdown.Menu>
           </Dropdown>
 
-          {/* Picture-in-Picture (Ẩn khi < 460px) */}
+          {/* Picture-in-Picture (Ẩn khi màn hình < 460px) */}
           <Button
             variant="link"
             className="video-control-btn hide-btn-460"
@@ -268,7 +287,7 @@ const VideoControls = ({
             <LucideIcon icon="PictureInPicture" />
           </Button>
 
-          {/* Fullscreen */}
+          {/* Bật / Tắt Toàn màn hình */}
           <Button
             variant="link"
             className="video-control-btn"

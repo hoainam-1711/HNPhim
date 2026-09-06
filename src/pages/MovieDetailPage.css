@@ -120,7 +120,6 @@
   border: 1px solid #3a3a3a;
   border-radius: 4px !important;
   color: #ddd !important;
-  font-size: 0.8rem !important;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -222,6 +221,29 @@
   color: #aaa;
   font-size: 0.9rem;
   line-height: 1.7;
+}
+
+/* Giới hạn 3 dòng khi đang ở trạng thái thu gọn */
+.movie-description-text.collapsed {
+  display: -webkit-box;
+  line-clamp: 2;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* Nút Xem thêm / Thu gọn */
+.btn-toggle-desc {
+  padding: 0 !important;
+  margin-top: 6px;
+  color: #aaa !important;
+  font-size: 0.85rem;
+  text-decoration: none !important;
+  font-weight: 600;
+}
+
+.btn-toggle-desc:hover {
+  color: #fff !important;
 }
 
 /* --------------------------------------------------
