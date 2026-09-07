@@ -119,17 +119,14 @@
   background: #272727 !important;
   border: 1px solid #3a3a3a;
   border-radius: 4px !important;
-  color: #ddd !important;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .movie-category:hover {
   background: #3a3a3a !important;
-  color: #fff !important;
 }
 
 .movie-country {
-  color: #e5e5e5;
   margin-right: 8px;
 }
 

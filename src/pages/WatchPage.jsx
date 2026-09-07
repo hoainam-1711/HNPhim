@@ -6,7 +6,7 @@ import EpisodeSelector from "../features/player/components/EpisodeSelector";
 import Loading from "../components/ui/Loading";
 import CustomVideoPlayer from "../features/player/components/CustomVideoPlayer";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
-import SEO from "../components/SEO";
+import SEO from "../components/ui/SEO";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();

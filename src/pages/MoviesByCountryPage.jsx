@@ -1,16 +1,16 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import useMoviesByGenre from "../features/movies/hooks/useMovieByGenres";
+import useMoviesByCountry from "../features/movies/hooks/useMoviesByCountry";
 import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import Loading from "../components/ui/Loading";
-import SEO from "../components/SEO";
+import SEO from "../components/ui/SEO";
 
-const MoviesByGenresPage = () => {
+const MoviesByCountryPage = () => {
   const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
-  const { data, loading, error } = useMoviesByGenre(slug, 24, page);
+  const { data, loading, error } = useMoviesByCountry(slug, 24, page);
 
   const movies = data?.data?.items || data?.items || [];
 
@@ -52,7 +52,7 @@ const MoviesByGenresPage = () => {
       <MovieList
         movies={movies}
         loading={loading}
-        msg={`Phim thuộc thể loại: ${titlePage}`}
+        msg={`Quốc Gia: ${titlePage}`}
       />
       <Container className="pt-3">
         {/* Điều khiển phân trang */}
@@ -72,4 +72,4 @@ const MoviesByGenresPage = () => {
   );
 };
 
-export default MoviesByGenresPage;
+export default MoviesByCountryPage;

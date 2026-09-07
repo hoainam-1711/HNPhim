@@ -17,7 +17,7 @@ const MovieList = ({ movies, loading, msg }) => {
               className="bg-danger rounded-pill"
               style={{ width: "4px", height: "24px" }}
             ></div>
-            <h2 className="fs-4 fw-bold text-uppercase m-0 tracking-wider">
+            <h2 className="fs-5 fw-bold text-uppercase m-0 tracking-wider">
               {msg}
             </h2>
           </div>

@@ -8,7 +8,7 @@ import Loading from "../components/ui/Loading";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
 import LucideIcon from "../components/ui/LucideIcon";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
-import SEO from "../components/SEO";
+import SEO from "../components/ui/SEO";
 import cleanDescription from "../utils/cleanDescription";
 
 const MovieDetailPage = () => {
@@ -157,8 +157,12 @@ const MovieDetailPage = () => {
                         variant="link"
                         as={Link}
                         to={`/the-loai/${cat.slug}`}
-                        className="text-white text-decoration-none p-0 border-0 align-baseline fw-semibold"
-                        style={{ fontSize: "0.8rem", lineHeight: "inherit" }}
+                        className="text-decoration-none p-0 border-0 align-baseline fw-semibold"
+                        style={{
+                          fontSize: "0.8rem",
+                          lineHeight: "inherit",
+                          color: "#e5e5e5",
+                        }}
                       >
                         {cat.name}
                       </Button>
@@ -170,9 +174,21 @@ const MovieDetailPage = () => {
                 <div className="movie-detail-row">
                   <span className="movie-detail-label">Quốc gia:</span>{" "}
                   {movie?.country?.map((c) => (
-                    <span key={c.id || c._id} className="movie-country">
-                      {c.name}
-                    </span>
+                    <Badge key={c.id || c._id} className="movie-category">
+                      <Button
+                        variant="link"
+                        as={Link}
+                        to={`/quoc-gia/${c.slug}`}
+                        className="text-decoration-none p-0 border-0 align-baseline fw-semibold"
+                        style={{
+                          fontSize: "0.8rem",
+                          lineHeight: "inherit",
+                          color: "#e5e5e5",
+                        }}
+                      >
+                        {c.name}
+                      </Button>
+                    </Badge>
                   ))}
                 </div>
 

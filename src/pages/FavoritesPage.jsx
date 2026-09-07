@@ -4,7 +4,7 @@ import MovieList from "../features/movies/components/MovieList";
 import { Col, Container, Row } from "react-bootstrap";
 import CustomPagination from "../components/ui/CustomPagination";
 import { useSearchParams } from "react-router-dom";
-import SEO from "../components/SEO";
+import SEO from "../components/ui/SEO";
 
 const ITEMSPERPAGE = 24;
 
@@ -40,7 +40,7 @@ function FavoritesPage() {
         robots="noindex, nofollow"
       />
 
-      <MovieList movies={currentFavorites} msg={"Phim Đã Lưu"} />
+      <MovieList movies={currentFavorites} msg={"Phim Yêu Thích"} />
 
       <Container className="pt-3">
         {/* Điều khiển phân trang */}

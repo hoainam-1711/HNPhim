@@ -129,10 +129,9 @@ const movieApi = {
    * @param {string} slug - Slug của thể loại
    * @param {number} limit - Số lượng phim mỗi trang
    * @param {number} page - Trang hiện tại
-   * @param {string} [status] - Trạng thái phim, nếu API hỗ trợ
    * @returns {Promise<Object>} Danh sách phim theo thể loại
    */
-  async getMoviesByGenre(slug, limit = 24, page = 1, status) {
+  async getMoviesByGenre(slug, limit = 24, page = 1) {
     if (!slug?.trim()) {
       throw new Error("Slug thể loại không được để trống");
     }
@@ -141,15 +140,49 @@ const movieApi = {
       return await api.get(`${ENDPOINTS.MOVIESBYGENRES}/${slug}`, {
         params: {
           limit,
-          page,
-
-          // Chỉ gửi status khi có giá trị.
-          // Tránh gửi status=undefined lên server.
-          ...(status && { status }),
+          page
         },
       });
     } catch (error) {
       handleError(`Lỗi khi lấy phim thể loại "${slug}"`, error);
+    }
+  },
+
+  /**
+   * Lấy danh sách tất cả quốc gia.
+   *
+   * @returns {Promise<Object>} Danh sách quốc gia
+   */
+  async getCountries() {
+    try {
+      return await api.get(ENDPOINTS.COUNTRIES);
+    } catch (error) {
+      handleError("Lỗi khi lấy danh sách quốc gia", error);
+    }
+  },
+
+  /**
+   * Lấy danh sách phim theo quốc gia.
+   *
+   * @param {string} slug - Slug của quốc gia
+   * @param {number} limit - Số lượng phim mỗi trang
+   * @param {number} page - Trang hiện tại
+   * @returns {Promise<Object>} Danh sách phim theo quốc gia
+   */
+  async getMoviesByCountry(slug, limit = 24, page = 1) {
+    if (!slug?.trim()) {
+      throw new Error("Slug quốc gia không được để trống");
+    }
+
+    try {
+      return await api.get(`${ENDPOINTS.MOVIESBYCOUNTRY}/${slug}`, {
+        params: {
+          limit,
+          page
+        },
+      });
+    } catch (error) {
+      handleError(`Lỗi khi lấy phim từ quốc gia: "${slug}"`, error);
     }
   },
 };

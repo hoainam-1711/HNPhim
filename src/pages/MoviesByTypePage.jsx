@@ -4,7 +4,7 @@ import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
 import useNewMovies from "../features/movies/hooks/useNewMovies";
 import Loading from "../components/ui/Loading";
-import SEO from "../components/SEO";
+import SEO from "../components/ui/SEO";
 
 function MoviesByTypePage() {
   const type = useParams();

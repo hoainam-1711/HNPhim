@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
 import { MovieContext } from "../../context/MovieContext";
 import LucideIcon from "../ui/LucideIcon";
-import GenreModal from "./GenreModal";
+import FilterModal from "./FilterModal";
 
 function NavbarComponent() {
   // 1. Context & Navigation Hooks
@@ -57,10 +57,10 @@ function NavbarComponent() {
               onClick={handleShow}
               className="youtube-nav-btn text-nowrap"
             >
-              Thể loại
+              Khám Phá
             </Button>
 
-            <GenreModal show={showModal} handleClose={handleClose} />
+            <FilterModal show={showModal} handleClose={handleClose} />
 
             {/* 2. Ô tìm kiếm từ khóa */}
             <Form

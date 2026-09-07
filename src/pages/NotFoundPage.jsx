@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import SEO from "../components/SEO";
+import SEO from "../components/ui/SEO";
 
 const COLOR_PALETTE = {
   dayColor: "#333333",

@@ -1,13 +1,14 @@
 import { Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import MoviesByTypePage from "./pages/MoviesByTypePage";
-import FavoritesPage from "./pages/FavoritePage";
+import FavoritesPage from "./pages/FavoritesPage";
 import SearchPage from "./pages/SearchPage";
 import MovieDetailPage from "./pages/MovieDetailPage";
 import WatchPage from "./pages/WatchPage";
 import MainLayout from "./layouts/MainLayout";
 import NotFoundPage from "./pages/NotFoundPage";
-import MoviesByGenresPage from "./pages/MoviesByGenresPage";
+import MoviesByGenrePage from "./pages/MoviesByGenrePage";
+import MoviesByCountryPage from "./pages/MoviesByCountryPage";
 
 function App() {
   return (
@@ -18,10 +19,12 @@ function App() {
         <Route path="/loai/:type" element={<MoviesByTypePage />} />
 
         <Route path="/ua-thich" element={<FavoritesPage />} />
-        
+
         <Route path="/tim-kiem/:keyword" element={<SearchPage />} />
 
-        <Route path="/the-loai/:slug" element={<MoviesByGenresPage />} />
+        <Route path="/the-loai/:slug" element={<MoviesByGenrePage />} />
+
+        <Route path="/quoc-gia/:slug" element={<MoviesByCountryPage />} />
 
         <Route path="/chi-tiet/:slug" element={<MovieDetailPage />} />
 

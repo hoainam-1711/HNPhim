@@ -3,7 +3,9 @@ const ENDPOINTS = {
   SEARCH: "/v1/api/tim-kiem",
   MOVIE: "/phim",
   GENRES: "/the-loai",
-  MOVIESBYGENRES: "/v1/api/the-loai"
+  MOVIESBYGENRES: "/v1/api/the-loai",
+  COUNTRIES: "quoc-gia",
+  MOVIESBYCOUNTRY:"/v1/api/quoc-gia",
 };
 
 export default ENDPOINTS;

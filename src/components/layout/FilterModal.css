@@ -1,0 +1,219 @@
+/* ===================================================
+   1. MODAL DIALOG & CONTAINER
+   =================================================== */
+.filter-modal {
+  margin: 68px 0 0 20px;
+  max-width: 650px;
+}
+
+.filter-modal-content {
+  background: #181818 !important;
+  color: #fff;
+  border: 1px solid #303030 !important;
+  border-radius: 12px !important;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.6);
+  overflow: hidden;
+}
+
+/* ===================================================
+   2. MODAL HEADER & TITLE
+   =================================================== */
+.filter-modal .modal-header {
+  padding: 14px 20px;
+  background: #181818;
+  border-bottom: 1px solid #282828;
+}
+
+.filter-modal .btn-close {
+  filter: invert(1);
+  opacity: 0.7;
+}
+
+.filter-modal .btn-close:hover {
+  opacity: 1;
+}
+
+/* Cắt ngắn tiêu đề nếu vượt quá 1 dòng */
+.modal-title {
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  word-break: break-word;
+}
+
+/* ===================================================
+   3. TABS BAR & NAVIGATION (CUỘN NGANG & DARK THEME)
+   =================================================== */
+.filter-tabs {
+  display: flex !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important; /* Không tự động xuống dòng */
+  align-items: center;
+  list-style: none;
+  padding: 8px 12px 4px 12px !important;
+  margin-bottom: 0;
+  background: #181818;
+  border-bottom: 1px solid #282828 !important;
+
+  /* Hỗ trợ vuốt chạm & cuộn ngang mượt mà */
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pan-y;
+
+  /* Tinh chỉnh thanh cuộn ngang (Firefox) */
+  scrollbar-width: thin;
+  scrollbar-color: #383838 transparent;
+}
+
+/* Tinh chỉnh thanh cuộn ngang (Chrome, Safari, Edge) */
+.filter-tabs::-webkit-scrollbar {
+  height: 4px;
+}
+
+.filter-tabs::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.filter-tabs::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
+
+.filter-tabs::-webkit-scrollbar-thumb:hover {
+  background: #e50914;
+}
+
+/* Tab item: cố định kích thước, kích hoạt scroll khi thiếu chỗ */
+.filter-tabs .nav-item {
+  display: inline-block;
+  flex-shrink: 0 !important;
+}
+
+.filter-tabs .nav-link {
+  display: block;
+  white-space: nowrap !important;
+  padding: 8px 16px !important;
+  font-size: 0.92rem;
+  font-weight: 500;
+  color: #999 !important;
+  background: transparent !important;
+  border: none !important;
+  position: relative;
+  user-select: none;
+  transition: color 0.2s ease;
+}
+
+.filter-tabs .nav-link:hover {
+  color: #fff !important;
+}
+
+/* Tab Active: viền gạch chân đỏ Netflix */
+.filter-tabs .nav-link.active {
+  color: #e50914 !important;
+  font-weight: 600;
+  background: transparent !important;
+}
+
+.filter-tabs .nav-link.active::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 12px;
+  right: 12px;
+  height: 2.5px;
+  background-color: #e50914;
+  border-radius: 2px;
+}
+
+/* ===================================================
+   4. TAB BODY & SCROLLBAR DỌC
+   =================================================== */
+.tab-content-container {
+  max-height: 420px;
+  overflow-y: auto;
+}
+
+.tab-content-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tab-content-container::-webkit-scrollbar-track {
+  background: #181818;
+}
+
+.tab-content-container::-webkit-scrollbar-thumb {
+  background: #383838;
+  border-radius: 10px;
+}
+
+.tab-content-container::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* ===================================================
+   5. GRID & FILTER BUTTON ITEMS
+   =================================================== */
+.filter-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.filter-item {
+  display: flex !important;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 38px;
+  padding: 6px 12px !important;
+  background: transparent !important;
+  border: none !important;
+  border-radius: 6px !important;
+  color: #e5e5e5 !important;
+  font-size: 0.9rem;
+  text-decoration: none !important;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.filter-item:hover {
+  background: #272727 !important;
+  color: #fff !important;
+}
+
+/* ===================================================
+   6. RESPONSIVE MEDIA QUERIES
+   =================================================== */
+/* Tablet & Mobile (<= 767.98px) */
+@media (max-width: 767.98px) {
+  .filter-modal {
+    margin: 68px 10px 0 10px;
+    max-width: none;
+  }
+
+  .filter-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .tab-content-container {
+    max-height: 55vh;
+  }
+}
+
+/* Small Mobile (<= 560px) */
+@media (max-width: 560px) {
+  .filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+/* Extra Small Mobile (<= 320px) */
+@media (max-width: 320px) {
+  .filter-grid {
+    grid-template-columns: repeat(1, 1fr);
+  }
+}

@@ -1,26 +1,26 @@
 import { useParams, useSearchParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
+import useMoviesByGenre from "../features/movies/hooks/useMoviesByGenres";
 import CustomPagination from "../components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
-import useSearchMovies from "../features/movies/hooks/useSearchMovies";
 import Loading from "../components/ui/Loading";
 import SEO from "../components/ui/SEO";
 
-const SearchPage = () => {
-  const { keyword } = useParams();
-
-  // 1. Khởi tạo useSearchParams
+const MoviesByGenresPage = () => {
+  const { slug } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
-
-  // 2. Lấy số trang từ URL (Ví dụ: /danh-sach?page=2 -> pageParam = 2). Mặc định là 1 nếu chưa có
   const page = parseInt(searchParams.get("page")) || 1;
+  const { data, loading, error } = useMoviesByGenre(slug, 24, page);
 
-  const { data, loading, error } = useSearchMovies(keyword, 24, page);
   const movies = data?.data?.items || data?.items || [];
 
-  const totalPages = data?.data?.params?.pagination?.totalPages || 1;
+  const titlePage = data?.data?.titlePage || data?.titlePage || "";
 
-  // 4. Hàm chuyển trang: Thay vì setState, ta cập nhật Param trên URL
+  const totalPages =
+    data?.data?.params?.pagination?.totalPages ||
+    data?.params?.pagination?.totalPages ||
+    1;
+
   const handlePageChange = (newPage) => {
     // Cập nhật URL thành /danh-sach?page=newPage
     setSearchParams({ page: newPage });
@@ -35,8 +35,8 @@ const SearchPage = () => {
     return (
       <div className="text-white text-center py-5">
         Lỗi:{" "}
-        {"SearchPage: " + error.message ||
-          "SearchPage: Không thể tải danh sách phim"}
+        {"MoviesByGenresPage: " + error.message ||
+          "MoviesByGenresPage: Không thể tải danh sách phim"}
       </div>
     );
   }
@@ -44,27 +44,25 @@ const SearchPage = () => {
   return (
     <>
       <SEO
-        title={`${keyword}${page > 1 ? ` - Trang ${page}` : ""}`}
-        description={`Kết quả tìm kiếm phim cho từ khóa "${keyword}".`}
-        url={`/tim-kiem/${keyword}`}
-        robots="noindex, follow"
+        title={`Phim ${titlePage}${page > 1 ? ` - Trang ${page}` : ""}`}
+        description={`Tổng hợp phim ${titlePage} hay và mới nhất. Xem phim ${titlePage} online chất lượng HD với nhiều bộ phim hấp dẫn.`}
+        url={`/the-loai/${slug}`}
       />
 
       <MovieList
         movies={movies}
         loading={loading}
-        msg={`Kết quả tìm kiếm cho: ${keyword}`}
+        msg={`Phim thuộc thể loại: ${titlePage}`}
       />
-
       <Container className="pt-3">
         {/* Điều khiển phân trang */}
-        {totalPages > 1 && (
+        {!loading && totalPages > 1 && (
           <Row>
             <Col>
               <CustomPagination
                 page={page}
                 totalPages={totalPages}
-                setPage={handlePageChange} // Truyền hàm handlePageChange vào
+                setPage={handlePageChange}
               />
             </Col>
           </Row>
@@ -74,4 +72,4 @@ const SearchPage = () => {
   );
 };
 
-export default SearchPage;
+export default MoviesByGenresPage;

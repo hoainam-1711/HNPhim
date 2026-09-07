@@ -3,7 +3,7 @@ import Loading from "../components/ui/Loading";
 import MovieSection from "../features/movies/components/MovieSection";
 import { Container } from "react-bootstrap";
 import HeroSection from "../features/movies/components/HeroSection";
-import SEO from "../components/SEO";
+import SEO from "../components/ui/SEO";
 
 const MOVIE_TYPES = [
   "phim-moi",
