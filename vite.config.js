@@ -5,12 +5,25 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
   plugins: [react()],
   build: {
+    chunkSizeWarningLimit: 700,
     rollupOptions: {
       output: {
-        manualChunks: {
-          vendor: ["react", "react-dom", "react-router-dom"],
-          bootstrap: ["react-bootstrap"],
-          player: ["hls.js"],
+        manualChunks(id) {
+          if (id.includes("node_modules")) {
+            if (id.includes("react-bootstrap")) {
+              return "bootstrap";
+            }
+            if (id.includes("hls.js")) {
+              return "player";
+            }
+            if (
+              id.includes("/react/") ||
+              id.includes("/react-dom/") ||
+              id.includes("react-router")
+            ) {
+              return "vendor";
+            }
+          }
         },
       },
     },
