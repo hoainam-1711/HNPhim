@@ -1,8 +1,8 @@
 import "./MovieDetailPage.css";
-import { useContext, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
-import noImg from "../assets/no-image.png";
+import noImg from "../assets/no-image.webp";
 import { MovieContext } from "../context/MovieContext";
 import Loading from "../components/ui/Loading";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
@@ -47,7 +47,7 @@ const MovieDetailPage = () => {
   const firstEpisode = serverData[0];
 
   // Hàm chuyển sang trang xem phim
-  const handleWatchMovie = (ep) => {
+  const handleWatchMovie = useCallback((ep) => {
     const targetEp = ep || firstEpisode;
 
     if (targetEp) {
@@ -58,7 +58,7 @@ const MovieDetailPage = () => {
     } else {
       console.warn("Chưa có thông tin tập phim để xem!");
     }
-  };
+  }, [firstEpisode, movie?.slug, navigate]);
 
   if (loading) return <Loading />;
 
@@ -82,7 +82,7 @@ const MovieDetailPage = () => {
       />
 
       <div className="movie-detail-page">
-        <Container className="movie-detail-container py-4">
+        <Container fluid className="movie-detail-container py-4">
           {/* TOP SECTION: Poster & Thông tin chi tiết */}
           <Row className="g-4 mb-5">
             {/* Poster Phim */}

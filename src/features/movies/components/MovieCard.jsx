@@ -3,7 +3,7 @@ import { memo, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
 import { MovieContext } from "../../../context/MovieContext";
 import LucideIcon from "../../../components/ui/LucideIcon";
-import noImg from "../../../assets/no-image.png";
+import noImg from "../../../assets/no-image.webp";
 
 const MovieCard = ({ movie }) => {
   const { poster_url, thumb_url, name } = movie || {};

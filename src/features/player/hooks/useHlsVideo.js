@@ -5,11 +5,11 @@ export const useHlsVideo = (m3u8Url) => {
   // ==========================================
   // 1. REFS (Tham chiếu phần tử và giá trị đệm)
   // ==========================================
-  const containerRef = useRef(null);        // Khung bọc video & controls (dùng cho fullscreen)
-  const videoRef = useRef(null);            // Thẻ <video>
-  const hlsRef = useRef(null);              // HLS instance
-  const controlsTimeoutRef = useRef(null);  // Timer tự động ẩn thanh điều khiển
-  const prevVolumeRef = useRef(1);          // Lưu âm lượng trước khi bấm Mute để khôi phục
+  const containerRef = useRef(null); // Khung bọc video & controls (dùng cho fullscreen)
+  const videoRef = useRef(null); // Thẻ <video>
+  const hlsRef = useRef(null); // HLS instance
+  const controlsTimeoutRef = useRef(null); // Timer tự động ẩn thanh điều khiển
+  const prevVolumeRef = useRef(1); // Lưu âm lượng trước khi bấm Mute để khôi phục
 
   // ==========================================
   // 2. STATES (Quản lý trạng thái phát & giao diện)
@@ -44,7 +44,13 @@ export const useHlsVideo = (m3u8Url) => {
 
     let hls;
     if (Hls.isSupported()) {
-      hls = new Hls({ enableWorker: true, lowLatencyMode: true });
+      hls = new Hls({
+        enableWorker: true, // Bật Web Worker để giải mã luồng video không gây block main thread UI
+        maxBufferLength: 30, // Giới hạn buffer tối đa 30s để đỡ ngốn RAM trình duyệt
+        maxMaxBufferLength: 60,
+        lowLatencyMode: true,
+      });
+      
       hlsRef.current = hls;
       hls.loadSource(m3u8Url);
       hls.attachMedia(video);
@@ -55,7 +61,7 @@ export const useHlsVideo = (m3u8Url) => {
             id: index,
             height: level.height,
             bitrate: level.bitrate,
-          }))
+          })),
         );
       });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
@@ -78,9 +84,11 @@ export const useHlsVideo = (m3u8Url) => {
 
   // Lắng nghe thay đổi chế độ toàn màn hình
   useEffect(() => {
-    const handleFullscreen = () => setIsFullscreen(!!document.fullscreenElement);
+    const handleFullscreen = () =>
+      setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener("fullscreenchange", handleFullscreen);
-    return () => document.removeEventListener("fullscreenchange", handleFullscreen);
+    return () =>
+      document.removeEventListener("fullscreenchange", handleFullscreen);
   }, []);
 
   // Đồng bộ trạng thái khi bật/tắt Picture-in-Picture
@@ -135,7 +143,10 @@ export const useHlsVideo = (m3u8Url) => {
         // Mũi tên phải: Tua tiến 10s
         case "ArrowRight":
           e.preventDefault();
-          video.currentTime = Math.min(video.duration || 0, video.currentTime + 10);
+          video.currentTime = Math.min(
+            video.duration || 0,
+            video.currentTime + 10,
+          );
           break;
 
         // Mũi tên lên: Tăng 10% âm lượng
@@ -194,7 +205,10 @@ export const useHlsVideo = (m3u8Url) => {
         // S: Tua nhanh 30s
         case "KeyS":
           e.preventDefault();
-          video.currentTime = Math.min(video.duration || 0, video.currentTime + 28);
+          video.currentTime = Math.min(
+            video.duration || 0,
+            video.currentTime + 28,
+          );
           break;
 
         default:

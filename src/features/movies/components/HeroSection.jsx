@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { MovieContext } from "../../../context/MovieContext";
 import LucideIcon from "../../../components/ui/LucideIcon";
-import noImg from "../../../assets/no-image.png";
+import noImg from "../../../assets/no-image.webp";
 
 // Ngưỡng khoảng cách tối thiểu (pixel) để kích hoạt cử chỉ vuốt
 const SWIPE_THRESHOLD = 40;

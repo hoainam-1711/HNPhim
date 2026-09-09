@@ -1,5 +1,5 @@
 import "./WatchPage.css";
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
@@ -55,14 +55,14 @@ const WatchPage = () => {
   const serverData = currentServer?.server_data || [];
 
   // Hàm chuyển tập phim
-  const handleWatchMovie = (targetEp) => {
+  const handleWatchMovie = useCallback((targetEp) => {
     if (targetEp) {
       const epSlug = targetEp.slug || targetEp.name;
       navigate(`/xem/${slug}/${epSlug}`);
     } else {
       console.warn("Chưa có thông tin tập phim để xem!");
     }
-  };
+  }, [slug, navigate]);
 
   const handleNextEpisode = () => {
     if (!currentEpData || !serverData.length) return;

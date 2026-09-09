@@ -1,17 +1,30 @@
 import "./EpisodeSelector.css";
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, memo } from "react";
 import { Button } from "react-bootstrap";
 
-// Số lượng tập phim hiển thị trong một nhóm (tab)
 const EPISODES_PER_CHUNK = 100;
 
+// 1. TÁCH NÚT TẬP RA COMPONENT NHỎ & DÙNG MEMO
+// Giúp chỉ re-render đúng 2 nút: nút cũ vừa bỏ chọn và nút mới được active
+const EpisodeItem = memo(function EpisodeItem({ ep, isSelected, onSelect }) {
+  return (
+    <Button
+      variant="link"
+      className={`episode-item ${isSelected ? "active" : ""}`}
+      onClick={() => onSelect(ep)}
+    >
+      {ep.name}
+    </Button>
+  );
+});
+
+// 2. COMPONENT CHÍNH
 const EpisodeSelector = ({
   serverData = [],
   handleWatchMovie,
   currentEpSlug,
   pageType = "detail",
 }) => {
-  // Quản lý tab nhóm tập đang được chọn
   const [selectedChunkIndex, setSelectedChunkIndex] = useState(0);
 
   /* ==================================================
@@ -40,11 +53,10 @@ const EpisodeSelector = ({
   useEffect(() => {
     if (!currentEpSlug || !episodeChunks.length) return;
 
-    // Tìm index của nhóm có chứa tập phim hiện tại
     const chunkIndex = episodeChunks.findIndex((chunk) =>
       chunk.data.some(
-        (ep) => ep.slug === currentEpSlug || ep.name === currentEpSlug
-      )
+        (ep) => ep.slug === currentEpSlug || ep.name === currentEpSlug,
+      ),
     );
 
     if (chunkIndex !== -1) {
@@ -53,13 +65,12 @@ const EpisodeSelector = ({
   }, [currentEpSlug, episodeChunks]);
 
   /* ==================================================
-     3. RENDER XỬ LÝ KHI TRỐNG DỮ LIỆU
+     3. RENDER KHI TRỐNG DỮ LIỆU
   ================================================== */
   if (!serverData?.length) {
     return <p className="text-secondary mb-0">Chưa có danh sách tập phim.</p>;
   }
 
-  // Danh sách các tập thuộc nhóm đang được chọn
   const currentChunkEpisodes = episodeChunks[selectedChunkIndex]?.data || [];
 
   /* ==================================================
@@ -67,7 +78,7 @@ const EpisodeSelector = ({
   ================================================== */
   return (
     <div className={`episode-selector ${pageType}`}>
-      {/* Tab chọn khoảng tập (chỉ hiện khi có từ 2 nhóm trở lên) */}
+      {/* Tab chọn khoảng tập */}
       {episodeChunks.length > 1 && (
         <div className="episode-chunk-list custom-scrollbar-h">
           {episodeChunks.map((chunk, idx) => (
@@ -84,21 +95,20 @@ const EpisodeSelector = ({
         </div>
       )}
 
-      {/* Lưới danh sách các tập phim cụ thể */}
+      {/* Lưới danh sách các tập phim */}
       <div className="episode-list custom-scrollbar">
         {currentChunkEpisodes.map((ep, idx) => {
           const isSelected =
-            currentEpSlug && (currentEpSlug === ep.slug || currentEpSlug === ep.name);
+            Boolean(currentEpSlug) &&
+            (currentEpSlug === ep.slug || currentEpSlug === ep.name);
 
           return (
-            <Button
+            <EpisodeItem
               key={ep.slug || idx}
-              variant="link"
-              className={`episode-item ${isSelected ? "active" : ""}`}
-              onClick={() => handleWatchMovie(ep)}
-            >
-              {ep.name}
-            </Button>
+              ep={ep}
+              isSelected={isSelected}
+              onSelect={handleWatchMovie}
+            />
           );
         })}
       </div>
@@ -106,4 +116,5 @@ const EpisodeSelector = ({
   );
 };
 
-export default EpisodeSelector;
+// Bọc React.memo cho toàn bộ component cha
+export default memo(EpisodeSelector);
