@@ -30,7 +30,9 @@
   font-size: 0.95rem;
   font-weight: 500;
   background-color: #272727 !important;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .youtube-nav-btn:hover {
@@ -50,7 +52,9 @@
   border-radius: 22px;
   overflow: hidden;
   background: #121212;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .youtube-search:focus-within {
@@ -153,5 +157,11 @@
   .youtube-favorite {
     margin: 0 !important;
     padding: 0 8px !important;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .youtube-logo {
+    padding-left: 3px;
   }
 }

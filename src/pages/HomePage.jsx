@@ -39,12 +39,12 @@ const HomePage = () => {
   }
 
   // Tách phim để hiển thị Hero Section trên cùng
-  const heroGroup = data?.find((item) => item.type === "phim-le");
+  const heroGroup = data?.find((item) => item.type === "phim-moi");
   const heroMovies =
     heroGroup?.data?.data?.items || heroGroup?.data?.items || [];
 
   // Các section còn lại, không bao gồm "phim-le"
-  const otherSection = data?.filter((item) => item.type !== "phim-le") || [];
+  const otherSection = data?.filter((item) => item.type !== "phim-moi") || [];
 
   return (
     <>
@@ -56,9 +56,7 @@ const HomePage = () => {
 
       <Container fluid className="px-3 px-md-4 py-4 home-container">
         {/* HERO SECTION */}
-        {heroMovies.length > 0 && (
-          <HeroSection movies={heroMovies} type={heroGroup.type} />
-        )}
+        {heroMovies.length > 0 && <HeroSection movies={heroMovies} />}
 
         {/* MovieSection */}
         {otherSection.map(({ type, data: movieData }) => {

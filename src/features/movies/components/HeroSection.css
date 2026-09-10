@@ -1,5 +1,5 @@
 /* =========================================================
-   1. MAIN SECTION & BACKDROP WRAPPER
+   1. MAIN CONTAINER & BACKDROP
 ========================================================= */
 .hero-section {
   position: relative;
@@ -7,9 +7,9 @@
   border-radius: 16px;
   overflow: hidden;
   background-color: #0f0f0f;
-  margin-bottom: 2rem;
+  margin-bottom: 3rem;
   user-select: none;
-  touch-action: pan-y; /* Cho phép cuộn dọc tự nhiên, bắt mượt mà cử chỉ vuốt ngang */
+  touch-action: pan-y; /* Cho phép cuộn dọc tự nhiên nhưng bắt vuốt ngang mượt mà */
 }
 
 .cursor-pointer {
@@ -19,7 +19,7 @@
 .hero-backdrop-wrapper {
   position: relative;
   width: 100%;
-  aspect-ratio: 37 / 15;
+  aspect-ratio: 38 / 15;
   background-color: #0f0f0f;
 }
 
@@ -29,50 +29,61 @@
   object-fit: cover;
   object-position: center top;
   display: block;
-}
-
-.hero-backdrop-gradient {
-  position: absolute;
-  inset: 0;
-  background:
-    linear-gradient(
-      90deg,
-      rgba(11, 15, 20, 0.55) 0%,
-      rgba(11, 15, 20, 0.3) 35%,
-      rgba(11, 15, 20, 0.03) 70%,
-      rgba(11, 15, 20, 0.4) 100%
-    ),
-    linear-gradient(
-      0deg,
-      rgba(11, 15, 20, 0.6) 2%,
-      rgba(11, 15, 20, 0.15) 25%,
-      transparent 60%
-    );
-  pointer-events: none;
+  filter: blur(20px) brightness(0.5);
+  opacity: 0.5;
+  transform: scale(1.1);
 }
 
 /* =========================================================
-   2. CONTENT CONTAINER & INFO SECTION
+   2. CONTENT LAYOUT (POSTER & DETAIL)
 ========================================================= */
 .hero-main-container {
   position: absolute;
   inset: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  padding: 3rem;
+  padding: 1.5rem 3rem 1.5rem 1.5rem;
   z-index: 5;
   pointer-events: none;
-  gap: 1.5rem; /* Khoảng đệm an toàn giữa khối text và danh sách thumbnail */
+  display: flex;
+  gap: 2rem;
 }
 
+/* Poster bên trái */
+.hero-poster-wrapper {
+  position: relative;
+  aspect-ratio: 2 / 3;
+  background-color: #0f0f0f;
+  border-radius: 12px;
+}
+
+.hero-poster-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  display: block;
+  border-radius: 12px;
+}
+
+/* Khu vực thông tin & thumbnails */
+.hero-detail {
+  flex: 1;
+  display: flex;
+  flex-direction: row;
+  align-items: flex-end;
+  justify-content: space-between;
+  min-width: 0;
+}
+
+/* =========================================================
+   3. MOVIE INFO & BADGES
+========================================================= */
 .hero-info {
   flex: 1 1 auto;
-  min-width: 0; /* Cho phép text co lại và cắt ngắn bằng ellipsis */
-  max-width: 580px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   pointer-events: auto;
+  padding-bottom: 1.5rem;
 }
 
 .hero-title {
@@ -82,8 +93,6 @@
   line-height: 1.15;
   margin-bottom: 0.35rem;
   letter-spacing: -0.5px;
-
-  /* Cắt ngắn tối đa 1 dòng */
   display: -webkit-box;
   line-clamp: 1;
   -webkit-line-clamp: 1;
@@ -104,7 +113,6 @@
   max-width: 100%;
 }
 
-/* Badges */
 .hero-badges {
   display: flex;
   align-items: center;
@@ -143,7 +151,6 @@
   vertical-align: middle;
 }
 
-/* Thể loại phim (Categories) */
 .hero-categories {
   display: flex;
   flex-wrap: wrap;
@@ -160,7 +167,7 @@
 }
 
 /* =========================================================
-   3. ACTION BUTTONS
+   4. ACTION BUTTONS
 ========================================================= */
 .hero-actions {
   display: flex;
@@ -179,9 +186,7 @@
   justify-content: center;
   cursor: pointer;
   box-shadow: 0 4px 15px rgba(243, 62, 62, 0.35);
-  transition:
-    transform 0.2s ease,
-    background-color 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.2s ease;
 }
 
 .hero-btn-play:hover {
@@ -210,27 +215,15 @@
 }
 
 /* =========================================================
-   4. THUMBNAIL LIST & WRAPPER
+   5. THUMBNAIL LIST
 ========================================================= */
-.hero-thumb-wrapper {
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end; /* Căn nút xem thêm về mép phải */
-  gap: 0.5rem;
-  padding: 0.6rem;
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border-radius: 12px;
-  pointer-events: auto;
-}
-
 .hero-thumb-list {
   flex-shrink: 0;
   display: flex;
   align-items: center;
   gap: 0.6rem;
   pointer-events: auto;
+  padding-bottom: 1.5rem;
 }
 
 .hero-thumb-item {
@@ -259,16 +252,26 @@
 }
 
 /* =========================================================
-   5. RESPONSIVE BREAKPOINTS
+   6. RESPONSIVE BREAKPOINTS
 ========================================================= */
-/* Breakpoint 1: Tablet ngang & Laptop nhỏ (<= 1120px) */
+
+/* Tablet ngang & Laptop nhỏ (<= 1120px) */
 @media (max-width: 1120px) {
   .hero-backdrop-wrapper {
     aspect-ratio: 16 / 9;
   }
 
-  .hero-main-container {
-    padding: 2rem;
+  .hero-detail {
+    flex-direction: column;
+  }
+
+  .hero-info {
+    align-self: flex-start;
+    padding-bottom: 0;
+  }
+
+  .hero-thumb-list {
+    align-self: flex-end;
   }
 
   .hero-title {
@@ -287,24 +290,29 @@
   }
 }
 
-/* Breakpoint 2: Tablet dọc (<= 798px) */
+/* Tablet dọc (<= 798px) */
 @media (max-width: 798px) {
   .hero-title {
     font-size: 1.2rem;
   }
 
-  .hero-categories,
   .hero-actions {
-    display: none;
+    gap: 0.45rem;
+  }
+
+  .hero-btn-play {
+    width: 45px;
+    height: 45px;
+  }
+
+  .hero-action-pill {
+    gap: 0.6rem;
+    padding: 0.65rem 0.8rem;
   }
 }
 
-/* Breakpoint 3: Điện thoại (<= 640px) */
+/* Điện thoại (<= 640px) */
 @media (max-width: 640px) {
-  .hero-section {
-    overflow: visible;
-  }
-
   .hero-backdrop-wrapper {
     width: 100%;
     border-radius: 16px;
@@ -312,15 +320,8 @@
 
   .hero-backdrop-img {
     border-radius: 16px;
-  }
-
-  .hero-backdrop-gradient {
-    background: linear-gradient(
-      0deg,
-      #0f0f0f 12%,
-      rgba(11, 15, 20, 0.2) 60%,
-      transparent 100%
-    );
+    transform: none;
+    filter: none;
   }
 
   .hero-origin-name {
@@ -329,17 +330,28 @@
 
   .hero-main-container {
     position: relative;
+    display: block;
     inset: auto;
     flex-direction: column;
     align-items: flex-start;
-    padding: 0 1rem 0.75rem 1rem;
+    padding: 0;
     margin-top: -25%;
     pointer-events: auto;
+  }
+
+  .hero-detail {
+    display: block;
+  }
+
+  .hero-poster-wrapper,
+  .hero-poster-img {
+    display: none;
   }
 
   .hero-info {
     max-width: 100%;
     width: 100%;
+    padding: 0 1rem;
   }
 
   .hero-title {
@@ -354,16 +366,22 @@
     margin-bottom: 0;
   }
 
-  .hero-thumb-wrapper {
-    width: 100%;
-    align-items: flex-end;
-    margin-top: 0.5rem;
+  .hero-badge-item {
+    font-size: 0.6rem;
+    padding: 0.15rem 0.4rem;
+  }
+
+  .hero-categories,
+  .hero-actions {
+    display: none;
   }
 
   .hero-thumb-list {
     width: 100%;
     justify-content: center;
     gap: 0.55rem;
+    padding: 15px 0;
+    background: linear-gradient(to bottom, transparent, #0f0f0f);
   }
 
   .hero-thumb-item.active {
