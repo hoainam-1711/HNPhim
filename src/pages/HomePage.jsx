@@ -56,7 +56,7 @@ const HomePage = () => {
 
       <Container fluid className="px-3 px-md-4 py-4 home-container">
         {/* HERO SECTION */}
-        {heroMovies.length > 0 && <HeroSection movies={heroMovies} />}
+        {heroMovies.length > 0 && <HeroSection movies={heroMovies.slice(0, 6)} />}
 
         {/* MovieSection */}
         {otherSection.map(({ type, data: movieData }) => {
@@ -66,7 +66,7 @@ const HomePage = () => {
               key={type}
               title={MOVIE_TITLES[type] || type}
               type={type}
-              movies={movies.slice(0, 6)}
+              movies={movies}
             />
           );
         })}
