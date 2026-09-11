@@ -132,11 +132,11 @@
 @media (max-width: 991.98px) {
   .youtube-navbar {
     height: auto;
-    padding-bottom: 10px;
   }
 
   .navbar-row-content {
     flex-wrap: nowrap;
+    padding-left: 8px;
   }
 
   .youtube-nav-btn {
@@ -162,6 +162,6 @@
 
 @media (max-width: 575.98px) {
   .youtube-logo {
-    padding-left: 3px;
+    padding-left: 10px;
   }
 }

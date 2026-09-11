@@ -54,7 +54,7 @@ const HomePage = () => {
         url="/"
       />
 
-      <Container fluid className="px-3 px-md-4 py-4 home-container">
+      <Container fluid className="px-3 px-md-4 py-2 home-container">
         {/* HERO SECTION */}
         {heroMovies.length > 0 && <HeroSection movies={heroMovies.slice(0, 6)} />}
 
