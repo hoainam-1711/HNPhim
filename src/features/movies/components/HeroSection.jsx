@@ -56,6 +56,8 @@ const HeroSection = ({ movies = [] }) => {
   // Tọa độ chạm để tính toán cử chỉ vuốt
   const touchStartX = useRef(0);
   const touchEndX = useRef(0);
+  // 1. Tạo biến ref để chặn spam click quá nhanh
+  const lastClickTime = useRef(0);
 
   // 2. Kiểm tra dữ liệu đầu vào
   if (!movies || movies.length === 0) return null;
@@ -66,10 +68,10 @@ const HeroSection = ({ movies = [] }) => {
 
   // Chuẩn bị URL ảnh cho banner và poster
   const backdropSrc = getImageSrc(
-    currentMovie?.thumb_url || currentMovie?.poster_url
+    currentMovie?.thumb_url || currentMovie?.poster_url,
   );
   const posterSrc = getImageSrc(
-    currentMovie?.poster_url || currentMovie?.thumb_url
+    currentMovie?.poster_url || currentMovie?.thumb_url,
   );
 
   // 3. Xử lý cử chỉ vuốt (Touch Swipe)
@@ -106,7 +108,9 @@ const HeroSection = ({ movies = [] }) => {
   const goToWatchEpisodeCurrent = (e) => {
     e.stopPropagation();
     if (currentMovie?.slug) {
-      const epSlug = normalizeEpisodeCurrent(currentMovie?.last_episodes?.[0]?.name);
+      const epSlug = normalizeEpisodeCurrent(
+        currentMovie?.last_episodes?.[0]?.name,
+      );
       navigate(`/xem/${currentMovie.slug}/${epSlug}`);
     }
   };
@@ -116,15 +120,20 @@ const HeroSection = ({ movies = [] }) => {
     toggleFavorite(currentMovie);
   };
 
-  const handleSelectThumbnail = (index, e) => {
-    e.stopPropagation();
-    setSelectedIndex(index);
-  };
-
   // Ảnh lỗi thì thay thế bằng ảnh mặc định
   const handleImgError = (e) => {
     e.currentTarget.onerror = null;
     e.currentTarget.src = noImg;
+  };
+
+  const handleSelectThumb = (idx) => {
+    const now = Date.now();
+    // Bỏ qua nếu click lại đúng ảnh đang active HOẶC spam quá nhanh dưới 150ms
+    if (idx === selectedIndex || now - lastClickTime.current < 150) {
+      return;
+    }
+    lastClickTime.current = now;
+    setSelectedIndex(idx);
   };
 
   // 5. Giao diện (Render)
@@ -136,11 +145,15 @@ const HeroSection = ({ movies = [] }) => {
       onTouchEnd={handleTouchEnd}
     >
       {/* 5.1 Banner nền làm mờ */}
-      <div className="hero-backdrop-wrapper cursor-pointer" onClick={goToDetail}>
+      <div
+        className="hero-backdrop-wrapper cursor-pointer"
+        onClick={goToDetail}
+      >
         <img
           src={backdropSrc}
           alt={currentMovie?.name}
           className="hero-backdrop-img"
+          decoding="async"
           onError={handleImgError}
         />
       </div>
@@ -166,7 +179,10 @@ const HeroSection = ({ movies = [] }) => {
             </h1>
 
             {currentMovie?.origin_name && (
-              <div className="hero-origin-name" title={currentMovie.origin_name}>
+              <div
+                className="hero-origin-name"
+                title={currentMovie.origin_name}
+              >
                 {currentMovie.origin_name}
               </div>
             )}
@@ -254,13 +270,18 @@ const HeroSection = ({ movies = [] }) => {
                 className={`hero-thumb-item ${
                   selectedIndex === idx ? "active" : ""
                 }`}
-                onClick={(e) => handleSelectThumbnail(idx, e)}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  handleSelectThumb(idx);
+                }}
                 title={m.name}
               >
                 <img
                   src={getImageSrc(m.thumb_url || m.poster_url)}
                   alt={m.name}
                   className="hero-thumb-img"
+                  loading="lazy"
+                  decoding="async"
                   onError={handleImgError}
                 />
               </div>

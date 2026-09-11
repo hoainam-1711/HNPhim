@@ -29,9 +29,17 @@
   object-fit: cover;
   object-position: center top;
   display: block;
-  filter: blur(20px) brightness(0.5);
+
+  filter: blur(20px);
   opacity: 0.5;
-  transform: scale(1.1);
+}
+
+.hero-backdrop-wrapper::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(15, 15, 15, 0.6);
+  pointer-events: none;
 }
 
 /* =========================================================
@@ -237,7 +245,10 @@
   cursor: pointer;
   border: 1px solid rgba(255, 255, 255, 0.2);
   opacity: 0.55;
-  transition: all 0.2s ease;
+    transition:
+    transform 0.2s ease,
+    opacity 0.2s ease,
+    border-color 0.2s ease;
 }
 
 .hero-thumb-img {
