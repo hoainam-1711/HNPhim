@@ -11,7 +11,7 @@ const Footer = () => {
       <Container>
         <Row className="align-items-center">
           <Col className="text-center">
-            <LucideIcon icon="Logo" fill="#887c76" />
+            <LucideIcon icon="Logo" fill="#ffffff80" />
             <div style={{ fontSize: "0.75rem", marginTop:"10px" }}>
               © {new Date().getFullYear()} HNPhim.
             </div>

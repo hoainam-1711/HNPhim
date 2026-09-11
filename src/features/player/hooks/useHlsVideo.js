@@ -50,7 +50,7 @@ export const useHlsVideo = (m3u8Url) => {
         maxMaxBufferLength: 60,
         lowLatencyMode: true,
       });
-      
+
       hlsRef.current = hls;
       hls.loadSource(m3u8Url);
       hls.attachMedia(video);
@@ -72,6 +72,17 @@ export const useHlsVideo = (m3u8Url) => {
       if (hls) hls.destroy();
     };
   }, [m3u8Url]);
+
+  // Bên trong hook useHlsVideo (nhận src/m3u8Url từ Player)
+  useEffect(() => {
+    // 1. Reset state hiển thị về 1
+    setPlaybackRate(1);
+
+    // 2. Ép trực tiếp tốc độ của thẻ video về 1
+    if (videoRef.current) {
+      videoRef.current.playbackRate = 1;
+    }
+  }, [m3u8Url]); // Mỗi khi đổi tập (m3u8Url thay đổi), effect này sẽ tự chạy
 
   // Xóa timer ẩn controls khi component unmount
   useEffect(() => {
