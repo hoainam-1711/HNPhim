@@ -2,7 +2,6 @@ import "./MovieDetailPage.css";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
-import noImg from "../assets/no-image.webp";
 import { MovieContext } from "../context/MovieContext";
 import Loading from "../components/ui/Loading";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
@@ -10,6 +9,7 @@ import LucideIcon from "../components/ui/LucideIcon";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
 import SEO from "../components/ui/SEO";
 import cleanDescription from "../utils/cleanDescription";
+import { getImageSrc, handleImgError } from "../utils/formatImage";
 
 const MovieDetailPage = () => {
   const { slug } = useParams();
@@ -17,6 +17,8 @@ const MovieDetailPage = () => {
   const { data, loading, error } = useMovieDetail(slug);
   const movie = data?.movie || {};
   const episodesList = data?.episodes || [];
+
+  const posterSrc = getImageSrc(movie?.poster_url || movie?.thumb_url);
 
   const navigate = useNavigate();
 
@@ -47,18 +49,21 @@ const MovieDetailPage = () => {
   const firstEpisode = serverData[0];
 
   // Hàm chuyển sang trang xem phim
-  const handleWatchMovie = useCallback((ep) => {
-    const targetEp = ep || firstEpisode;
+  const handleWatchMovie = useCallback(
+    (ep) => {
+      const targetEp = ep || firstEpisode;
 
-    if (targetEp) {
-      const epSlug = targetEp.slug || targetEp.name;
+      if (targetEp) {
+        const epSlug = targetEp.slug || targetEp.name;
 
-      // URL sinh ra sẽ là: /xem/dao-hai-tac/tap-1
-      navigate(`/xem/${movie.slug}/${epSlug}`);
-    } else {
-      console.warn("Chưa có thông tin tập phim để xem!");
-    }
-  }, [firstEpisode, movie?.slug, navigate]);
+        // URL sinh ra sẽ là: /xem/dao-hai-tac/tap-1
+        navigate(`/xem/${movie.slug}/${epSlug}`);
+      } else {
+        console.warn("Chưa có thông tin tập phim để xem!");
+      }
+    },
+    [firstEpisode, movie?.slug, navigate],
+  );
 
   if (loading) return <Loading />;
 
@@ -77,7 +82,7 @@ const MovieDetailPage = () => {
       <SEO
         title={`${movie?.name} - ${movie?.year}`}
         description={cleanDescription(movie?.content)}
-        image={movie?.thumb_url}
+        image={posterSrc}
         url={`/chi-tiet/${movie?.slug}`}
       />
 
@@ -89,12 +94,9 @@ const MovieDetailPage = () => {
             <Col xs={12} md={5} lg={4} xl={3}>
               <div className="movie-poster">
                 <img
-                  src={movie?.poster_url || movie?.thumb_url}
+                  src={posterSrc}
                   alt={movie?.name}
-                  onError={(e) => {
-                    e.target.onerror = null;
-                    e.target.src = noImg;
-                  }}
+                  onError={handleImgError}
                 />
 
                 {movie?.quality && (

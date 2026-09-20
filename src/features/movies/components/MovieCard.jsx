@@ -1,15 +1,15 @@
-import "./MovieCard.css"
+import "./MovieCard.css";
 import { memo, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
 import { MovieContext } from "../../../context/MovieContext";
 import LucideIcon from "../../../components/ui/LucideIcon";
-import noImg from "../../../assets/no-image.webp";
+import { getImageSrc, handleImgError } from "../../../utils/formatImage";
 
 const MovieCard = ({ movie }) => {
   const { poster_url, thumb_url, name } = movie || {};
 
   // Ưu tiên poster_url, nếu không có thì lấy thumb_url
-  const imgSrc = poster_url || thumb_url;
+  const posterSrc = getImageSrc(poster_url || thumb_url);
 
   // Lấy hàm toggleFavorite và isFavorite từ Context
   const { toggleFavorite, isFavorite } = useContext(MovieContext);
@@ -24,17 +24,10 @@ const MovieCard = ({ movie }) => {
       >
         <Card.Img
           variant="top"
-          src={
-            imgSrc?.startsWith("http")
-              ? imgSrc
-              : `https://phimimg.com/${imgSrc}`
-          }
+          src={posterSrc}
           alt={name}
           loading="lazy" // Tải ảnh khi lướt tới
-          onError={(e) => {
-            e.target.onerror = null; // Chống lặp vô hạn nếu ảnh fallback cũng lỗi
-            e.target.src = noImg; // Thay bằng link ảnh của bạn
-          }}
+          onError={handleImgError}
           style={{ height: "100%", objectFit: "cover" }}
         />
         {/* Layer phủ đen mờ ở đáy ảnh giúp làm nổi bật tên phim */}

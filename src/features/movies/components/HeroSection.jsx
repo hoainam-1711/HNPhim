@@ -3,13 +3,10 @@ import { useState, useContext, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { MovieContext } from "../../../context/MovieContext";
 import LucideIcon from "../../../components/ui/LucideIcon";
-import noImg from "../../../assets/no-image.webp";
+import { getImageSrc, handleImgError } from "../../../utils/formatImage";
 
 // Ngưỡng vuốt tối thiểu (px) để chuyển slide
 const SWIPE_THRESHOLD = 40;
-
-// Base URL cho ảnh từ server CDN
-const IMAGE_CDN_BASE = "https://phimimg.com/";
 
 // Giới hạn số lượng hiển thị trên UI
 const MAX_CATEGORIES = 4;
@@ -18,15 +15,6 @@ const MAX_THUMBNAILS = 6;
 // -----------------------------------------------------------------------------
 // HÀM TIỆN ÍCH NGOÀI COMPONENT (Tránh khởi tạo lại mỗi lần re-render)
 // -----------------------------------------------------------------------------
-
-/**
- * Xử lý URL ảnh: Trả về ảnh mặc định nếu rỗng, thêm host nếu thiếu http
- */
-const getImageSrc = (img) => {
-  if (!img) return noImg;
-  return img.startsWith("http") ? img : `${IMAGE_CDN_BASE}${img}`;
-};
-
 /**
  * Chuẩn hóa tên tập phim thành slug URL (vd: "Tập 01" -> "tap-01")
  */
@@ -118,12 +106,6 @@ const HeroSection = ({ movies = [] }) => {
   const handleToggleFavorite = (e) => {
     e.stopPropagation();
     toggleFavorite(currentMovie);
-  };
-
-  // Ảnh lỗi thì thay thế bằng ảnh mặc định
-  const handleImgError = (e) => {
-    e.currentTarget.onerror = null;
-    e.currentTarget.src = noImg;
   };
 
   const handleSelectThumb = (idx) => {

@@ -1,28 +1,29 @@
 /* ===================================================
    1. NAVBAR CONTAINER & BRAND LOGO
    =================================================== */
-.youtube-navbar {
-  height: 64px;
+.navbar-general {
+  height: auto;
   background: #0f0f0f;
   z-index: 1030;
 }
 
-.youtube-logo {
+.logo {
   color: #fff !important;
   font-weight: 650;
+  font-size: 26px;
   letter-spacing: -0.5px;
   text-decoration: none;
   transition: opacity 0.2s ease;
 }
 
-.youtube-logo:hover {
+.logo:hover {
   opacity: 0.85;
 }
 
 /* ===================================================
    2. NAV BUTTON (THỂ LOẠI)
    =================================================== */
-.youtube-nav-btn {
+.nav-btn {
   color: #fff !important;
   text-decoration: none !important;
   padding: 9px 14px !important;
@@ -35,18 +36,18 @@
     color 0.2s ease;
 }
 
-.youtube-nav-btn:hover {
+.nav-btn:hover {
   background-color: #353535 !important;
 }
 
 /* ===================================================
    3. SEARCH FORM & INPUT GROUP
    =================================================== */
-.youtube-search-form {
+.search-form {
   max-width: 400px;
 }
 
-.youtube-search {
+.search {
   height: 40px;
   border: 1px solid #303030;
   border-radius: 22px;
@@ -57,13 +58,13 @@
     background-color 0.2s ease;
 }
 
-.youtube-search:focus-within {
+.search:focus-within {
   border-color: #505050;
   background: #121212;
 }
 
 /* Input text */
-.youtube-search-input {
+.search-input {
   background: #121212 !important;
   color: #fff !important;
   border: none !important;
@@ -73,17 +74,17 @@
   font-size: 0.95rem;
 }
 
-.youtube-search-input::placeholder {
+.search-input::placeholder {
   color: #aaa;
 }
 
-.youtube-search-input:focus {
+.search-input:focus {
   background: #121212 !important;
   color: #fff !important;
 }
 
 /* Nút Submit kính lúp */
-.youtube-search-btn {
+.search-btn {
   width: 50px;
   display: flex !important;
   align-items: center;
@@ -94,14 +95,14 @@
   transition: background-color 0.2s ease;
 }
 
-.youtube-search-btn:active {
+.search-btn:active {
   background: #3a3a3a !important;
 }
 
 /* ===================================================
    4. FAVORITE / BOOKMARK BUTTON
    =================================================== */
-.youtube-favorite {
+.favorite {
   min-width: 42px;
   height: 40px;
   display: flex !important;
@@ -116,7 +117,7 @@
   transition: background-color 0.2s ease;
 }
 
-.youtube-favorite:hover {
+.favorite:hover {
   background: #353535 !important;
 }
 
@@ -128,40 +129,29 @@
 /* ===================================================
    5. RESPONSIVE BREAKPOINTS
    =================================================== */
-/* Màn hình nhỏ (< 992px): Giữ 3 nút trên cùng một hàng ngang khi mở Toggle */
-@media (max-width: 991.98px) {
-  .youtube-navbar {
-    height: auto;
+/* Màn hình nhỏ (< 576px): Giữ 3 nút trên cùng một hàng ngang khi mở Toggle */
+@media (max-width: 576px) {
+  .navbar-general {
+    padding-top: 0;
   }
 
-  .navbar-row-content {
-    flex-wrap: nowrap;
-    padding-left: 8px;
-  }
-
-  .youtube-nav-btn {
+  .nav-btn {
     margin: 0 !important;
     padding: 8px 10px !important;
     font-size: 0.85rem;
   }
 
-  .youtube-search-input {
+  .search-input {
     padding-left: 12px;
     font-size: 0.85rem;
   }
 
-  .youtube-search-btn {
+  .search-btn {
     width: 40px;
   }
 
-  .youtube-favorite {
+  .favorite {
     margin: 0 !important;
     padding: 0 8px !important;
-  }
-}
-
-@media (max-width: 575.98px) {
-  .youtube-logo {
-    padding-left: 10px;
   }
 }

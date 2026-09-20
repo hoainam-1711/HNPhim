@@ -30,13 +30,13 @@ function NavbarComponent() {
   };
 
   return (
-    <Navbar variant="dark" expand="sm" sticky="top" className="youtube-navbar">
-      <Container fluid className="px-2 px-sm-3 px-lg-4">
+    <Navbar variant="dark" expand="sm" sticky="top" className="navbar-general">
+      <Container fluid>
         {/* Logo HNPHIM */}
         <Navbar.Brand
           as={Link}
           to="/"
-          className="youtube-logo d-flex align-items-center"
+          className="logo d-flex align-items-center"
         >
           <LucideIcon icon="Logo" fill="#fe0033"/>
           <span>HNPhim</span>
@@ -50,12 +50,12 @@ function NavbarComponent() {
 
         {/* Khối menu mở rộng */}
         <Navbar.Collapse id="basic-navbar-nav">
-          <div className="navbar-row-content d-flex align-items-center justify-content-center gap-2 w-100 mt-2 mt-lg-0">
+          <div className="navbar-row-content d-flex align-items-center justify-content-center gap-2 w-100">
             {/* 1. Nút mở Modal Thể loại */}
             <Button
               variant="link"
               onClick={handleShow}
-              className="youtube-nav-btn text-nowrap"
+              className="nav-btn text-nowrap"
             >
               Khám Phá
             </Button>
@@ -65,17 +65,17 @@ function NavbarComponent() {
             {/* 2. Ô tìm kiếm từ khóa */}
             <Form
               onSubmit={handleSearch}
-              className="youtube-search-form flex-grow-1 my-0 ms-auto me-1"
+              className="search-form flex-grow-1 my-0 ms-auto me-1"
             >
-              <InputGroup className="youtube-search">
+              <InputGroup className="search">
                 <Form.Control
                   type="text"
                   placeholder="Tìm kiếm"
                   value={keyword}
                   onChange={(e) => setKeyword(e.target.value)}
-                  className="youtube-search-input"
+                  className="search-input"
                 />
-                <Button type="submit" className="youtube-search-btn">
+                <Button type="submit" className="search-btn">
                   <LucideIcon icon="Search" />
                 </Button>
               </InputGroup>
@@ -86,7 +86,7 @@ function NavbarComponent() {
               as={Link}
               to="/ua-thich"
               variant="link"
-              className="youtube-favorite text-nowrap"
+              className="favorite text-nowrap"
             >
               <LucideIcon icon="BookmarkCheck" />
               <span className="favorite-count">{favorites.length}</span>

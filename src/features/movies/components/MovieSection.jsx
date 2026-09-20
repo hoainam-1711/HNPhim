@@ -23,7 +23,7 @@ const MovieSection = ({ title, type, movies }) => {
   return (
     <section className="movie-section mb-4 mb-md-5">
       {/* Tiêu đề & Xem tất cả */}
-      <div className="d-flex justify-content-between align-items-center mb-3">
+      <div className="d-flex justify-content-between align-items-center">
         <h2 className="section-title text-white fs-5 fs-md-4 fw-bold mb-0">
           {title}
         </h2>
@@ -47,16 +47,16 @@ const MovieSection = ({ title, type, movies }) => {
           onClick={() => handleScroll("left")}
           aria-label="Cuộn sang trái"
         >
-          <LucideIcon icon="ChevronLeft" size={20} />
+          <LucideIcon icon="ChevronLeft" />
         </button>
 
         {/* Danh sách phim */}
-        <div className="movie-list-container" ref={scrollRef}>
+        <div className="movie-list-container pt-3 px-1" ref={scrollRef}>
           {movies.map((movie) => (
             <div key={movie._id || movie.slug} className="movie-item">
               <Link
                 to={`/chi-tiet/${movie.slug}`}
-                style={{ textDecoration: "none", color: "inherit" }}
+                className="text-decoration-none text-reset d-block h-100"
               >
                 <MovieCard movie={movie} />
               </Link>
@@ -71,7 +71,7 @@ const MovieSection = ({ title, type, movies }) => {
           onClick={() => handleScroll("right")}
           aria-label="Cuộn sang phải"
         >
-          <LucideIcon icon="ChevronRight" size={20} />
+          <LucideIcon icon="ChevronRight" />
         </button>
       </div>
     </section>

@@ -52,7 +52,7 @@ const MoviesByGenresPage = () => {
       <MovieList
         movies={movies}
         loading={loading}
-        msg={`Phim thuộc thể loại: ${titlePage}`}
+        msg={`Thể loại: ${titlePage}`}
       />
       <Container className="pt-3">
         {/* Điều khiển phân trang */}

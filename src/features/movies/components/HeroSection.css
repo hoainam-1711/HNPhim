@@ -111,14 +111,17 @@
 }
 
 .hero-origin-name {
-  font-size: 1.05rem;
   color: #bbb8b0;
   margin-bottom: 0.9rem;
   font-weight: 500;
-  white-space: nowrap;
+  letter-spacing: -0.5px;
+  display: -webkit-box;
+  line-clamp: 1;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
-  max-width: 100%;
+  word-break: break-word;
 }
 
 .hero-badges {
@@ -327,9 +330,7 @@
 /* Điện thoại (<= 640px) */
 @media (max-width: 640px) {
   .hero-section {
-    border-radius: 0;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
+    border-radius: 8px 8px 0 0;
     margin-bottom: 1.5rem;
   }
 

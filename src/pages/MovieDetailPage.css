@@ -1,13 +1,6 @@
 /* ==================================================
    MOVIE DETAIL PAGE - YOUTUBE DARK STYLE
 ================================================== */
-
-.movie-detail-page {
-  min-height: calc(100vh - 64px);
-  background: #0f0f0f;
-  color: #fff;
-}
-
 .movie-detail-container {
   max-width: 1400px;
 }
@@ -119,7 +112,9 @@
   background: #272727 !important;
   border: 1px solid #3a3a3a;
   border-radius: 4px !important;
-  transition: background-color 0.2s ease, color 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
 }
 
 .movie-category:hover {
@@ -147,7 +142,9 @@
   color: #fff !important;
   font-size: 0.95rem !important;
   font-weight: 700 !important;
-  transition: background-color 0.2s ease, transform 0.15s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.15s ease;
 }
 
 .movie-watch-btn:hover {
@@ -220,7 +217,14 @@
   line-height: 1.7;
 }
 
-/* Giới hạn 3 dòng khi đang ở trạng thái thu gọn */
+.movie-description-text * {
+  font-family: inherit !important;
+  font-size: inherit !important;
+  text-wrap: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* Giới hạn 2 dòng khi đang ở trạng thái thu gọn */
 .movie-description-text.collapsed {
   display: -webkit-box;
   line-clamp: 2;
@@ -321,10 +325,6 @@
 ================================================== */
 
 @media (max-width: 767.98px) {
-  .movie-detail-page {
-    min-height: 100vh;
-  }
-
   .movie-info {
     padding-left: 12px;
   }
