@@ -162,14 +162,18 @@
   vertical-align: middle;
 }
 
+/* hero-categories chỉ trên 1 dòng, ẩn phần tràn */
 .hero-categories {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow: hidden;
   gap: 0.45rem;
   margin-bottom: 0.9rem;
+  max-width: 100%;
 }
 
 .hero-category-tag {
+  flex-shrink: 0;
   font-size: 0.75rem;
   color: #cbd5e1;
   background: rgba(255, 255, 255, 0.08);

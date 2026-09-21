@@ -1,8 +1,64 @@
 .movie-card {
-  transition: transform 0.3s ease;
+  height: 100%;
+  border: 0;
+  background-color: rgba(108, 117, 125, 0.1);
+  color: #fff;
+  overflow: hidden;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
   cursor: pointer;
+  transition: transform 0.3s ease;
 }
 
 .movie-card:hover {
   transform: scale(1.05);
+}
+
+.poster-wrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 2 / 3;
+  overflow: hidden;
+}
+
+.movie-card-img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.overlay {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0;
+  color: #fff;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.favorite-btn {
+  padding: 0;
+  border: 0;
+  color: #fff;
+  box-shadow: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+}
+
+.favorite-btn:hover,
+.favorite-btn:focus {
+  color: #fff;
+  box-shadow: none;
 }

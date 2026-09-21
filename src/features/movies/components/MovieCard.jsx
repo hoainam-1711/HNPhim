@@ -8,45 +8,31 @@ import { getImageSrc, handleImgError } from "../../../utils/formatImage";
 const MovieCard = ({ movie }) => {
   const { poster_url, thumb_url, name } = movie || {};
 
-  // Ưu tiên poster_url, nếu không có thì lấy thumb_url
   const posterSrc = getImageSrc(poster_url || thumb_url);
-
-  // Lấy hàm toggleFavorite và isFavorite từ Context
   const { toggleFavorite, isFavorite } = useContext(MovieContext);
   const favorited = isFavorite(movie.slug);
 
   return (
-    <Card className="movie-card h-100 border-0 bg-secondary bg-opacity-10 text-white overflow-hidden shadow">
-      {/* Dùng wrapper với tỉ lệ khung hình 2:3 (Aspect Ratio chuẩn cho poster phim) */}
-      <div
-        className="position-relative w-100"
-        style={{ aspectRatio: "2 / 3", overflow: "hidden" }}
-      >
+    <Card className="movie-card">
+      <div className="poster-wrapper">
         <Card.Img
           variant="top"
           src={posterSrc}
           alt={name}
-          loading="lazy" // Tải ảnh khi lướt tới
+          loading="lazy"
           onError={handleImgError}
-          style={{ height: "100%", objectFit: "cover" }}
+          className="movie-card-img"
         />
-        {/* Layer phủ đen mờ ở đáy ảnh giúp làm nổi bật tên phim */}
-        <div
-          className="position-absolute bottom-0 w-100 p-2 text-center d-flex justify-content-between align-items-center"
-          style={{
-            background: "linear-gradient(to top, rgba(0,0,0,0.9), transparent)",
-          }}
-        >
-          <Card.Title className="fs-6 fw-bold mb-0 text-truncate text-white">
+        <div className="overlay">
+          <Card.Title className="title">
             {name}
           </Card.Title>
-          {/* Nút lưu phim yêu thích */}
           <Button
             variant="link"
-            className="p-0 text-white border-0 shadow-none"
+            className="favorite-btn"
             onClick={(e) => {
-              e.preventDefault(); // Chặn thẻ <Link> ở ngoài kích hoạt
-              e.stopPropagation(); // 5. QUAN TRỌNG: Ngăn chuyển trang khi bấm nút bookmark
+              e.preventDefault();
+              e.stopPropagation();
               toggleFavorite(movie);
             }}
           >
