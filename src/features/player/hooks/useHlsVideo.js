@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Hls from "hls.js";
 
+const AUTO_SKIP_KEY = "family_auto_skip_15m";
+
 export const useHlsVideo = (m3u8Url) => {
   // ==========================================
   // 1. REFS (Tham chiếu phần tử và giá trị đệm)
@@ -32,6 +34,33 @@ export const useHlsVideo = (m3u8Url) => {
   const [showControls, setShowControls] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isPiP, setIsPiP] = useState(false);
+
+  // Lấy trạng thái lưu trữ từ LocalStorage (mặc định false)
+  const [isAutoSkip, setIsAutoSkip] = useState(() => {
+    try {
+      const saved = localStorage.getItem(AUTO_SKIP_KEY);
+      return saved ? JSON.parse(saved) : false;
+    } catch (error) {
+      console.error("Lỗi đọc auto-skip từ localStorage:", error);
+      return false;
+    }
+  });
+
+  // Flag đánh dấu đã auto skip cho tập hiện tại chưa (tránh lặp tua liên tục)
+  const hasSkippedRef = useRef(false);
+
+  // Lưu trạng thái vào LocalStorage mỗi khi toggled
+  const toggleAutoSkip = () => {
+    setIsAutoSkip((prev) => {
+      const nextState = !prev;
+      try {
+        localStorage.setItem(AUTO_SKIP_KEY, JSON.stringify(nextState));
+      } catch (error) {
+        console.error("Lỗi lưu auto-skip vào localStorage:", error);
+      }
+      return nextState;
+    });
+  };
 
   // ==========================================
   // 3. EFFECTS (Vòng đời và sự kiện hệ thống)
@@ -231,6 +260,35 @@ export const useHlsVideo = (m3u8Url) => {
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, []);
 
+  // Reset flag khi thay đổi video/tập phim mới
+  useEffect(() => {
+    hasSkippedRef.current = false;
+  }, [m3u8Url]);
+
+  // 4. Lắng nghe thời gian chạy của video để kiểm tra mốc 15 phút (900 giây)
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleTimeUpdate = () => {
+      // 900 giây = 15 phút
+      if (
+        isAutoSkip &&
+        !hasSkippedRef.current &&
+        video.currentTime >= 900 &&
+        video.currentTime < 901
+      ) {
+        video.currentTime += 30; // Tua tiến 30 giây
+        hasSkippedRef.current = true; // Đánh dấu đã skip xong cho tập này
+      }
+    };
+
+    video.addEventListener("timeupdate", handleTimeUpdate);
+    return () => {
+      video.removeEventListener("timeupdate", handleTimeUpdate);
+    };
+  }, [videoRef, isAutoSkip]);
+
   // ==========================================
   // 4. ACTIONS & HANDLERS (Hàm điều khiển)
   // ==========================================
@@ -375,6 +433,7 @@ export const useHlsVideo = (m3u8Url) => {
     volume,
     isMuted,
     isPiP,
+    isAutoSkip,
     handleVideoClick,
     togglePlay,
     handleSeek,
@@ -390,5 +449,6 @@ export const useHlsVideo = (m3u8Url) => {
     toggleMute,
     setIsPlaying,
     togglePiP,
+    toggleAutoSkip,
   };
 };

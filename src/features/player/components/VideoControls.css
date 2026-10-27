@@ -19,7 +19,9 @@
     rgba(0, 0, 0, 0.18) 75%,
     transparent 100%
   );
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 .video-controls-visible {
@@ -118,9 +120,13 @@
   border: none;
   border-radius: 50%;
   background: #ff0000;
-  box-shadow: 0 0 0 2px rgba(255, 0, 0, 0.15), 0 1px 4px rgba(0, 0, 0, 0.4);
+  box-shadow:
+    0 0 0 2px rgba(255, 0, 0, 0.15),
+    0 1px 4px rgba(0, 0, 0, 0.4);
   opacity: 0;
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .video-progress::-moz-range-thumb {
@@ -168,7 +174,10 @@
   border-radius: 50%;
   background: transparent !important;
   box-shadow: none !important;
-  transition: background-color 0.18s ease, transform 0.18s ease, color 0.18s ease;
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease,
+    color 0.18s ease;
 }
 
 .video-control-btn:hover {
@@ -213,7 +222,10 @@
   background: rgba(255, 193, 7, 0.12) !important;
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
-  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    transform 0.2s ease;
 }
 
 .skip-ads-btn:hover {
@@ -254,7 +266,10 @@
     rgba(255, 255, 255, 0.3) var(--volume-progress),
     rgba(255, 255, 255, 0.3) 100%
   );
-  transition: width 0.2s ease, opacity 0.2s ease, margin-left 0.2s ease;
+  transition:
+    width 0.2s ease,
+    opacity 0.2s ease,
+    margin-left 0.2s ease;
 }
 
 .video-volume-container:hover .video-volume-slider {
@@ -297,7 +312,9 @@
   border-radius: 50%;
   background: transparent !important;
   box-shadow: none !important;
-  transition: background-color 0.18s ease, transform 0.18s ease;
+  transition:
+    background-color 0.18s ease,
+    transform 0.18s ease;
 }
 
 .settings-dropdown-toggle::after {
@@ -325,10 +342,6 @@
   transition: transform 0.3s ease;
 }
 
-.settings-dropdown-toggle.show svg {
-  transform: rotate(30deg);
-}
-
 .settings-dropdown-menu {
   min-width: 205px;
   margin-bottom: 8px !important;
@@ -339,7 +352,9 @@
   border-radius: 12px !important;
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  box-shadow:
+    0 12px 35px rgba(0, 0, 0, 0.5),
+    inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
 
 .settings-dropdown-item {
@@ -352,7 +367,9 @@
   font-size: 13px;
   border-radius: 8px !important;
   background: transparent !important;
-  transition: background-color 0.15s ease, color 0.15s ease;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
 }
 
 .settings-dropdown-item:hover {
@@ -364,7 +381,6 @@
 .settings-dropdown-item.active {
   color: #fff !important;
   background: rgba(255, 255, 255, 0.12) !important;
-  font-weight: 500;
 }
 
 .settings-value {

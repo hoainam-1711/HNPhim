@@ -42,6 +42,10 @@ const VideoControls = ({
   currentQuality,
   handleQualityChange,
 
+  // Tự động skip
+  isAutoSkip, // <--- 1. Phải nhận prop này
+  toggleAutoSkip, // <--- 2. Phải nhận đúng tên prop này
+
   // Chuyển tập
   onNextEpisode,
   isLastEpisode,
@@ -58,7 +62,11 @@ const VideoControls = ({
   /* ==================================================
      1. FORMAT THỜI GIAN VÀ TIẾN TRÌNH
   ================================================== */
-  const currentTimeFormat = useMemo(() => formatTime(currentTime), [currentTime]);
+  const currentTimeFormat = useMemo(
+    () => formatTime(currentTime),
+    [currentTime],
+  );
+
   const durationFormat = useMemo(() => formatTime(duration), [duration]);
   const progressPercent = duration ? (currentTime / duration) * 100 : 0;
   const currentVolumePercent = (isMuted ? 0 : volume) * 100;
@@ -209,6 +217,19 @@ const VideoControls = ({
                         : `${qualities[currentQuality]?.height}p`}
                       <LucideIcon icon="ChevronRight" />
                     </span>
+                  </Dropdown.Item>
+
+                  {/* Nút Auto Skip được tối ưu trong Dropdown */}
+                  <Dropdown.Item
+                    as="button"
+                    className="settings-dropdown-item"
+                    onClick={toggleAutoSkip}
+                  >
+                    <span>Auto Skip</span>
+                    <LucideIcon
+                      className="settings-value"
+                      icon={isAutoSkip ? "ToggleRight" : "ToggleLeft"}
+                    />
                   </Dropdown.Item>
                 </>
               )}

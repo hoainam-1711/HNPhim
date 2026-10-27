@@ -16,12 +16,14 @@ const CustomVideoPlayer = ({
     containerRef,
     videoRef,
     isPlaying,
+    isAutoSkip,
     setShowControls,
     handleMouseMove,
     handleLoadedMetadata,
     handleTimeUpdate,
     setIsPlaying,
     handleVideoClick,
+    toggleAutoSkip,
   } = videoProps;
 
   // Xử lý ẩn thanh điều khiển khi chuột rời khỏi khung hình lúc video đang chạy
@@ -55,6 +57,8 @@ const CustomVideoPlayer = ({
       {/* Giao diện thanh điều khiển (nút bấm, thanh tua, âm lượng,...) */}
       <VideoControls
         {...videoProps}
+        isAutoSkip={isAutoSkip}
+        toggleAutoSkip={toggleAutoSkip}
         onNextEpisode={onNextEpisode}
         isLastEpisode={isLastEpisode}
         onTogglePiP={togglePiP}

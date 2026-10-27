@@ -2,6 +2,7 @@ import "./MovieDetailPage.css";
 import { useCallback, useContext, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { Badge, Button, Card, Col, Container, Row } from "react-bootstrap";
+import DOMPurify from "dompurify";
 import { MovieContext } from "../context/MovieContext";
 import Loading from "../components/ui/Loading";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
@@ -258,7 +259,9 @@ const MovieDetailPage = () => {
                 <div
                   className={`movie-description-text ${!isExpanded ? "collapsed" : ""}`}
                   dangerouslySetInnerHTML={{
-                    __html: movie?.content || "Chưa có mô tả cho phim này.",
+                    __html: DOMPurify.sanitize(
+                      movie?.content || "Chưa có mô tả cho phim này.",
+                    ),
                   }}
                 />
 
@@ -314,27 +317,6 @@ const MovieDetailPage = () => {
                     />
                   </Card.Body>
                 </Card>
-              </Col>
-            </Row>
-          )}
-
-          {/* Từ khóa Phim */}
-          {movie?.keywords && movie.keywords.length > 0 && (
-            <Row className="mt-4">
-              <Col xs={12}>
-                <div className="movie-keywords">
-                  <small className="text-secondary me-2">Từ khóa:</small>
-                  {movie.keywords.map((kw, i) => (
-                    <Badge
-                      key={i}
-                      bg="dark"
-                      text="secondary"
-                      className="movie-keyword fw-normal border border-secondary"
-                    >
-                      #{kw}
-                    </Badge>
-                  ))}
-                </div>
               </Col>
             </Row>
           )}

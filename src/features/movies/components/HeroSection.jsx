@@ -172,7 +172,6 @@ const HeroSection = ({ movies = [] }) => {
           alt={currentMovie?.name || "Movie backdrop"}
           className="hero-backdrop-img"
           decoding="async"
-          fetchPriority="high"
           onError={handleImgError}
           draggable="false"
         />
@@ -185,7 +184,6 @@ const HeroSection = ({ movies = [] }) => {
             alt={currentMovie?.name || "Movie poster"}
             className="hero-poster-img"
             decoding="async"
-            fetchPriority="high"
             onError={handleImgError}
             draggable="false"
           />
