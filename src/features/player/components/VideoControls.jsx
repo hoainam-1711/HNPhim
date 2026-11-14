@@ -1,11 +1,9 @@
 import "./VideoControls.css";
-import { useState, useMemo } from "react";
-import { Button, Dropdown } from "react-bootstrap";
+import { useMemo } from "react";
+import { Button } from "react-bootstrap";
 import LucideIcon from "../../../components/ui/LucideIcon";
 import formatTime from "../../../utils/formatTime";
-
-// Danh sách các mốc tốc độ phát hỗ trợ
-const PLAYBACK_RATES = [1, 1.25, 1.5, 2];
+import PlayerSettingsMenu from "./PlayerSettingsMenu";
 
 // Helper chọn icon âm lượng theo trạng thái mute và mức âm lượng
 const getVolumeIcon = (isMuted, volume) => {
@@ -43,8 +41,8 @@ const VideoControls = ({
   handleQualityChange,
 
   // Tự động skip
-  isAutoSkip, // <--- 1. Phải nhận prop này
-  toggleAutoSkip, // <--- 2. Phải nhận đúng tên prop này
+  isAutoSkip,
+  toggleAutoSkip,
 
   // Chuyển tập
   onNextEpisode,
@@ -56,9 +54,6 @@ const VideoControls = ({
   isPiP,
   togglePiP,
 }) => {
-  // Quản lý trạng thái menu settings ("main" | "speed" | "quality")
-  const [menuState, setMenuState] = useState("main");
-
   /* ==================================================
      1. FORMAT THỜI GIAN VÀ TIẾN TRÌNH
   ================================================== */
@@ -121,6 +116,7 @@ const VideoControls = ({
             <LucideIcon icon={isPlaying ? "Pause" : "Play"} />
           </Button>
 
+          {/* Tiến 10s */}
           <Button
             variant="link"
             className="video-control-btn"
@@ -155,7 +151,7 @@ const VideoControls = ({
 
         {/* --- CỤM ĐIỀU KHIỂN BÊN PHẢI --- */}
         <div className="video-controls-right">
-          {/* Bỏ qua giới thiệu / QC (Ẩn khi màn hình < 340px) */}
+          {/* Bỏ qua giới thiệu / QC */}
           <Button
             variant="warning"
             size="sm"
@@ -167,7 +163,7 @@ const VideoControls = ({
             <LucideIcon icon="SkipForward" />
           </Button>
 
-          {/* Chuyển tập tiếp theo (Ẩn khi màn hình < 576px) */}
+          {/* Chuyển tập tiếp theo */}
           <Button
             variant="link"
             onClick={onNextEpisode}
@@ -178,125 +174,18 @@ const VideoControls = ({
             <LucideIcon icon="SkipForward" />
           </Button>
 
-          {/* Cài đặt (Tốc độ & Độ phân giải) */}
-          <Dropdown
-            autoClose="outside"
-            onToggle={(isOpen) => !isOpen && setMenuState("main")}
-          >
-            <Dropdown.Toggle
-              variant="link"
-              className="settings-dropdown-toggle"
-              title="Settings"
-            >
-              <LucideIcon icon="Settings" />
-            </Dropdown.Toggle>
+          {/* Cài đặt (Tốc độ, Chất lượng, AutoSkip) */}
+          <PlayerSettingsMenu
+            playbackRate={playbackRate}
+            handleSpeedChange={handleSpeedChange}
+            qualities={qualities}
+            currentQuality={currentQuality}
+            handleQualityChange={handleQualityChange}
+            isAutoSkip={isAutoSkip}
+            toggleAutoSkip={toggleAutoSkip}
+          />
 
-            <Dropdown.Menu className="settings-dropdown-menu">
-              {/* Menu chính */}
-              {menuState === "main" && (
-                <>
-                  <Dropdown.Item
-                    className="settings-dropdown-item"
-                    onClick={() => setMenuState("speed")}
-                  >
-                    <span>Tốc độ phát</span>
-                    <span className="settings-value">
-                      {playbackRate === 1 ? "Chuẩn" : `${playbackRate}x`}
-                      <LucideIcon icon="ChevronRight" />
-                    </span>
-                  </Dropdown.Item>
-
-                  <Dropdown.Item
-                    className="settings-dropdown-item"
-                    onClick={() => setMenuState("quality")}
-                  >
-                    <span>Chất lượng</span>
-                    <span className="settings-value">
-                      {currentQuality === -1
-                        ? "Tự động"
-                        : `${qualities[currentQuality]?.height}p`}
-                      <LucideIcon icon="ChevronRight" />
-                    </span>
-                  </Dropdown.Item>
-
-                  {/* Nút Auto Skip được tối ưu trong Dropdown */}
-                  <Dropdown.Item
-                    as="button"
-                    className="settings-dropdown-item"
-                    onClick={toggleAutoSkip}
-                  >
-                    <span>Auto Skip</span>
-                    <LucideIcon
-                      className="settings-value"
-                      icon={isAutoSkip ? "ToggleRight" : "ToggleLeft"}
-                    />
-                  </Dropdown.Item>
-                </>
-              )}
-
-              {/* Submenu chọn tốc độ */}
-              {menuState === "speed" && (
-                <>
-                  <div
-                    className="settings-submenu-header"
-                    onClick={() => setMenuState("main")}
-                  >
-                    <LucideIcon icon="ChevronLeft" />
-                    <strong>Tốc độ phát</strong>
-                  </div>
-
-                  <div className="speed-options">
-                    {PLAYBACK_RATES.map((rate) => (
-                      <button
-                        key={rate}
-                        type="button"
-                        className={`speed-option ${
-                          playbackRate === rate ? "active" : ""
-                        }`}
-                        onClick={() => handleSpeedChange(rate)}
-                      >
-                        {rate}
-                      </button>
-                    ))}
-                  </div>
-                </>
-              )}
-
-              {/* Submenu chọn chất lượng */}
-              {menuState === "quality" && (
-                <>
-                  <div
-                    className="settings-submenu-header"
-                    onClick={() => setMenuState("main")}
-                  >
-                    <LucideIcon icon="ChevronLeft" />
-                    <strong>Chất lượng</strong>
-                  </div>
-
-                  <Dropdown.Item
-                    active={currentQuality === -1}
-                    onClick={() => handleQualityChange(-1)}
-                    className="settings-dropdown-item"
-                  >
-                    Tự động
-                  </Dropdown.Item>
-
-                  {qualities.map((q) => (
-                    <Dropdown.Item
-                      key={q.id}
-                      active={currentQuality === q.id}
-                      onClick={() => handleQualityChange(q.id)}
-                      className="settings-dropdown-item"
-                    >
-                      {q.height}p
-                    </Dropdown.Item>
-                  ))}
-                </>
-              )}
-            </Dropdown.Menu>
-          </Dropdown>
-
-          {/* Picture-in-Picture (Ẩn khi màn hình < 460px) */}
+          {/* Picture-in-Picture */}
           <Button
             variant="link"
             className="video-control-btn hide-btn-460"
@@ -308,12 +197,14 @@ const VideoControls = ({
             <LucideIcon icon="PictureInPicture" />
           </Button>
 
-          {/* Bật / Tắt Toàn màn hình */}
+          {/* Toàn màn hình */}
           <Button
             variant="link"
             className="video-control-btn"
             onClick={toggleFullscreen}
-            title={`(F) ${isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"}`}
+            title={`(F) ${
+              isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"
+            }`}
           >
             <LucideIcon icon={isFullscreen ? "Minimize" : "Maximize"} />
           </Button>

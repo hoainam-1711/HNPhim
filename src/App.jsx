@@ -3,15 +3,12 @@ import { Route, Routes } from "react-router-dom";
 import Loading from "./components/ui/Loading";
 
 const HomePage = lazy(() => import("./pages/HomePage"));
-const MoviesByTypePage = lazy(() => import("./pages/MoviesByTypePage"));
+const MovieCatalogPage = lazy(() => import("./pages/MovieCatalogPage"));
 const FavoritesPage = lazy(() => import("./pages/FavoritesPage"));
-const SearchPage = lazy(() => import("./pages/SearchPage"));
 const MovieDetailPage = lazy(() => import("./pages/MovieDetailPage"));
 const WatchPage = lazy(() => import("./pages/WatchPage"));
 const MainLayout = lazy(() => import("./layouts/MainLayout"));
 const NotFoundPage = lazy(() => import("./pages/NotFoundPage"));
-const MoviesByGenrePage = lazy(() => import("./pages/MoviesByGenrePage"));
-const MoviesByCountryPage = lazy(() => import("./pages/MoviesByCountryPage"));
 
 function App() {
   return (
@@ -20,15 +17,27 @@ function App() {
         <Route path="/" element={<MainLayout />}>
           <Route index element={<HomePage />} />
 
-          <Route path="/loai/:type" element={<MoviesByTypePage />} />
+          <Route
+            path="/loai/:type"
+            element={<MovieCatalogPage mode="type" />}
+          />
 
           <Route path="/ua-thich" element={<FavoritesPage />} />
 
-          <Route path="/tim-kiem/:keyword" element={<SearchPage />} />
+          <Route
+            path="/tim-kiem/:keyword"
+            element={<MovieCatalogPage mode="search" />}
+          />
 
-          <Route path="/the-loai/:slug" element={<MoviesByGenrePage />} />
+          <Route
+            path="/the-loai/:slug"
+            element={<MovieCatalogPage mode="genre" />}
+          />
 
-          <Route path="/quoc-gia/:slug" element={<MoviesByCountryPage />} />
+          <Route
+            path="/quoc-gia/:slug"
+            element={<MovieCatalogPage mode="country" />}
+          />
 
           <Route path="/chi-tiet/:slug" element={<MovieDetailPage />} />
 

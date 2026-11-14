@@ -1,117 +1,52 @@
 import "./WatchPage.css";
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { useParams, useNavigate, Link } from "react-router-dom";
+import { useMemo } from "react";
+import { useParams, Link } from "react-router-dom";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
 import Loading from "../components/ui/Loading";
 import CustomVideoPlayer from "../features/player/components/CustomVideoPlayer";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
+import useEpisodePlaylist from "../features/player/hooks/useEpisodePlaylist";
 import SEO from "../components/ui/SEO";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();
-  const navigate = useNavigate();
 
-  // 1. Sử dụng custom hook useMovieDetail
+  // 1. Tải dữ liệu phim
   const { data, loading, error } = useMovieDetail(slug);
-
-  // 2. Trích xuất dữ liệu phim và danh sách tập
   const movie = data?.movie || {};
-  const episodesList = useMemo(() => {
-    return data?.episodes || data?.data?.item?.episodes || [];
-  }, [data]);
+  const episodesList = useMemo(() => data?.episodes || [], [data]);
 
-  // State chọn Server và tập hiện tại
-  const [selectedServer, setSelectedServer] = useState(0);
-  const [currentEpData, setCurrentEpData] = useState(null);
-
-  // 3. Xử lý tìm tập phim khi data, ep hoặc selectedServer thay đổi
-  useEffect(() => {
-    if (!episodesList.length) return;
-
-    // Lấy server đang chọn
-    const server = episodesList[selectedServer] || episodesList[0];
-
-    // Tìm thông tin tập phim dựa trên param 'ep'
-    let foundEp = server?.server_data?.find(
-      (item) => item.slug === ep || item.name === ep,
-    );
-
-    // Tìm ở các server khác nếu không thấy ở server hiện tại
-    if (!foundEp) {
-      for (const s of episodesList) {
-        foundEp = s.server_data?.find(
-          (item) => item.slug === ep || item.name === ep,
-        );
-        if (foundEp) break;
-      }
-    }
-
-    setCurrentEpData(foundEp || server?.server_data?.[0]);
-  }, [episodesList, ep, selectedServer]);
-
-  // Server & Tập mặc định
-  const currentServer = episodesList[selectedServer] || episodesList[0];
-  const serverData = currentServer?.server_data || [];
-
-  // Hàm chuyển tập phim
-  const handleWatchMovie = useCallback((targetEp) => {
-    if (targetEp) {
-      const epSlug = targetEp.slug || targetEp.name;
-      navigate(`/xem/${slug}/${epSlug}`);
-    } else {
-      console.warn("Chưa có thông tin tập phim để xem!");
-    }
-  }, [slug, navigate]);
-
-  const handleNextEpisode = () => {
-    if (!currentEpData || !serverData.length) return;
-
-    const currentIndex = serverData.findIndex(
-      (item) => item.slug === currentEpData.slug,
-    );
-
-    if (currentIndex === -1) return;
-
-    const nextEpisode = serverData[currentIndex + 1];
-
-    if (!nextEpisode) {
-      console.log("Đã là tập cuối");
-      return;
-    }
-
-    const epSlug = nextEpisode.slug || nextEpisode.name;
-
-    navigate(`/xem/${slug}/${epSlug}`);
-  };
-
-  const isLastEpisode = () => {
-    const currentIndex = serverData.findIndex(
-      (item) => item.slug === currentEpData?.slug,
-    );
-
-    return currentIndex === -1 || currentIndex === serverData.length - 1;
-  };
+  // 2. Logic điều hướng danh sách tập & server
+  const {
+    selectedServer,
+    setSelectedServer,
+    currentEpData,
+    serverData,
+    handleWatchMovie,
+    handleNextEpisode,
+    isLastEpisode,
+  } = useEpisodePlaylist({ episodesList, ep, slug });
 
   if (loading) return <Loading />;
 
   if (error) {
     return (
       <div className="text-white text-center py-5">
-        Lỗi:{" "}
-        {"WatchPage: " + error.message ||
-          "WatchPage: Không thể tải danh sách phim"}
+        Lỗi: {error.message || "Không thể tải danh sách phim"}
       </div>
     );
   }
 
+  const epDisplayName = currentEpData?.name || ep;
+
   return (
     <>
       <SEO
-        title={`${movie.name} - ${currentEpData?.name || ep}`}
-        description={`Xem ${movie.name} ${currentEpData?.name || ep} online chất lượng cao. Xem phim với đầy đủ các tập mới nhất.`}
+        title={`${movie.name || "Xem phim"} - ${epDisplayName}`}
+        description={`Xem ${movie.name || ""} ${epDisplayName} online chất lượng cao. Đầy đủ các tập mới nhất.`}
         image={movie.thumb_url}
-        url={`/xem/${movie.slug}/${currentEpData?.slug}`}
+        url={`/xem/${movie.slug}/${currentEpData?.slug || ep}`}
         robots="noindex, follow"
       />
 
@@ -126,15 +61,12 @@ const WatchPage = () => {
               >
                 {movie?.name}
               </Link>
-
-              <span className="watch-episode">{currentEpData?.name || ep}</span>
+              <span className="watch-episode">{epDisplayName}</span>
             </h5>
           </div>
 
           <Row className="watch-layout g-3">
-            {/* ================================
-              VIDEO PLAYER
-          ================================= */}
+            {/* VIDEO PLAYER */}
             <Col xs={12} xl={8}>
               <div className="watch-player-wrapper">
                 {currentEpData?.link_m3u8 ? (
@@ -154,23 +86,19 @@ const WatchPage = () => {
                   </div>
                 ) : (
                   <div className="watch-player-error">
-                    <p>{error || "Không thể phát tập phim này."}</p>
+                    <p>Không tìm thấy nguồn phát cho tập phim này.</p>
                   </div>
                 )}
               </div>
             </Col>
 
-            {/* ================================
-              EPISODE SIDEBAR
-          ================================= */}
+            {/* SIDEBAR TẬP PHIM */}
             <Col xs={12} xl={4}>
               <div className="watch-sidebar">
-                {/* Header */}
                 <div className="watch-sidebar-header">
                   <h6 className="watch-sidebar-title">Danh sách tập</h6>
 
-                  {/* Server */}
-                  {episodesList?.length > 1 && (
+                  {episodesList.length > 1 && (
                     <div className="watch-server-list">
                       {episodesList.map((server, idx) => (
                         <Button
@@ -189,7 +117,6 @@ const WatchPage = () => {
                   )}
                 </div>
 
-                {/* Episodes */}
                 <div className="p-3 overflow-hidden">
                   <EpisodeSelector
                     serverData={serverData}
