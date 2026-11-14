@@ -1,7 +1,7 @@
 import "./HeroSection.css";
-import { useContext, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { MovieContext } from "../../../context/MovieContext";
+import { useFavorites } from "../../../context/MovieContext";
 import LucideIcon from "../../../components/ui/LucideIcon";
 import { getImageSrc, handleImgError } from "../../../utils/formatImage";
 
@@ -16,7 +16,7 @@ const CLICK_DEBOUNCE_TIME = 150;
 
 const HeroSection = ({ movies = [] }) => {
   const [selectedIndex, setSelectedIndex] = useState(0);
-  const { toggleFavorite, isFavorite } = useContext(MovieContext);
+  const { toggleFavorite, isFavorite } = useFavorites();
   const navigate = useNavigate();
 
   // Lưu vị trí bắt đầu/kết thúc của thao tác swipe
@@ -329,4 +329,4 @@ const HeroSection = ({ movies = [] }) => {
   );
 };
 
-export default HeroSection;
+export default memo(HeroSection);

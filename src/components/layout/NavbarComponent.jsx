@@ -1,14 +1,14 @@
 import "./NavbarComponent.css";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
-import { MovieContext } from "../../context/MovieContext";
+import { useFavorites } from "../../context/MovieContext";
 import LucideIcon from "../ui/LucideIcon";
 import FilterModal from "./FilterModal";
 
 function NavbarComponent() {
   // 1. Context & Navigation Hooks
-  const { favorites } = useContext(MovieContext);
+  const { favoritesCount } = useFavorites();
   const navigate = useNavigate();
 
   // 2. Local States
@@ -38,7 +38,7 @@ function NavbarComponent() {
           to="/"
           className="logo d-flex align-items-center"
         >
-          <LucideIcon icon="Logo" fill="#fe0033"/>
+          <LucideIcon icon="Logo" fill="#fe0033" />
           <span>HNPhim</span>
         </Navbar.Brand>
 
@@ -89,7 +89,7 @@ function NavbarComponent() {
               className="favorite text-nowrap"
             >
               <LucideIcon icon="BookmarkCheck" />
-              <span className="favorite-count">{favorites.length}</span>
+              <span className="favorite-count">{favoritesCount}</span>
             </Button>
           </div>
         </Navbar.Collapse>

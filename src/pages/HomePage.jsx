@@ -41,9 +41,9 @@ const HomePage = () => {
   // Tách phim để hiển thị Hero Section trên cùng
   const heroGroup = data?.find((item) => item.type === "phim-moi");
   const heroMovies =
-    heroGroup?.data?.data?.items || heroGroup?.data?.items || [];
+    heroGroup?.data?.items || heroGroup?.data?.data?.items || [];
 
-  // Các section còn lại, không bao gồm "phim-le"
+  // Các section còn lại, không bao gồm "phim-moi"
   const otherSection = data?.filter((item) => item.type !== "phim-moi") || [];
 
   return (
@@ -56,11 +56,13 @@ const HomePage = () => {
 
       <Container fluid className="px-3 px-md-4 py-2 home-container">
         {/* HERO SECTION */}
-        {heroMovies.length > 0 && <HeroSection movies={heroMovies.slice(0, 6)} />}
+        {heroMovies.length > 0 && (
+          <HeroSection movies={heroMovies.slice(0, 6)} />
+        )}
 
         {/* MovieSection */}
         {otherSection.map(({ type, data: movieData }) => {
-          const movies = movieData?.data?.items || movieData?.items || [];
+          const movies = movieData?.items || movieData?.data?.items || [];
           return (
             <MovieSection
               key={type}

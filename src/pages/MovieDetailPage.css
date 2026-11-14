@@ -121,10 +121,6 @@
   background: #3a3a3a !important;
 }
 
-.movie-country {
-  margin-right: 8px;
-}
-
 /* Action Buttons (Xem phim, Lưu) */
 .movie-actions {
   display: flex;
@@ -298,26 +294,6 @@
   background: #ff0000 !important;
   border-color: #ff0000 !important;
   color: #fff !important;
-}
-
-/* --------------------------------------------------
-   4. KEYWORDS SECTION
--------------------------------------------------- */
-
-.movie-keywords {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-}
-
-.movie-keyword {
-  padding: 4px 8px !important;
-  background: transparent !important;
-  border: 1px solid #383838 !important;
-  border-radius: 4px !important;
-  color: #aaa !important;
-  font-size: 0.75rem !important;
 }
 
 /* ==================================================

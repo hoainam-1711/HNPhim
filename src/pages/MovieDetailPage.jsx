@@ -1,13 +1,13 @@
 import "./MovieDetailPage.css";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { Container } from "react-bootstrap";
+import { Badge, Col, Container, Row } from "react-bootstrap";
 import { useFavorites } from "../context/MovieContext";
 import Loading from "../components/ui/Loading";
 import SEO from "../components/ui/SEO";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
 import cleanDescription from "../utils/cleanDescription";
-import { getImageSrc } from "../utils/formatImage";
+import { getImageSrc, handleImgError } from "../utils/formatImage";
 
 import MovieDetailInfo from "../features/movies/components/detail/MovieDetailInfo";
 import MovieDetailActions from "../features/movies/components/detail/MovieDetailActions";
@@ -70,24 +70,44 @@ const MovieDetailPage = () => {
         url={`/chi-tiet/${movie?.slug}`}
       />
 
-      <div className="movie-detail-page">
+      <div>
         <Container fluid className="movie-detail-container py-4">
-          {/* Thông tin metadata + Poster */}
-          <MovieDetailInfo movie={movie} />
+          {/* TOP SECTION: Poster & Thông tin chi tiết (Giữ nguyên cấu trúc Row 2 cột gốc) */}
+          <Row className="g-4 mb-5">
+            {/* Poster Phim (Cột trái) */}
+            <Col xs={12} md={5} lg={4} xl={3}>
+              <div className="movie-poster">
+                <img
+                  src={posterSrc}
+                  alt={movie?.name}
+                  onError={handleImgError}
+                />
 
-          {/* Cụm nút Thao tác & Mô tả nội dung */}
-          <div className="ps-md-3">
-            <MovieDetailActions
-              onWatch={() => handleWatchMovie(firstEpisode)}
-              isFavorited={favorited}
-              onToggleFavorite={() => toggleFavorite(movie)}
-              canWatch={Boolean(firstEpisode)}
-            />
+                {movie?.quality && (
+                  <Badge className="movie-quality">{movie.quality}</Badge>
+                )}
+              </div>
+            </Col>
 
-            <MovieDescription content={movie?.content} />
-          </div>
+            {/* Thông tin Phim (Cột phải) */}
+            <Col className="movie-info">
+              <div>
+                <MovieDetailInfo movie={movie} />
 
-          {/* Cụm Server và Danh sách tập */}
+                <MovieDetailActions
+                  onWatch={() => handleWatchMovie(firstEpisode)}
+                  isFavorited={favorited}
+                  onToggleFavorite={() => toggleFavorite(movie)}
+                  canWatch={Boolean(firstEpisode)}
+                />
+              </div>
+
+              {/* Mô tả Nội dung phim */}
+              <MovieDescription content={movie?.content} />
+            </Col>
+          </Row>
+
+          {/* BOTTOM SECTION: Danh Sách Server & Tập Phim Chia Nhóm */}
           <MovieServerEpisodes
             episodesList={episodesList}
             selectedServer={selectedServer}

@@ -1,5 +1,4 @@
-import { MovieContext } from "../context/MovieContext";
-import { useContext } from "react";
+import { useFavorites } from "../context/MovieContext";
 import MovieList from "../features/movies/components/MovieList";
 import { Col, Container, Row } from "react-bootstrap";
 import CustomPagination from "../components/ui/CustomPagination";
@@ -10,8 +9,8 @@ const ITEMSPERPAGE = 24;
 
 function FavoritesPage() {
   // Lấy mảng favorites từ Context
-  const { favorites } = useContext(MovieContext);
-  const length = favorites.length;
+  const { favorites, favoritesCount } = useFavorites();
+  const length = favoritesCount ?? favorites.length;
 
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page")) || 1;
