@@ -1,5 +1,9 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
-import { MovieContext } from "./MovieContext";
+import {
+  MovieContext,
+  FavoritesStateContext,
+  FavoritesActionsContext,
+} from "./MovieContext";
 
 // Khóa định danh lưu trữ danh sách yêu thích trong LocalStorage
 const STORAGE_KEY = "family_favorites";
@@ -30,13 +34,21 @@ export const MovieProvider = ({ children }) => {
   }, [favorites]);
 
   // =========================================================
-  // 3. CÁC HÀM XỬ LÝ DỮ LIỆU (ACTIONS)
+  // 3. SET TRA CỨU O(1) CHO IS_FAVORITE
+  // =========================================================
+  const favoritesSet = useMemo(
+    () => new Set(favorites.map((item) => item?.slug).filter(Boolean)),
+    [favorites],
+  );
+
+  // =========================================================
+  // 4. CÁC HÀM XỬ LÝ DỮ LIỆU (ACTIONS)
   // =========================================================
 
   /**
    * Thêm hoặc xóa một bộ phim khỏi danh sách yêu thích
-   * - Nếu đã có: Xóa khỏi danh sách
-   * - Nếu chưa có: Đưa phim mới lên đầu danh sách
+   * Callback này KHÔNG có dependencies => Tham chiếu ổn định vĩnh viễn,
+   * không bao giờ kích hoạt re-render ở các component chỉ dùng action.
    */
   const toggleFavorite = useCallback((movie) => {
     if (!movie?.slug) return;
@@ -50,30 +62,53 @@ export const MovieProvider = ({ children }) => {
   }, []);
 
   /**
-   * Kiểm tra một bộ phim đã nằm trong danh sách yêu thích hay chưa dựa vào slug
-   * @param {string} slug - Mã định danh của phim
-   * @returns {boolean}
+   * Kiểm tra nhanh O(1) xem phim có trong favorites không
    */
   const isFavorite = useCallback(
-    (slug) => favorites.some((item) => item.slug === slug),
-    [favorites]
+    (slug) => Boolean(slug && favoritesSet.has(slug)),
+    [favoritesSet],
   );
 
   // =========================================================
-  // 4. MEMOIZE CONTEXT VALUE ĐỂ TRÁNH RE-RENDER KHÔNG CẦN THIẾT
+  // 5. MEMOIZE CONTEXT VALUES
   // =========================================================
-  const contextValue = useMemo(
+
+  // Context chỉ chứa Actions (100% stable reference)
+  const actionsValue = useMemo(
+    () => ({
+      toggleFavorite,
+    }),
+    [toggleFavorite],
+  );
+
+  // Context chỉ chứa State
+  const stateValue = useMemo(
     () => ({
       favorites,
+      favoritesCount: favorites.length,
+      isFavorite,
+    }),
+    [favorites, isFavorite],
+  );
+
+  // Context kết hợp đầy đủ (Backward compatibility cho code cũ)
+  const combinedValue = useMemo(
+    () => ({
+      favorites,
+      favoritesCount: favorites.length,
       toggleFavorite,
       isFavorite,
     }),
-    [favorites, toggleFavorite, isFavorite]
+    [favorites, toggleFavorite, isFavorite],
   );
 
   return (
-    <MovieContext.Provider value={contextValue}>
-      {children}
-    </MovieContext.Provider>
+    <FavoritesActionsContext.Provider value={actionsValue}>
+      <FavoritesStateContext.Provider value={stateValue}>
+        <MovieContext.Provider value={combinedValue}>
+          {children}
+        </MovieContext.Provider>
+      </FavoritesStateContext.Provider>
+    </FavoritesActionsContext.Provider>
   );
 };

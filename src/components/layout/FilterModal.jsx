@@ -1,5 +1,5 @@
 import "./FilterModal.css";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal, Tab, Tabs } from "react-bootstrap";
 import Loading from "../ui/Loading";
@@ -63,22 +63,30 @@ const FilterTabContent = ({
 const FilterModal = ({ show, handleClose }) => {
   // Quản lý tab đang chọn (type | genre | country)
   const [activeTab, setActiveTab] = useState("type");
+  const [hasOpened, setHasOpened] = useState(false);
 
-  // Fetch dữ liệu Thể loại (Genre) và chuẩn hóa danh sách
+  // Chỉ kích hoạt tải dữ liệu khi modal được mở lần đầu tiên (Lazy-fetch)
+  useEffect(() => {
+    if (show && !hasOpened) {
+      setHasOpened(true);
+    }
+  }, [show, hasOpened]);
+
+  // Fetch dữ liệu Thể loại (Genre) chỉ khi đã mở modal
   const {
     data: genresData,
     loading: genresLoading,
     error: genresError,
-  } = useGenres();
-  const genres = genresData?.data?.items || genresData?.items || [];
+  } = useGenres(hasOpened);
+  const genres = genresData?.items || genresData?.data?.items || [];
 
-  // Fetch dữ liệu Quốc gia (Country) và chuẩn hóa danh sách
+  // Fetch dữ liệu Quốc gia (Country) chỉ khi đã mở modal
   const {
     data: countriesData,
     loading: countriesLoading,
     error: countriesError,
-  } = useCountries();
-  const countries = countriesData?.data?.items || countriesData?.items || [];
+  } = useCountries(hasOpened);
+  const countries = countriesData?.items || countriesData?.data?.items || [];
 
   // Thoát sớm nếu Modal không được kích hoạt hiển thị
   if (!show) return null;

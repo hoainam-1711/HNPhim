@@ -4,9 +4,11 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LucideIcon from "../../../components/ui/LucideIcon";
 import MovieCard from "./MovieCard";
+import { useFavorites } from "../../../context/MovieContext";
 
-const MovieSection = ({ title, type, movies }) => {
+const MovieSection = ({ title, type, movies = [] }) => {
   const scrollRef = useRef(null);
+  const { isFavorite, toggleFavorite } = useFavorites();
 
   // Hàm xử lý cuộn trái / phải
   const handleScroll = (direction) => {
@@ -58,7 +60,11 @@ const MovieSection = ({ title, type, movies }) => {
                 to={`/chi-tiet/${movie.slug}`}
                 className="text-decoration-none text-reset d-block h-100"
               >
-                <MovieCard movie={movie} />
+                <MovieCard
+                  movie={movie}
+                  isFavorited={isFavorite(movie.slug)}
+                  onToggleFavorite={toggleFavorite}
+                />
               </Link>
             </div>
           ))}

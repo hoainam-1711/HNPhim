@@ -2,8 +2,11 @@ import { Col, Container, Row } from "react-bootstrap";
 import MovieCard from "./MovieCard";
 import { Link } from "react-router-dom";
 import Loading from "../../../components/ui/Loading";
+import { useFavorites } from "../../../context/MovieContext";
 
 const MovieList = ({ movies, loading, msg }) => {
+  const { isFavorite, toggleFavorite } = useFavorites();
+
   if (loading) return <Loading />;
 
   return (
@@ -29,19 +32,23 @@ const MovieList = ({ movies, loading, msg }) => {
       <Row xs={2} sm={3} md={4} lg={6} className="g-3 g-md-4">
         {movies &&
           movies.length > 0 &&
-          movies?.map((movie) => (
-            <Col key={movie._id || movie.id}>
+          movies.map((movie) => (
+            <Col key={movie._id || movie.id || movie.slug}>
               <Link
                 to={`/chi-tiet/${movie.slug}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <MovieCard movie={movie} />
+                <MovieCard
+                  movie={movie}
+                  isFavorited={isFavorite(movie.slug)}
+                  onToggleFavorite={toggleFavorite}
+                />
               </Link>
             </Col>
           ))}
       </Row>
 
-      {(!movies || movies.length == 0) && <p>Không có phim nào!</p>}
+      {(!movies || movies.length === 0) && <p>Không có phim nào!</p>}
     </Container>
   );
 };
