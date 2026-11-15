@@ -26,47 +26,15 @@ A modern, high-performance movie streaming web application built with **React 18
 
 ```text
 src/
-├── app/                           # Application root setup
-│   ├── layouts/                   # Global layouts (MainLayout, Header, Footer)
-│   ├── routes/                    # Centralized routing configuration (AppRoutes.jsx)
-│   └── App.jsx
-│
-├── core/                          # Shared, domain-agnostic layer
-│   ├── api/
-│   │   ├── client.js              # Axios instance & interceptors
-│   │   └── endpoints.js           # API endpoint definitions
-│   ├── components/                # Reusable presentational UI components
-│   │   ├── ui/                    # Button, Modal, CustomPagination, Loading, SEO
-│   │   └── icons/                 # Standardized icon wrappers
-│   ├── hooks/                     # Generic custom hooks (useDebounce, useLocalStorage, usePagination)
-│   └── utils/                     # Pure helper functions (formatters, CDN helpers, DOMPurify sanitize)
-│
-├── features/                      # Self-contained business logic modules
-│   ├── movies/                    # Movie browsing, filtering & details
-│   │   ├── services/              # movieService.js (API calls & data normalizers)
-│   │   ├── hooks/                 # useMovieCatalog, useMovieDetail, useFilterData
-│   │   ├── components/            # MovieCard, MovieGrid, MovieSection, HeroBanner, FilterModal
-│   │   └── index.js               # Public module exports
-│   │
-│   ├── player/                    # HLS video streaming & episode management
-│   │   ├── hooks/                 # useHlsPlayer, useKeyboardControls, useEpisodePlaylist
-│   │   ├── components/            # CustomVideoPlayer, VideoControls, EpisodeSelector, SettingsMenu
-│   │   ├── utils/                 # playerConstants, timeFormatters
-│   │   └── index.js
-│   │
-│   └── favorites/                 # Favorite movies state & UI
-│       ├── context/               # FavoritesContext (separated state & dispatch)
-│       ├── hooks/                 # useFavorites, useIsFavorite
-│       ├── components/            # FavoriteButton, FavoriteCounter
-│       └── index.js
-│
-└── pages/                         # Thin page components connecting features
-    ├── HomePage.jsx
-    ├── MovieCatalogPage.jsx       # Unified view for Type, Genre, Country, and Search
-    ├── MovieDetailPage.jsx
-    ├── WatchPage.jsx
-    ├── FavoritesPage.jsx
-    └── NotFoundPage.jsx
+├── api/          # General API configuration, axiosInstance, and central API calls
+├── assets/       # Static assets (images, logo, static icons)
+├── components/   # Application-wide shared UI components (Shared UI & Common Layouts)
+├── context/      # Global State Management (Bookmarks, Watch History, LocalStorage sync)
+├── features/     # Feature-based modules grouping logic & UI (movies, video player)
+├── hooks/        # Generic / Reusable custom React hooks
+├── layouts/      # Main layout wrappers for application routes
+├── pages/        # Main page views (HomePage, WatchPage, MovieDetailPage, etc.)
+└── utils/        # Utility helper functions (error handling, formatting, etc.)
 ```
 
 ## Installation
