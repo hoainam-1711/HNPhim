@@ -2,11 +2,11 @@ import { useCallback } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
 import movieApi from "../api/movieApi";
-import useFetch from "../hooks/useFetch";
-import CustomPagination from "../components/ui/CustomPagination";
+import useFetch from "@/core/hooks/useFetch";
+import CustomPagination from "@/core/components/ui/CustomPagination";
 import MovieList from "../features/movies/components/MovieList";
-import Loading from "../components/ui/Loading";
-import SEO from "../components/ui/SEO";
+import Loading from "@/core/components/ui/Loading";
+import SEO from "@/core/components/ui/SEO";
 
 const TYPE_TITLES = {
   "phim-moi": "Phim Mới Cập Nhật",

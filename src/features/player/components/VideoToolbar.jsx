@@ -1,6 +1,6 @@
 import { memo } from "react";
 import { Button } from "react-bootstrap";
-import LucideIcon from "../../../components/ui/LucideIcon";
+import LucideIcon from "@/core/components/icons";
 import PlayerSettingsMenu from "./PlayerSettingsMenu";
 
 // Helper chọn icon âm lượng theo trạng thái mute và mức âm lượng

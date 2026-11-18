@@ -1,6 +1,6 @@
-import api from "./axios";
-import ENDPOINTS from "./endpoints";
-import handleError from "../utils/handleError";
+import api from "@/core/api/client";
+import ENDPOINTS from "@/core/api/endpoints";
+import handleError from "@/core/utils/error";
 import {
   normalizeMovieList,
   normalizeMovieDetail,

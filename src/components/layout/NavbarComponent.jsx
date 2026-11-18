@@ -3,7 +3,7 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
 import { useFavorites } from "../../context/MovieContext";
-import LucideIcon from "../ui/LucideIcon";
+import LucideIcon from "@/core/components/icons";
 import FilterModal from "./FilterModal";
 
 function NavbarComponent() {

@@ -1,5 +1,5 @@
 import { memo, useMemo } from "react";
-import formatTime from "../../../utils/formatTime";
+import formatTime from "@/core/utils/time";
 
 /**
  * VideoTimeline:

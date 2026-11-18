@@ -3,11 +3,11 @@ import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import EpisodeSelector from "../features/player/components/EpisodeSelector";
-import Loading from "../components/ui/Loading";
+import Loading from "@/core/components/ui/Loading";
 import CustomVideoPlayer from "../features/player/components/CustomVideoPlayer";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
 import useEpisodePlaylist from "../features/player/hooks/useEpisodePlaylist";
-import SEO from "../components/ui/SEO";
+import SEO from "@/core/components/ui/SEO";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();

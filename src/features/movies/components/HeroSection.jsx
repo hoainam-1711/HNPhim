@@ -2,8 +2,8 @@ import "./HeroSection.css";
 import { memo, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useFavorites } from "../../../context/MovieContext";
-import LucideIcon from "../../../components/ui/LucideIcon";
-import { getImageSrc, handleImgError } from "../../../utils/formatImage";
+import LucideIcon from "@/core/components/icons";
+import { getImageSrc, handleImgError } from "@/core/utils/image";
 
 // Khoảng cách tối thiểu để xác định người dùng đang swipe
 const SWIPE_THRESHOLD = 50;
@@ -88,7 +88,6 @@ const HeroSection = ({ movies = [] }) => {
   };
 
   //Xác định hướng swipe khi người dùng thả tay.
-
   const handleTouchEnd = () => {
     const diffX = touchEndX.current - touchStartX.current;
 

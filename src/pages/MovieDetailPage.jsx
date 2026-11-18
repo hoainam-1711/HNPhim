@@ -3,11 +3,11 @@ import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Badge, Col, Container, Row } from "react-bootstrap";
 import { useFavorites } from "../context/MovieContext";
-import Loading from "../components/ui/Loading";
-import SEO from "../components/ui/SEO";
+import Loading from "@/core/components/ui/Loading";
+import SEO from "@/core/components/ui/SEO";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";
-import cleanDescription from "../utils/cleanDescription";
-import { getImageSrc, handleImgError } from "../utils/formatImage";
+import cleanDescription from "@/core/utils/text";
+import { getImageSrc, handleImgError } from "@/core/utils/image";
 
 import MovieDetailInfo from "../features/movies/components/detail/MovieDetailInfo";
 import MovieDetailActions from "../features/movies/components/detail/MovieDetailActions";

@@ -2,13 +2,11 @@ import "./FilterModal.css";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal, Tab, Tabs } from "react-bootstrap";
-import Loading from "../ui/Loading";
+import Loading from "@/core/components/ui/Loading";
 import useGenres from "../../features/movies/hooks/useGenres";
 import useCountries from "../../features/movies/hooks/useCountries";
 
-// =========================================================
 // 1. DỮ LIỆU TĨNH CỐ ĐỊNH (CONSTANTS)
-// =========================================================
 const TYPES = [
   { id: "phim-moi", name: "Phim Mới", slug: "phim-moi" },
   { id: "phim-le", name: "Phim Lẻ", slug: "phim-le" },
@@ -18,10 +16,7 @@ const TYPES = [
   { id: "tv-shows", name: "TV Shows", slug: "tv-shows" },
 ];
 
-// =========================================================
-// 2. SUB-COMPONENT PHỤC VỤ HIỂN THỊ TỪNG TAB (TÁI SỬ DỤNG UI)
-// Giúp tránh lặp code kiểm tra loading/error giữa Thể loại và Quốc gia
-// =========================================================
+// 2. SUB-COMPONENT PHỤC VỤ HIỂN THỊ TỪNG TAB
 const FilterTabContent = ({
   loading,
   error,
@@ -57,9 +52,7 @@ const FilterTabContent = ({
   );
 };
 
-// =========================================================
 // 3. MAIN COMPONENT: FILTERMODAL
-// =========================================================
 const FilterModal = ({ show, handleClose }) => {
   // Quản lý tab đang chọn (type | genre | country)
   const [activeTab, setActiveTab] = useState("type");
@@ -72,7 +65,6 @@ const FilterModal = ({ show, handleClose }) => {
     }
   }, [show, hasOpened]);
 
-  // Fetch dữ liệu Thể loại (Genre) chỉ khi đã mở modal
   const {
     data: genresData,
     loading: genresLoading,
@@ -80,7 +72,6 @@ const FilterModal = ({ show, handleClose }) => {
   } = useGenres(hasOpened);
   const genres = genresData?.items || genresData?.data?.items || [];
 
-  // Fetch dữ liệu Quốc gia (Country) chỉ khi đã mở modal
   const {
     data: countriesData,
     loading: countriesLoading,

@@ -1,5 +1,5 @@
 import { useCallback } from "react";
-import useFetch from "../../../hooks/useFetch";
+import useFetch from "@/core/hooks/useFetch";
 import movieApi from "../../../api/movieApi";
 
 export default function useNewMovies(type, limit, page) {

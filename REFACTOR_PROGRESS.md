@@ -1,0 +1,169 @@
+# REFACTOR PROGRESS: HNPHIM (Feature-Driven Architecture)
+
+## 1. Mục tiêu
+Refactor toàn bộ dự án web xem phim **hnphim** từ cấu trúc hiện tại sang kiến trúc **Feature-Driven Architecture (FSD / Feature-Based)** tinh gọn, dễ mở rộng và tối ưu hiệu năng. Quá trình thực hiện gồm 5 phase độc lập:
+- **Phase 1**: Chuẩn hóa `core/` (API client, endpoints, utils, hooks, icons wrapper, UI components).
+- **Phase 2**: Tách module `features/favorites/` (Context, hooks, components chuyên biệt cho phim yêu thích).
+- **Phase 3**: Tái cấu trúc `features/movies/` và khử toàn bộ dead code / hooks mồ côi.
+- **Phase 4**: Tinh gọn `features/player/` (HLS player lifecycle, controls, playlist, settings).
+- **Phase 5**: Thiết lập `app/` (layouts, AppRoutes) và làm mỏng toàn bộ `pages/` (smart components kết nối features).
+
+---
+
+## 2. Cấu trúc thư mục mục tiêu
+```text
+src/
+├── app/                           # Cấu hình gốc ứng dụng & Tầng điều hướng
+│   ├── layouts/                   # Layouts dùng chung (MainLayout, Header, Footer)
+│   ├── routes/                    # Quản lý định tuyến tập trung
+│   │   └── AppRoutes.jsx
+│   └── App.jsx
+│
+├── core/                          # Tầng dùng chung, không gắn chặt với nghiệp vụ cụ thể
+│   ├── api/                       # Axios instance, interceptors & endpoints tập trung
+│   │   ├── client.js
+│   │   └── endpoints.js
+│   ├── components/                # UI Components tái sử dụng toàn app (Dumb/Presentational)
+│   │   ├── ui/                    # CustomPagination, Loading, SEO, v.v.
+│   │   └── icons/                 # Icon wrapper chuẩn hóa
+│   ├── hooks/                     # Custom hooks tổng quát (useFetch, useDebounce, usePagination, useLocalStorage)
+│   └── utils/                     # Pure functions (formatters, image CDN, clean text, error handling)
+│
+├── features/                      # Các module nghiệp vụ khép kín (Business Logic)
+│   │
+│   ├── favorites/                 # Quản lý danh sách phim yêu thích
+│   │   ├── context/               # FavoritesContext (tách State & Dispatch riêng biệt)
+│   │   ├── hooks/                 # useFavorites, useIsFavorite, useFavoriteActions
+│   │   ├── components/            # FavoriteButton, FavoriteCounter
+│   │   └── index.js               # Public API duy nhất của feature favorites
+│   │
+│   ├── movies/                    # Nghiệp vụ duyệt, lọc, hiển thị danh mục & chi tiết phim
+│   │   ├── services/              # movieService.js (API methods + data normalizers)
+│   │   ├── hooks/                 # useMovieCatalog (hợp nhất), useMovieDetail, useFilterData, useHeroSlider
+│   │   ├── components/            # MovieCard, MovieList, MovieSection, HeroSection, FilterModal, detail/
+│   │   └── index.js               # Public API duy nhất của feature movies
+│   │
+│   └── player/                    # Nghiệp vụ trình phát HLS & danh sách tập phim
+│       ├── hooks/                 # useHlsPlayer, useKeyboardShortcuts, useEpisodePlaylist, useAutoSkip
+│       ├── components/            # CustomVideoPlayer, VideoControls, EpisodeSelector, PlayerSettingsMenu
+│       ├── utils/                 # playerConstants, timeFormatters
+│       └── index.js               # Public API duy nhất của feature player
+│
+└── pages/                         # Tầng trang mỏng (Smart components - chỉ ghép nối các features)
+    ├── HomePage.jsx
+    ├── MovieCatalogPage.jsx       # HỢP NHẤT: Xử lý cả Type, Genre, Country, Search
+    ├── MovieDetailPage.jsx
+    ├── WatchPage.jsx
+    ├── FavoritesPage.jsx
+    └── NotFoundPage.jsx
+```
+
+---
+
+## 3. Quy tắc bất biến (Inviolable Rules)
+1. **Tiến độ tuần tự**: Chỉ làm đúng **1 phase** mỗi lần. Xong phase nào thì dừng lại, kiểm tra nghiệm thu và báo cáo kết quả trước khi sang phase tiếp theo.
+2. **Chuẩn hóa Import**: Mọi import phải sử dụng path alias `@/` (đã trỏ vào `src/`), **tuyệt đối không** dùng relative path sâu (`../../..`).
+3. **Module Boundaries (Encapsulation)**: Một feature chỉ được phép import từ feature khác thông qua file `index.js` (Public API) của feature đó.
+4. **Dependency Rule**: Tầng `core/` là tầng thấp nhất, **tuyệt đối không** import bất kỳ thứ gì từ `features/` hay `pages/`.
+5. **Bảo toàn hành vi UI/UX**: Không làm thay đổi bất kỳ hành vi, giao diện, tính năng hoặc trải nghiệm người dùng hiện tại nào.
+6. **Kiểm thử liên tục**: Sau mỗi phase, bắt buộc chạy và pass cả `npm run build` và `npm run lint`.
+7. **Safe Migration (Không xóa vội)**: Không xóa file cũ cho đến khi mọi import liên quan đã được cập nhật sang vị trí mới và dự án build thành công.
+
+---
+
+## 4. Bảng tiến độ Refactor
+
+### Phase 1: Chuẩn hóa `core/` (API, utils, hooks, icons, UI)
+* **Trạng thái**: Hoàn thành
+* **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
+  - `src/api/axios.js` → `src/core/api/client.js`
+  - `src/api/endpoints.js` → `src/core/api/endpoints.js`
+  - `src/utils/formatImage.js` → `src/core/utils/image.js`
+  - `src/utils/formatTime.js` → `src/core/utils/time.js`
+  - `src/utils/cleanDescription.js` → `src/core/utils/text.js`
+  - `src/utils/handleError.js` → `src/core/utils/error.js`
+  - `src/hooks/useFetch.js` → `src/core/hooks/useFetch.js`
+  - `src/components/ui/Loading.jsx` → `src/core/components/ui/Loading.jsx`
+  - `src/components/ui/SEO.jsx` → `src/core/components/ui/SEO.jsx`
+  - `src/components/ui/CustomPagination.jsx` → `src/core/components/ui/CustomPagination.jsx`
+  - `src/components/ui/CustomPagination.css` → `src/core/components/ui/CustomPagination.css`
+  - `src/components/ui/LucideIcon.jsx` → `src/core/components/icons/index.jsx` & `src/core/components/icons/iconRegistry.jsx`
+  - *(Tạo mới)* `src/core/hooks/usePagination.js`
+  - *(Tạo mới)* `src/core/hooks/useLocalStorage.js`
+  - *(Tạo mới)* `src/core/hooks/useDebounce.js`
+  - *(Tạo mới barrel exports)* `src/core/utils/index.js`, `src/core/hooks/index.js`, `src/core/components/ui/index.js`
+* **File đã xóa**:
+  - `src/api/axios.js`
+  - `src/api/endpoints.js`
+  - `src/hooks/useFetch.js`
+  - `src/hooks/` (thư mục rỗng)
+  - `src/components/ui/Loading.jsx`
+  - `src/components/ui/SEO.jsx`
+  - `src/components/ui/CustomPagination.jsx`
+  - `src/components/ui/CustomPagination.css`
+  - `src/components/ui/LucideIcon.jsx`
+  - `src/components/ui/` (thư mục rỗng)
+  - `src/utils/cleanDescription.js`
+  - `src/utils/formatImage.js`
+  - `src/utils/formatTime.js`
+  - `src/utils/handleError.js`
+* **Quyết định kiến trúc quan trọng**:
+  - `core/api/client.js`: Thiết lập timeout 30000ms, tự động unwrap `response.data`, hỗ trợ AbortController `signal`.
+  - `core/hooks/useFetch.js`: Tích hợp AbortController tự động hủy request cũ khi re-fetch hoặc unmount, chống triệt để race condition và bỏ qua `CanceledError`.
+  - `core/utils/text.js`: Dùng `DOMPurify.sanitize(html, { ALLOWED_TAGS: [] })` để loại bỏ 100% thẻ HTML và mã độc, trích xuất văn bản thuần an toàn cho thẻ meta SEO mà không cần cài thêm package mới.
+  - `core/components/icons/`: Tách 25 SVG renderers vào `iconRegistry.jsx` và cung cấp wrapper `Icon` (đồng thời xuất alias `LucideIcon = Icon`) để đảm bảo tính đóng gói và tương thích 100% với toàn bộ app.
+  - Tạm giữ `src/utils/normalizeResponse.js` và `src/api/movieApi.js` cho đến Phase 3 khi chuyển sang `features/movies/services/`.
+* **Việc còn tồn đọng/TODO cho phase sau**:
+  - **Phase 2**: Di chuyển và bóc tách `src/context/MovieProvider.jsx` & `src/context/MovieContext.jsx` sang `src/features/favorites/`. Tách `FavoritesContext`, các hooks `useFavorites`, `useIsFavorite`, và component `FavoriteButton`, `FavoriteCounter`. Áp dụng `useLocalStorage` từ `core/hooks` để lưu danh sách yêu thích tối ưu payload.
+
+---
+
+### Phase 2: Tách `features/favorites/`
+* **Trạng thái**: Chưa làm
+* **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
+  - *Chưa thực hiện*
+* **File đã xóa**:
+  - *Chưa thực hiện*
+* **Quyết định kiến trúc quan trọng**:
+  - *Chưa thực hiện*
+* **Việc còn tồn đọng/TODO cho phase sau**:
+  - *Chưa thực hiện*
+
+---
+
+### Phase 3: Tái cấu trúc `features/movies/` và khử dead code
+* **Trạng thái**: Chưa làm
+* **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
+  - *Chưa thực hiện*
+* **File đã xóa**:
+  - *Chưa thực hiện*
+* **Quyết định kiến trúc quan trọng**:
+  - *Chưa thực hiện*
+* **Việc còn tồn đọng/TODO cho phase sau**:
+  - *Chưa thực hiện*
+
+---
+
+### Phase 4: Tinh gọn `features/player/`
+* **Trạng thái**: Chưa làm
+* **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
+  - *Chưa thực hiện*
+* **File đã xóa**:
+  - *Chưa thực hiện*
+* **Quyết định kiến trúc quan trọng**:
+  - *Chưa thực hiện*
+* **Việc còn tồn đọng/TODO cho phase sau**:
+  - *Chưa thực hiện*
+
+---
+
+### Phase 5: Thiết lập `app/` (layouts, AppRoutes) và làm mỏng `pages/`
+* **Trạng thái**: Chưa làm
+* **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
+  - *Chưa thực hiện*
+* **File đã xóa**:
+  - *Chưa thực hiện*
+* **Quyết định kiến trúc quan trọng**:
+  - *Chưa thực hiện*
+* **Việc còn tồn đọng/TODO cho phase sau**:
+  - *Chưa thực hiện*

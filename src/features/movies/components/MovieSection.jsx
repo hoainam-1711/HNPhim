@@ -2,7 +2,7 @@ import "./MovieSection.css";
 import { useRef } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import LucideIcon from "../../../components/ui/LucideIcon";
+import LucideIcon from "@/core/components/icons";
 import MovieCard from "./MovieCard";
 import { useFavorites } from "../../../context/MovieContext";
 

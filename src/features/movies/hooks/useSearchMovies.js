@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import movieApi from "../../../api/movieApi";
-import useFetch from "../../../hooks/useFetch";
+import useFetch from "@/core/hooks/useFetch";
 
 export default function useSearchMovies(keyword, limit, page) {
   const fetcher = useCallback(() => {

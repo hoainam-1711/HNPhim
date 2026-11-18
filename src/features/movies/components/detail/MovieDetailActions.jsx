@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import LucideIcon from "../../../../components/ui/LucideIcon";
+import LucideIcon from "@/core/components/icons";
 
 /**
  * Các nút hành động chính của phim: Xem Phim & Lưu Yêu Thích

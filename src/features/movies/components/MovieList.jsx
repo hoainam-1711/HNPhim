@@ -1,7 +1,7 @@
 import { Col, Container, Row } from "react-bootstrap";
 import MovieCard from "./MovieCard";
 import { Link } from "react-router-dom";
-import Loading from "../../../components/ui/Loading";
+import Loading from "@/core/components/ui/Loading";
 import { useFavorites } from "../../../context/MovieContext";
 
 const MovieList = ({ movies, loading, msg }) => {

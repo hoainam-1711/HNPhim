@@ -1,9 +1,9 @@
 import useHomeMovies from "../features/movies/hooks/useHomeMovies";
-import Loading from "../components/ui/Loading";
+import Loading from "@/core/components/ui/Loading";
 import MovieSection from "../features/movies/components/MovieSection";
 import { Container } from "react-bootstrap";
 import HeroSection from "../features/movies/components/HeroSection";
-import SEO from "../components/ui/SEO";
+import SEO from "@/core/components/ui/SEO";
 
 const MOVIE_TYPES = [
   "phim-moi",

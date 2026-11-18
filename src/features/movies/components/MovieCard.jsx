@@ -5,8 +5,8 @@ import {
   MovieContext,
   FavoritesActionsContext,
 } from "../../../context/MovieContext";
-import LucideIcon from "../../../components/ui/LucideIcon";
-import { getImageSrc, handleImgError } from "../../../utils/formatImage";
+import LucideIcon from "@/core/components/icons";
+import { getImageSrc, handleImgError } from "@/core/utils/image";
 
 /**
  * Pure MovieCard:

@@ -1,9 +1,9 @@
 import { useFavorites } from "../context/MovieContext";
 import MovieList from "../features/movies/components/MovieList";
 import { Col, Container, Row } from "react-bootstrap";
-import CustomPagination from "../components/ui/CustomPagination";
+import CustomPagination from "@/core/components/ui/CustomPagination";
 import { useSearchParams } from "react-router-dom";
-import SEO from "../components/ui/SEO";
+import SEO from "@/core/components/ui/SEO";
 
 const ITEMSPERPAGE = 24;
 

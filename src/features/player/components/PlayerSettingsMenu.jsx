@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
-import LucideIcon from "../../../components/ui/LucideIcon";
+import LucideIcon from "@/core/components/icons";
 
 // Danh sách các mốc tốc độ phát hỗ trợ
 const PLAYBACK_RATES = [1, 1.25, 1.5, 2];

@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Badge, Button } from "react-bootstrap";
-import LucideIcon from "../../../../components/ui/LucideIcon";
+import LucideIcon from "@/core/components/icons";
 
 /**
  * Hiển thị tiêu đề, origin name, metadata badges, thể loại, quốc gia, đạo diễn, diễn viên
