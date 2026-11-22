@@ -2,7 +2,7 @@ import "./MovieDetailPage.css";
 import { useCallback, useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Badge, Col, Container, Row } from "react-bootstrap";
-import { useFavorites } from "../context/MovieContext";
+import { useFavorites } from "@/features/favorites";
 import Loading from "@/core/components/ui/Loading";
 import SEO from "@/core/components/ui/SEO";
 import useMovieDetail from "../features/movies/hooks/useMovieDetail";

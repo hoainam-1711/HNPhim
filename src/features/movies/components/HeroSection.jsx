@@ -1,7 +1,7 @@
 import "./HeroSection.css";
 import { memo, useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useFavorites } from "../../../context/MovieContext";
+import { useFavorites } from "@/features/favorites";
 import LucideIcon from "@/core/components/icons";
 import { getImageSrc, handleImgError } from "@/core/utils/image";
 

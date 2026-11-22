@@ -1,4 +1,4 @@
-import { useFavorites } from "../context/MovieContext";
+import { useFavorites } from "@/features/favorites";
 import MovieList from "../features/movies/components/MovieList";
 import { Col, Container, Row } from "react-bootstrap";
 import CustomPagination from "@/core/components/ui/CustomPagination";

@@ -119,15 +119,32 @@ src/
 ---
 
 ### Phase 2: Tách `features/favorites/`
-* **Trạng thái**: Chưa làm
+* **Trạng thái**: Hoàn thành
 * **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
-  - *Chưa thực hiện*
+  - `src/context/MovieContext.jsx` → `src/features/favorites/context/FavoritesContext.jsx`
+  - `src/context/MovieProvider.jsx` → `src/features/favorites/context/FavoritesProvider.jsx`
+  - *(Tạo mới)* `src/features/favorites/utils/normalizeFavorite.js` (normalize & migration dữ liệu)
+  - *(Tạo mới)* `src/features/favorites/hooks/useFavorites.js`
+  - *(Tạo mới)* `src/features/favorites/hooks/useIsFavorite.js`
+  - *(Tạo mới)* `src/features/favorites/hooks/useFavoriteActions.js`
+  - *(Tạo mới)* `src/features/favorites/hooks/index.js`
+  - *(Tạo mới)* `src/features/favorites/components/FavoriteButton.jsx`
+  - *(Tạo mới)* `src/features/favorites/components/FavoriteCounter.jsx`
+  - *(Tạo mới)* `src/features/favorites/components/index.js`
+  - *(Tạo mới)* `src/features/favorites/index.js` (Public API duy nhất của module)
 * **File đã xóa**:
-  - *Chưa thực hiện*
-* **Quyết định kiến trúc quan trọng**:
-  - *Chưa thực hiện*
+  - `src/context/MovieContext.jsx`
+  - `src/context/MovieProvider.jsx`
+  - `src/context/index.js`
+  - `src/context/` (thư mục rỗng)
+* **Quyết định kiến trúc & Migration dữ liệu**:
+  - **Tối ưu payload LocalStorage**: Chỉ lưu cấu trúc rút gọn `{ slug, name, poster_url, thumb_url, quality, year }` thay vì lưu nguyên object phim từ API, tránh nguy cơ tràn bộ nhớ 5MB của trình duyệt.
+  - **Safe Migration**: Hàm `migrateFavoritesData()` tự động duyệt qua danh sách cũ trong `localStorage` ("family_favorites") ngay khi mount, loại bỏ trường rác và lọc trùng theo slug, bảo toàn 100% dữ liệu đã lưu của người dùng.
+  - **Tách biệt Context State & Dispatch**: Tách `FavoritesStateContext` (favorites, count, isFavorite O(1)) và `FavoritesDispatchContext` (toggleFavorite với stable reference), giúp các component chỉ dispatch hành động (như `FavoriteButton` hay `MovieCard`) không bị re-render thừa khi danh sách thay đổi.
+  - **Dùng Core Hook**: Tích hợp trực tiếp `useLocalStorage` từ `@/core/hooks`.
+  - **Độc lập Component**: Tạo `FavoriteButton` và `FavoriteCounter`, thay thế badge đếm thủ công trên `NavbarComponent`.
 * **Việc còn tồn đọng/TODO cho phase sau**:
-  - *Chưa thực hiện*
+  - **Phase 3**: Tái cấu trúc `features/movies/`. Chuyển `movieApi.js` & `normalizeResponse.js` vào `features/movies/services/movieService.js`. Hợp nhất các hook mồ côi (`useNewMovies`, `useMoviesByGenres`, `useMoviesByCountry`, `useSearchMovies`) thành hook duy nhất `useMovieCatalog`. Tách nhỏ God Component `HeroSection` và di chuyển `FilterModal` vào `features/movies/components/`. Refactor tối ưu `MovieCard`.
 
 ---
 

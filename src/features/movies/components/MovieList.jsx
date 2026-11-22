@@ -2,7 +2,7 @@ import { Col, Container, Row } from "react-bootstrap";
 import MovieCard from "./MovieCard";
 import { Link } from "react-router-dom";
 import Loading from "@/core/components/ui/Loading";
-import { useFavorites } from "../../../context/MovieContext";
+import { useFavorites } from "@/features/favorites";
 
 const MovieList = ({ movies, loading, msg }) => {
   const { isFavorite, toggleFavorite } = useFavorites();

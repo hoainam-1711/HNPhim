@@ -4,7 +4,7 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LucideIcon from "@/core/components/icons";
 import MovieCard from "./MovieCard";
-import { useFavorites } from "../../../context/MovieContext";
+import { useFavorites } from "@/features/favorites";
 
 const MovieSection = ({ title, type, movies = [] }) => {
   const scrollRef = useRef(null);

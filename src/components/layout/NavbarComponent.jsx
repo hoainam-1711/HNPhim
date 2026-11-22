@@ -2,13 +2,12 @@ import "./NavbarComponent.css";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
-import { useFavorites } from "../../context/MovieContext";
+import { FavoriteCounter } from "@/features/favorites";
 import LucideIcon from "@/core/components/icons";
 import FilterModal from "./FilterModal";
 
 function NavbarComponent() {
-  // 1. Context & Navigation Hooks
-  const { favoritesCount } = useFavorites();
+  // 1. Navigation Hooks
   const navigate = useNavigate();
 
   // 2. Local States
@@ -82,15 +81,7 @@ function NavbarComponent() {
             </Form>
 
             {/* 3. Nút dẫn đến danh sách phim ưa thích */}
-            <Button
-              as={Link}
-              to="/ua-thich"
-              variant="link"
-              className="favorite text-nowrap"
-            >
-              <LucideIcon icon="BookmarkCheck" />
-              <span className="favorite-count">{favoritesCount}</span>
-            </Button>
+            <FavoriteCounter />
           </div>
         </Navbar.Collapse>
       </Container>

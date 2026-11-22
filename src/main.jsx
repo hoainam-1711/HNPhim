@@ -4,16 +4,16 @@ import { createRoot } from "react-dom/client";
 import App from "./App.jsx";
 import { HelmetProvider } from "react-helmet-async";
 import { BrowserRouter } from "react-router-dom";
-import { MovieProvider } from "./context/MovieProvider.jsx";
+import { FavoritesProvider } from "@/features/favorites";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
     <HelmetProvider>
-      <MovieProvider>
+      <FavoritesProvider>
         <BrowserRouter>
           <App />
         </BrowserRouter>
-      </MovieProvider>
+      </FavoritesProvider>
     </HelmetProvider>
   </StrictMode>,
 );

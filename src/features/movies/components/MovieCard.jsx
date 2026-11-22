@@ -2,16 +2,16 @@ import "./MovieCard.css";
 import { memo, useContext } from "react";
 import { Button, Card } from "react-bootstrap";
 import {
-  MovieContext,
-  FavoritesActionsContext,
-} from "../../../context/MovieContext";
+  FavoritesDispatchContext,
+  useFavorites,
+} from "@/features/favorites";
 import LucideIcon from "@/core/components/icons";
 import { getImageSrc, handleImgError } from "@/core/utils/image";
 
 /**
  * Pure MovieCard:
  * - Không subscribe trực tiếp vào Favorites State Context
- * - Chỉ nhận isFavorited qua props và lấy toggleFavorite từ ActionsContext (stable)
+ * - Chỉ nhận isFavorited qua props và lấy toggleFavorite từ DispatchContext (stable)
  * - Đảm bảo React.memo hoạt động 100% hiệu quả (chỉ re-render card được bấm, không re-render cả danh sách)
  */
 const PureMovieCard = memo(function PureMovieCard({
@@ -22,7 +22,7 @@ const PureMovieCard = memo(function PureMovieCard({
   const { poster_url, thumb_url, name } = movie || {};
   const posterSrc = getImageSrc(poster_url || thumb_url);
 
-  const actions = useContext(FavoritesActionsContext);
+  const actions = useContext(FavoritesDispatchContext);
   const handleToggle = onToggleFavorite || actions?.toggleFavorite;
 
   return (
@@ -63,13 +63,13 @@ const PureMovieCard = memo(function PureMovieCard({
  * Fallback Component khi dùng MovieCard độc lập mà không truyền isFavorited
  */
 const StandaloneMovieCard = ({ movie, ...props }) => {
-  const context = useContext(MovieContext);
-  const favorited = context?.isFavorite?.(movie?.slug) ?? false;
+  const { isFavorite, toggleFavorite } = useFavorites();
+  const favorited = isFavorite?.(movie?.slug) ?? false;
   return (
     <PureMovieCard
       movie={movie}
       isFavorited={favorited}
-      onToggleFavorite={context?.toggleFavorite}
+      onToggleFavorite={toggleFavorite}
       {...props}
     />
   );
