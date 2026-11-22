@@ -7,7 +7,14 @@ export { default as VideoTimeline } from "./components/VideoTimeline";
 export { default as VideoToolbar } from "./components/VideoToolbar";
 
 // Hooks
-export { default as useHlsVideo } from "./hooks/useHlsVideo";
+export { default as useHlsPlayer } from "./hooks/useHlsPlayer";
+export { default as useHlsVideo } from "./hooks/useHlsPlayer"; // Alias tương thích
 export { default as useEpisodePlaylist } from "./hooks/useEpisodePlaylist";
-export { default as useKeyboardShortcuts } from "./hooks/useKeyboardShortcuts";
+export {
+  default as useKeyboardShortcuts,
+  useKeyboardControls,
+} from "./hooks/useKeyboardShortcuts";
 export { default as useAutoSkip } from "./hooks/useAutoSkip";
+
+// Constants & Utilities
+export * from "./utils/playerConstants";

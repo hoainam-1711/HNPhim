@@ -1,7 +1,7 @@
-import { useHlsVideo } from "../hooks/useHlsVideo";
+import useHlsPlayer from "../hooks/useHlsPlayer";
 import VideoControls from "./VideoControls";
 
-const CustomVideoPlayer = ({
+export const CustomVideoPlayer = ({
   m3u8Url,
   poster,
   onNextEpisode,
@@ -9,7 +9,7 @@ const CustomVideoPlayer = ({
   togglePiP,
 }) => {
   // Lấy toàn bộ logic điều khiển và phát video HLS từ custom hook
-  const videoProps = useHlsVideo(m3u8Url);
+  const videoProps = useHlsPlayer(m3u8Url);
 
   // Phân rã các thuộc tính để code ngắn gọn, dễ đọc hơn
   const {

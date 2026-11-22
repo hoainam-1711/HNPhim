@@ -2,13 +2,14 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import Hls from "hls.js";
 import useKeyboardShortcuts from "./useKeyboardShortcuts";
 import useAutoSkip from "./useAutoSkip";
+import { CONTROLS_HIDE_TIMEOUT } from "../utils/playerConstants";
 
 /**
- * useHlsVideo
- * Quản lý vòng đời luồng phát HLS (hls.js), thẻ video, các chế độ Fullscreen, PiP,
- * âm lượng và điều khiển phát lại.
+ * useHlsPlayer
+ * Quản lý vòng đời luồng phát HLS (hls.js), phần tử video HTML5, các chế độ Fullscreen, PiP,
+ * âm lượng, tốc độ phát và cơ chế cleanup an toàn chống memory leak khi unmount hoặc đổi nguồn.
  */
-export const useHlsVideo = (m3u8Url) => {
+export const useHlsPlayer = (m3u8Url) => {
   // 1. REFS
   const containerRef = useRef(null);
   const videoRef = useRef(null);
@@ -45,12 +46,13 @@ export const useHlsVideo = (m3u8Url) => {
   });
 
   // 4. EFFECTS
-  // Khởi tạo HLS instance
+  // Khởi tạo & Dọn dẹp HLS instance
   useEffect(() => {
     const video = videoRef.current;
     if (!m3u8Url || !video) return;
 
-    let hls;
+    let hls = null;
+
     if (Hls.isSupported()) {
       hls = new Hls({
         enableWorker: true,
@@ -72,12 +74,39 @@ export const useHlsVideo = (m3u8Url) => {
           })),
         );
       });
+
+      hls.on(Hls.Events.ERROR, (_, data) => {
+        if (data.fatal) {
+          switch (data.type) {
+            case Hls.ErrorTypes.NETWORK_ERROR:
+              hls.startLoad();
+              break;
+            case Hls.ErrorTypes.MEDIA_ERROR:
+              hls.recoverMediaError();
+              break;
+            default:
+              hls.destroy();
+              break;
+          }
+        }
+      });
     } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+      // Hỗ trợ Safari native HLS
       video.src = m3u8Url;
     }
 
+    // Cleanup khi đổi m3u8Url hoặc unmount
     return () => {
-      if (hls) hls.destroy();
+      if (hlsRef.current) {
+        hlsRef.current.destroy();
+        hlsRef.current = null;
+      }
+      if (video) {
+        video.removeAttribute("src");
+        video.load();
+      }
+      setQualities([]);
+      setCurrentQuality(-1);
     };
   }, [m3u8Url]);
 
@@ -89,7 +118,7 @@ export const useHlsVideo = (m3u8Url) => {
     }
   }, [m3u8Url]);
 
-  // Dọn dẹp timeout controls
+  // Dọn dẹp timeout controls khi unmount
   useEffect(() => {
     return () => {
       if (controlsTimeoutRef.current) {
@@ -98,7 +127,7 @@ export const useHlsVideo = (m3u8Url) => {
     };
   }, []);
 
-  // Lắng nghe Fullscreen change
+  // Lắng nghe sự kiện Fullscreen change
   useEffect(() => {
     const handleFullscreen = () =>
       setIsFullscreen(Boolean(document.fullscreenElement));
@@ -107,7 +136,7 @@ export const useHlsVideo = (m3u8Url) => {
       document.removeEventListener("fullscreenchange", handleFullscreen);
   }, []);
 
-  // Lắng nghe PiP change
+  // Lắng nghe sự kiện PiP change
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
@@ -175,7 +204,7 @@ export const useHlsVideo = (m3u8Url) => {
     if (controlsTimeoutRef.current) clearTimeout(controlsTimeoutRef.current);
     controlsTimeoutRef.current = setTimeout(() => {
       if (isPlaying) setShowControls(false);
-    }, 3000);
+    }, CONTROLS_HIDE_TIMEOUT);
   }, [isPlaying]);
 
   const handleLoadedMetadata = useCallback(() => {
@@ -272,4 +301,4 @@ export const useHlsVideo = (m3u8Url) => {
   };
 };
 
-export default useHlsVideo;
+export default useHlsPlayer;

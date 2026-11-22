@@ -191,15 +191,33 @@ src/
 ---
 
 ### Phase 4: Tinh gọn `features/player/`
-* **Trạng thái**: Chưa làm
+* **Trạng thái**: Hoàn thành
 * **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
-  - *Chưa thực hiện*
+  - `src/features/player/hooks/useHlsVideo.js` → `src/features/player/hooks/useHlsPlayer.js`
+  - *(Tạo mới)* `src/features/player/utils/playerConstants.js` (Hằng số phát, phím tắt, thời gian tua)
+  - *(Tạo mới)* `src/features/player/utils/index.js`
+  - *(Tạo mới)* `src/features/player/hooks/index.js`
+  - *(Tạo mới)* `src/features/player/components/index.js`
+  - *(Tái cấu trúc)* `src/features/player/components/EpisodeSelector.jsx` (Hợp nhất server tabs + chunk tabs + episode grid cho cả detail và watch page)
+  - *(Tái cấu trúc)* `src/features/player/hooks/useEpisodePlaylist.js` (Tối ưu memoize server, next episode, isLastEpisode, reset server khi đổi slug)
+  - *(Tái cấu trúc)* `src/features/player/components/CustomVideoPlayer.jsx` (Đổi sang `useHlsPlayer`)
+  - *(Tái cấu trúc)* `src/features/player/components/VideoToolbar.jsx` (Dùng hằng số từ `playerConstants`)
+  - *(Tái cấu trúc)* `src/features/player/components/PlayerSettingsMenu.jsx` (Dùng hằng số từ `playerConstants`)
+  - *(Tái cấu trúc)* `src/features/player/hooks/useKeyboardShortcuts.js` (Dùng hằng số từ `playerConstants`, xuất alias `useKeyboardControls`)
+  - *(Tái cấu trúc)* `src/features/player/hooks/useAutoSkip.js` (Dùng hằng số từ `playerConstants`)
+  - *(Refactor & Cập nhật import)* `src/pages/MovieDetailPage.jsx` (Thay `MovieServerEpisodes` bằng `EpisodeSelector`, gom logic server/tập vào `useEpisodePlaylist`)
+  - *(Refactor & Cập nhật import)* `src/pages/WatchPage.jsx` (Khử giao diện server trùng lặp, dùng `EpisodeSelector` và `useEpisodePlaylist`)
 * **File đã xóa**:
-  - *Chưa thực hiện*
+  - `src/features/player/hooks/useHlsVideo.js`
+  - `src/features/movies/components/detail/MovieServerEpisodes.jsx`
 * **Quyết định kiến trúc quan trọng**:
-  - *Chưa thực hiện*
+  - **HLS Player Lifecycle & Safe Cleanup**: `useHlsPlayer` quản lý chặt chẽ vòng đời của instance Hls.js; khi unmount hoặc đổi `m3u8Url`, tự động gọi `hls.destroy()`, reset `hlsRef.current = null`, `video.removeAttribute('src')`, `video.load()`, hủy timeout controls để ngăn chặn triệt để rò rỉ bộ nhớ (memory leak).
+  - **Tối ưu hóa Memoization cho Playlist**: `useEpisodePlaylist` loại bỏ hoàn toàn `useEffect` sync lag đối với `currentEpData`, chuyển sang tính toán trực tiếp với `useMemo`. Các phương thức điều hướng (`handleWatchMovie`, `handleNextEpisode`, `isLastEpisode`) đều được memoize chuẩn xác bằng `useCallback`, ngăn chặn re-render thừa cho player controls.
+  - **Hợp nhất EpisodeSelector & Triệt tiêu code trùng lặp**: `EpisodeSelector` tích hợp toàn bộ giao diện Server Tabs + Phân nhóm 100 tập (Chunking) + Lưới tập phim cho cả 2 trang (`MovieDetailPage` với layout Card và `WatchPage` với layout Sidebar), thay thế hoàn toàn `MovieServerEpisodes.jsx` và khử 100% mã giao diện server trùng lặp trong `WatchPage`.
+  - **Quản lý hằng số tập trung**: Tách `playerConstants.js` lưu trữ các cấu hình tĩnh: mốc tốc độ phát `PLAYBACK_RATES`, các bước tua (`SEEK_STEP_SMALL = 10s`, `SEEK_STEP_LARGE = 30s`, `SKIP_ADS_SECONDS = 28s`), bước âm lượng `VOLUME_STEP = 0.1`, cấu hình tự động bỏ qua intro `AUTO_SKIP_*`, timeout ẩn controls và keycodes phím tắt.
+  - **Public API Feature**: Cập nhật toàn bộ import giữa các trang và feature thông qua `@/features/player` và `@/features/movies`.
 * **Việc còn tồn đọng/TODO cho phase sau**:
-  - *Chưa thực hiện*
+  - **Phase 5**: Thiết lập `src/app/` (layouts: MainLayout, Header, Footer; routes: AppRoutes.jsx) và làm mỏng toàn bộ `pages/` (HomePage, MovieCatalogPage, MovieDetailPage, WatchPage, FavoritesPage, NotFoundPage). Di chuyển `NavbarComponent`, `Footer` từ `src/components/layout/` vào `src/app/layouts/`. Xóa bỏ các thư mục rỗng `src/components/`.
 
 ---
 

@@ -1,7 +1,13 @@
 import { useEffect } from "react";
+import {
+  SEEK_STEP_SMALL,
+  SEEK_STEP_LARGE,
+  VOLUME_STEP,
+  KEYBOARD_SHORTCUTS,
+} from "../utils/playerConstants";
 
 /**
- * useKeyboardShortcuts
+ * useKeyboardShortcuts (alias useKeyboardControls)
  * Lắng nghe và xử lý các phím tắt điều khiển player:
  * - Space: Phát / Tạm dừng
  * - ArrowLeft / ArrowRight: Tua lùi / tiến 10s
@@ -32,7 +38,7 @@ export const useKeyboardShortcuts = ({
       if (!video) return;
 
       switch (e.code) {
-        case "Space":
+        case KEYBOARD_SHORTCUTS.SPACE:
           e.preventDefault();
           if (video.paused) {
             video.play();
@@ -41,22 +47,22 @@ export const useKeyboardShortcuts = ({
           }
           break;
 
-        case "ArrowLeft":
+        case KEYBOARD_SHORTCUTS.ARROW_LEFT:
           e.preventDefault();
-          video.currentTime = Math.max(0, video.currentTime - 10);
+          video.currentTime = Math.max(0, video.currentTime - SEEK_STEP_SMALL);
           break;
 
-        case "ArrowRight":
+        case KEYBOARD_SHORTCUTS.ARROW_RIGHT:
           e.preventDefault();
           video.currentTime = Math.min(
             video.duration || 0,
-            video.currentTime + 10,
+            video.currentTime + SEEK_STEP_SMALL,
           );
           break;
 
-        case "ArrowUp": {
+        case KEYBOARD_SHORTCUTS.ARROW_UP: {
           e.preventDefault();
-          const newVolUp = Math.min(1, video.volume + 0.1);
+          const newVolUp = Math.min(1, video.volume + VOLUME_STEP);
           video.volume = newVolUp;
           if (setVolume) setVolume(newVolUp);
           if (newVolUp > 0) {
@@ -66,9 +72,9 @@ export const useKeyboardShortcuts = ({
           break;
         }
 
-        case "ArrowDown": {
+        case KEYBOARD_SHORTCUTS.ARROW_DOWN: {
           e.preventDefault();
-          const newVolDown = Math.max(0, video.volume - 0.1);
+          const newVolDown = Math.max(0, video.volume - VOLUME_STEP);
           video.volume = newVolDown;
           if (setVolume) setVolume(newVolDown);
           if (newVolDown === 0) {
@@ -78,13 +84,13 @@ export const useKeyboardShortcuts = ({
           break;
         }
 
-        case "KeyM":
+        case KEYBOARD_SHORTCUTS.KEY_M:
           e.preventDefault();
           video.muted = !video.muted;
           if (setIsMuted) setIsMuted(video.muted);
           break;
 
-        case "KeyF": {
+        case KEYBOARD_SHORTCUTS.KEY_F: {
           e.preventDefault();
           const targetContainer = containerRef?.current || video;
           if (!document.fullscreenElement) {
@@ -103,11 +109,11 @@ export const useKeyboardShortcuts = ({
           break;
         }
 
-        case "KeyS":
+        case KEYBOARD_SHORTCUTS.KEY_S:
           e.preventDefault();
           video.currentTime = Math.min(
             video.duration || 0,
-            video.currentTime + 28,
+            video.currentTime + SEEK_STEP_LARGE,
           );
           break;
 
@@ -117,8 +123,11 @@ export const useKeyboardShortcuts = ({
     };
 
     window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [videoRef, containerRef, setVolume, setIsMuted]);
 };
 
+export const useKeyboardControls = useKeyboardShortcuts;
 export default useKeyboardShortcuts;

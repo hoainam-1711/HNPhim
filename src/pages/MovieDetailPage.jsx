@@ -1,22 +1,21 @@
 import "./MovieDetailPage.css";
-import { useCallback, useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Badge, Col, Container, Row } from "react-bootstrap";
 import { useFavorites } from "@/features/favorites";
 import Loading from "@/core/components/ui/Loading";
 import SEO from "@/core/components/ui/SEO";
-import useMovieDetail from "../features/movies/hooks/useMovieDetail";
+import {
+  useMovieDetail,
+  MovieDetailInfo,
+  MovieDetailActions,
+  MovieDescription,
+} from "@/features/movies";
+import { EpisodeSelector, useEpisodePlaylist } from "@/features/player";
 import cleanDescription from "@/core/utils/text";
 import { getImageSrc, handleImgError } from "@/core/utils/image";
 
-import MovieDetailInfo from "../features/movies/components/detail/MovieDetailInfo";
-import MovieDetailActions from "../features/movies/components/detail/MovieDetailActions";
-import MovieDescription from "../features/movies/components/detail/MovieDescription";
-import MovieServerEpisodes from "../features/movies/components/detail/MovieServerEpisodes";
-
 const MovieDetailPage = () => {
   const { slug } = useParams();
-  const navigate = useNavigate();
 
   const { data, loading, error } = useMovieDetail(slug);
   const movie = data?.movie || {};
@@ -25,29 +24,14 @@ const MovieDetailPage = () => {
   const { toggleFavorite, isFavorite } = useFavorites();
   const favorited = isFavorite(movie.slug);
 
-  const [selectedServer, setSelectedServer] = useState(0);
-
-  // Reset server khi đổi slug phim
-  useEffect(() => {
-    setSelectedServer(0);
-  }, [slug]);
-
-  const currentServer = episodesList[selectedServer] || episodesList[0];
-  const serverData = currentServer?.server_data || [];
-  const firstEpisode = serverData[0];
-
-  const handleWatchMovie = useCallback(
-    (ep) => {
-      const targetEp = ep || firstEpisode;
-      if (targetEp) {
-        const epSlug = targetEp.slug || targetEp.name;
-        navigate(`/xem/${movie.slug}/${epSlug}`);
-      } else {
-        console.warn("Chưa có thông tin tập phim để xem!");
-      }
-    },
-    [firstEpisode, movie?.slug, navigate],
-  );
+  // Gom toàn bộ logic server, playlist và chuyển tập vào useEpisodePlaylist
+  const {
+    selectedServer,
+    setSelectedServer,
+    serverData,
+    firstEpisode,
+    handleWatchMovie,
+  } = useEpisodePlaylist({ episodesList, slug: movie?.slug || slug });
 
   if (loading) return <Loading />;
 
@@ -72,7 +56,7 @@ const MovieDetailPage = () => {
 
       <div>
         <Container fluid className="movie-detail-container py-4">
-          {/* TOP SECTION: Poster & Thông tin chi tiết (Giữ nguyên cấu trúc Row 2 cột gốc) */}
+          {/* TOP SECTION: Poster & Thông tin chi tiết */}
           <Row className="g-4 mb-5">
             {/* Poster Phim (Cột trái) */}
             <Col xs={12} md={5} lg={4} xl={3}>
@@ -107,13 +91,14 @@ const MovieDetailPage = () => {
             </Col>
           </Row>
 
-          {/* BOTTOM SECTION: Danh Sách Server & Tập Phim Chia Nhóm */}
-          <MovieServerEpisodes
+          {/* BOTTOM SECTION: Danh Sách Server & Tập Phim Hợp Nhất */}
+          <EpisodeSelector
+            pageType="detail"
             episodesList={episodesList}
             selectedServer={selectedServer}
             onSelectServer={setSelectedServer}
             serverData={serverData}
-            onWatchEpisode={handleWatchMovie}
+            handleWatchMovie={handleWatchMovie}
           />
         </Container>
       </div>

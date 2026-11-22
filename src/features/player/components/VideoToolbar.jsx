@@ -2,6 +2,7 @@ import { memo } from "react";
 import { Button } from "react-bootstrap";
 import LucideIcon from "@/core/components/icons";
 import PlayerSettingsMenu from "./PlayerSettingsMenu";
+import { SEEK_STEP_SMALL, SKIP_ADS_SECONDS } from "../utils/playerConstants";
 
 // Helper chọn icon âm lượng theo trạng thái mute và mức âm lượng
 const getVolumeIcon = (isMuted, volume) => {
@@ -39,6 +40,8 @@ export const VideoToolbar = memo(function VideoToolbar({
   togglePiP,
 }) {
   const currentVolumePercent = (isMuted ? 0 : volume) * 100;
+  const isLast =
+    typeof isLastEpisode === "function" ? isLastEpisode() : Boolean(isLastEpisode);
 
   return (
     <div className="video-toolbar">
@@ -48,8 +51,8 @@ export const VideoToolbar = memo(function VideoToolbar({
         <Button
           variant="link"
           className="video-control-btn"
-          onClick={() => handleSeek(-10)}
-          title="Lùi 10 giây"
+          onClick={() => handleSeek(-SEEK_STEP_SMALL)}
+          title={`Lùi ${SEEK_STEP_SMALL} giây`}
         >
           <LucideIcon icon="RotateLeft" />
         </Button>
@@ -68,8 +71,8 @@ export const VideoToolbar = memo(function VideoToolbar({
         <Button
           variant="link"
           className="video-control-btn"
-          onClick={() => handleSeek(10)}
-          title="Tua 10 giây"
+          onClick={() => handleSeek(SEEK_STEP_SMALL)}
+          title={`Tua ${SEEK_STEP_SMALL} giây`}
         >
           <LucideIcon icon="RotateRight" />
         </Button>
@@ -104,8 +107,8 @@ export const VideoToolbar = memo(function VideoToolbar({
           variant="warning"
           size="sm"
           className="skip-ads-btn hide-btn-320"
-          onClick={() => handleSeek(28)}
-          title="(S) Thật ra là tua 30s"
+          onClick={() => handleSeek(SKIP_ADS_SECONDS)}
+          title={`(S) Bỏ qua QC (${SKIP_ADS_SECONDS}s)`}
         >
           <span>Skip ads</span>
           <LucideIcon icon="SkipForward" />
@@ -115,7 +118,7 @@ export const VideoToolbar = memo(function VideoToolbar({
         <Button
           variant="link"
           onClick={onNextEpisode}
-          disabled={isLastEpisode?.()}
+          disabled={isLast}
           className="settings-dropdown-toggle hide-btn-576"
           title="Tập tiếp theo"
         >

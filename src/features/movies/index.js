@@ -9,7 +9,6 @@ export { default as FilterModal } from "./components/FilterModal";
 export { default as MovieDetailInfo } from "./components/detail/MovieDetailInfo";
 export { default as MovieDetailActions } from "./components/detail/MovieDetailActions";
 export { default as MovieDescription } from "./components/detail/MovieDescription";
-export { default as MovieServerEpisodes } from "./components/detail/MovieServerEpisodes";
 
 // Hooks
 export { default as useMovieCatalog } from "./hooks/useMovieCatalog";
