@@ -1,13 +1,15 @@
 import "./WatchPage.css";
 import { useMemo } from "react";
 import { useParams, Link } from "react-router-dom";
-import { Button, Col, Container, Row } from "react-bootstrap";
-import EpisodeSelector from "../features/player/components/EpisodeSelector";
-import Loading from "../components/ui/Loading";
-import CustomVideoPlayer from "../features/player/components/CustomVideoPlayer";
-import useMovieDetail from "../features/movies/hooks/useMovieDetail";
-import useEpisodePlaylist from "../features/player/hooks/useEpisodePlaylist";
-import SEO from "../components/ui/SEO";
+import { Col, Container, Row } from "react-bootstrap";
+import Loading from "@/core/components/ui/Loading";
+import SEO from "@/core/components/ui/SEO";
+import { useMovieDetail } from "@/features/movies";
+import {
+  CustomVideoPlayer,
+  EpisodeSelector,
+  useEpisodePlaylist,
+} from "@/features/player";
 
 const WatchPage = () => {
   const { slug, ep } = useParams();
@@ -17,7 +19,7 @@ const WatchPage = () => {
   const movie = data?.movie || {};
   const episodesList = useMemo(() => data?.episodes || [], [data]);
 
-  // 2. Logic điều hướng danh sách tập & server
+  // 2. Logic điều hướng danh sách tập & server từ player feature
   const {
     selectedServer,
     setSelectedServer,
@@ -92,39 +94,18 @@ const WatchPage = () => {
               </div>
             </Col>
 
-            {/* SIDEBAR TẬP PHIM */}
+            {/* SIDEBAR TẬP PHIM (Server Tabs + Episode List hợp nhất) */}
             <Col xs={12} xl={4}>
               <div className="watch-sidebar">
-                <div className="watch-sidebar-header">
-                  <h6 className="watch-sidebar-title">Danh sách tập</h6>
-
-                  {episodesList.length > 1 && (
-                    <div className="watch-server-list">
-                      {episodesList.map((server, idx) => (
-                        <Button
-                          key={idx}
-                          size="sm"
-                          variant="link"
-                          className={`watch-server-btn ${
-                            selectedServer === idx ? "active" : ""
-                          }`}
-                          onClick={() => setSelectedServer(idx)}
-                        >
-                          {server.server_name || `Server ${idx + 1}`}
-                        </Button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                <div className="p-3 overflow-hidden">
-                  <EpisodeSelector
-                    serverData={serverData}
-                    handleWatchMovie={handleWatchMovie}
-                    currentEpSlug={ep}
-                    pageType="watch"
-                  />
-                </div>
+                <EpisodeSelector
+                  pageType="watch"
+                  episodesList={episodesList}
+                  selectedServer={selectedServer}
+                  onSelectServer={setSelectedServer}
+                  serverData={serverData}
+                  handleWatchMovie={handleWatchMovie}
+                  currentEpSlug={ep}
+                />
               </div>
             </Col>
           </Row>

@@ -1,9 +1,13 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
-import LucideIcon from "../../../components/ui/LucideIcon";
-
-// Danh sách các mốc tốc độ phát hỗ trợ
-const PLAYBACK_RATES = [1, 1.25, 1.5, 2];
+import {
+  ChevronLeft,
+  ChevronRight,
+  Settings,
+  ToggleLeft,
+  ToggleRight,
+} from "lucide-react";
+import { PLAYBACK_RATES } from "../utils/playerConstants";
 
 /**
  * PlayerSettingsMenu
@@ -30,7 +34,7 @@ export const PlayerSettingsMenu = ({
         className="settings-dropdown-toggle"
         title="Cài đặt"
       >
-        <LucideIcon icon="Settings" />
+        <Settings />
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="settings-dropdown-menu">
@@ -44,7 +48,7 @@ export const PlayerSettingsMenu = ({
               <span>Tốc độ phát</span>
               <span className="settings-value">
                 {playbackRate === 1 ? "Chuẩn" : `${playbackRate}x`}
-                <LucideIcon icon="ChevronRight" />
+                <ChevronRight />
               </span>
             </Dropdown.Item>
 
@@ -57,7 +61,7 @@ export const PlayerSettingsMenu = ({
                 {currentQuality === -1
                   ? "Tự động"
                   : `${qualities[currentQuality]?.height}p`}
-                <LucideIcon icon="ChevronRight" />
+                <ChevronRight />
               </span>
             </Dropdown.Item>
 
@@ -68,10 +72,11 @@ export const PlayerSettingsMenu = ({
               onClick={toggleAutoSkip}
             >
               <span>Auto Skip</span>
-              <LucideIcon
-                className="settings-value"
-                icon={isAutoSkip ? "ToggleRight" : "ToggleLeft"}
-              />
+              {isAutoSkip ? (
+                <ToggleRight className="settings-value" color="#ff0000c9"/>
+              ) : (
+                <ToggleLeft className="settings-value" />
+              )}
             </Dropdown.Item>
           </>
         )}
@@ -83,7 +88,7 @@ export const PlayerSettingsMenu = ({
               className="settings-submenu-header"
               onClick={() => setMenuState("main")}
             >
-              <LucideIcon icon="ChevronLeft" />
+              <ChevronLeft />
               <strong>Tốc độ phát</strong>
             </div>
 
@@ -97,7 +102,7 @@ export const PlayerSettingsMenu = ({
                   }`}
                   onClick={() => handleSpeedChange(rate)}
                 >
-                  {rate}
+                  {rate === 1 ? "1" : `${rate}`}
                 </button>
               ))}
             </div>
@@ -111,28 +116,36 @@ export const PlayerSettingsMenu = ({
               className="settings-submenu-header"
               onClick={() => setMenuState("main")}
             >
-              <LucideIcon icon="ChevronLeft" />
+              <ChevronLeft />
               <strong>Chất lượng</strong>
             </div>
 
-            <Dropdown.Item
-              active={currentQuality === -1}
-              onClick={() => handleQualityChange(-1)}
-              className="settings-dropdown-item"
-            >
-              Tự động
-            </Dropdown.Item>
-
-            {qualities.map((q) => (
-              <Dropdown.Item
-                key={q.id}
-                active={currentQuality === q.id}
-                onClick={() => handleQualityChange(q.id)}
-                className="settings-dropdown-item"
+            <div className="quality-options">
+              {/* Tùy chọn Tự động */}
+              <button
+                type="button"
+                className={`quality-option ${
+                  currentQuality === -1 ? "active" : ""
+                }`}
+                onClick={() => handleQualityChange(-1)}
               >
-                {q.height}p
-              </Dropdown.Item>
-            ))}
+                Tự động
+              </button>
+
+              {/* Danh sách các độ phân giải tìm thấy từ HLS */}
+              {qualities.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  className={`quality-option ${
+                    currentQuality === item.id ? "active" : ""
+                  }`}
+                  onClick={() => handleQualityChange(item.id)}
+                >
+                  {item.height}p
+                </button>
+              ))}
+            </div>
           </>
         )}
       </Dropdown.Menu>

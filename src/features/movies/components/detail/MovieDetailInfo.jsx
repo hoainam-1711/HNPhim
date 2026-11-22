@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Badge, Button } from "react-bootstrap";
-import LucideIcon from "../../../../components/ui/LucideIcon";
+import { Clapperboard, Clock, Star, Volume2 } from "lucide-react";
 
 /**
  * Hiển thị tiêu đề, origin name, metadata badges, thể loại, quốc gia, đạo diễn, diễn viên
@@ -20,30 +20,30 @@ const MovieDetailInfo = ({ movie }) => {
       {/* Tags Metadata */}
       <div className="movie-metadata">
         <Badge className="movie-meta-badge">
-          <LucideIcon icon="Clock" />
+          <Clock />
           {movie?.time || "N/A"}
         </Badge>
 
         <Badge className="movie-meta-badge">
-          <LucideIcon icon="Volume2" />
+          <Volume2 />
           {movie?.lang || "Thuyết minh"}
         </Badge>
 
         <Badge className="movie-meta-badge">
-          <LucideIcon icon="ClapperBoard" />
+          <Clapperboard />
           {movie?.episode_current || "Full"}
         </Badge>
 
         {movie?.imdb?.vote_count !== 0 && movie?.imdb?.vote_count && (
           <Badge className="movie-meta-badge movie-rating">
-            <LucideIcon icon="Star" />
+            <Star />
             IMDB: {movie.imdb.vote_average} ({movie.imdb.vote_count} lượt)
           </Badge>
         )}
 
         {movie?.tmdb?.vote_count !== 0 && movie?.tmdb?.vote_count && (
           <Badge className="movie-meta-badge movie-rating">
-            <LucideIcon icon="Star" />
+            <Star />
             TMDB: {movie.tmdb.vote_average} ({movie.tmdb.vote_count} lượt)
           </Badge>
         )}

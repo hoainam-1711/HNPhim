@@ -1,33 +1,29 @@
-import { useFavorites } from "../context/MovieContext";
-import MovieList from "../features/movies/components/MovieList";
-import { Col, Container, Row } from "react-bootstrap";
-import CustomPagination from "../components/ui/CustomPagination";
 import { useSearchParams } from "react-router-dom";
-import SEO from "../components/ui/SEO";
+import { Col, Container, Row } from "react-bootstrap";
+import { useFavorites } from "@/features/favorites";
+import { MovieList } from "@/features/movies";
+import { usePagination } from "@/core/hooks";
+import CustomPagination from "@/core/components/ui/CustomPagination";
+import SEO from "@/core/components/ui/SEO";
 
-const ITEMSPERPAGE = 24;
+const ITEMS_PER_PAGE = 24;
 
-function FavoritesPage() {
+const FavoritesPage = () => {
   // Lấy mảng favorites từ Context
-  const { favorites, favoritesCount } = useFavorites();
-  const length = favoritesCount ?? favorites.length;
-
+  const { favorites } = useFavorites();
   const [searchParams, setSearchParams] = useSearchParams();
-  const page = parseInt(searchParams.get("page")) || 1;
+  const page = parseInt(searchParams.get("page"), 10) || 1;
 
-  const totalPages = Math.ceil(length / ITEMSPERPAGE);
-
-  // Cắt mảng lấy 24 items theo trang
-  const startIndex = (page - 1) * ITEMSPERPAGE;
-  const endIndex = startIndex + ITEMSPERPAGE;
-  const currentFavorites = favorites.slice(startIndex, endIndex);
+  // Sử dụng usePagination từ tầng core để cắt trang và tính tổng trang chuẩn xác
+  const { totalPages, paginatedItems } = usePagination({
+    totalItems: favorites.length,
+    itemsPerPage: ITEMS_PER_PAGE,
+    currentPage: page,
+    data: favorites,
+  });
 
   const handlePageChange = (newPage) => {
-    // Cập nhật URL thành /danh-sach?page=newPage
     setSearchParams({ page: newPage });
-
-    // Tự động cuộn mượt lên đầu trang khi sang trang mới (UX tốt hơn)
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
@@ -39,7 +35,7 @@ function FavoritesPage() {
         robots="noindex, nofollow"
       />
 
-      <MovieList movies={currentFavorites} msg={"Phim Yêu Thích"} />
+      <MovieList movies={paginatedItems} msg={"Phim Yêu Thích"} />
 
       <Container className="pt-3">
         {/* Điều khiển phân trang */}
@@ -57,6 +53,6 @@ function FavoritesPage() {
       </Container>
     </>
   );
-}
+};
 
 export default FavoritesPage;

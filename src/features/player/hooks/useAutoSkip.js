@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-
-const AUTO_SKIP_KEY = "family_auto_skip_15m";
+import {
+  AUTO_SKIP_KEY,
+  AUTO_SKIP_TIME,
+  AUTO_SKIP_STEP,
+} from "../utils/playerConstants";
 
 /**
  * useAutoSkip
@@ -46,10 +49,10 @@ export const useAutoSkip = (videoRef, m3u8Url) => {
       if (
         isAutoSkip &&
         !hasSkippedRef.current &&
-        video.currentTime >= 900 &&
-        video.currentTime < 901
+        video.currentTime >= AUTO_SKIP_TIME &&
+        video.currentTime < AUTO_SKIP_TIME + 1
       ) {
-        video.currentTime += 30; // Tua tiến 30 giây
+        video.currentTime += AUTO_SKIP_STEP; // Tua tiến 30 giây
         hasSkippedRef.current = true;
       }
     };

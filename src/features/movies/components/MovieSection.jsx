@@ -2,18 +2,14 @@ import "./MovieSection.css";
 import { useRef } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import LucideIcon from "../../../components/ui/LucideIcon";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import MovieCard from "./MovieCard";
-import { useFavorites } from "../../../context/MovieContext";
 
 const MovieSection = ({ title, type, movies = [] }) => {
   const scrollRef = useRef(null);
-  const { isFavorite, toggleFavorite } = useFavorites();
 
-  // Hàm xử lý cuộn trái / phải
   const handleScroll = (direction) => {
     if (scrollRef.current) {
-      // Mỗi lần bấm cuộn khoảng 75% chiều rộng khung hiển thị
       const scrollAmount = scrollRef.current.clientWidth * 0.75;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
@@ -36,23 +32,21 @@ const MovieSection = ({ title, type, movies = [] }) => {
           className="see-more-btn text-decoration-none text-secondary d-flex align-items-center gap-1 p-0"
         >
           <span>Xem thêm</span>
-          <LucideIcon icon="ChevronRight" />
+          <ChevronRight />
         </Button>
       </div>
 
       {/* Khung bao bọc danh sách + 2 nút điều hướng */}
       <div className="movie-carousel-wrapper">
-        {/* Nút Cuộn Trái */}
         <button
           type="button"
           className="carousel-btn carousel-btn-prev"
           onClick={() => handleScroll("left")}
           aria-label="Cuộn sang trái"
         >
-          <LucideIcon icon="ChevronLeft" />
+          <ChevronLeft />
         </button>
 
-        {/* Danh sách phim */}
         <div className="movie-list-container pt-3 px-1" ref={scrollRef}>
           {movies.map((movie) => (
             <div key={movie._id || movie.slug} className="movie-item">
@@ -60,24 +54,19 @@ const MovieSection = ({ title, type, movies = [] }) => {
                 to={`/chi-tiet/${movie.slug}`}
                 className="text-decoration-none text-reset d-block h-100"
               >
-                <MovieCard
-                  movie={movie}
-                  isFavorited={isFavorite(movie.slug)}
-                  onToggleFavorite={toggleFavorite}
-                />
+                <MovieCard movie={movie} />
               </Link>
             </div>
           ))}
         </div>
 
-        {/* Nút Cuộn Phải */}
         <button
           type="button"
           className="carousel-btn carousel-btn-next"
           onClick={() => handleScroll("right")}
           aria-label="Cuộn sang phải"
         >
-          <LucideIcon icon="ChevronRight" />
+          <ChevronRight />
         </button>
       </div>
     </section>

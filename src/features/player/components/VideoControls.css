@@ -422,7 +422,7 @@
   color: rgba(255, 255, 255, 0.7);
 }
 
-/* Tùy chọn tốc độ */
+/* Tùy chọn tốc độ (nằm ngang 1 hàng) */
 .speed-options {
   display: flex;
   gap: 5px;
@@ -439,6 +439,7 @@
   color: #fff;
   font-size: 12px;
   font-weight: 500;
+  white-space: nowrap;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -449,6 +450,39 @@
 
 .speed-option.active {
   background: #555;
+}
+
+/* Tùy chọn chất lượng (nằm dọc) */
+.quality-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.quality-option {
+  width: 100%;
+  min-height: 36px;
+  padding: 7px 10px;
+  border: none;
+  border-radius: 8px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.quality-option:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.quality-option.active {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.16);
 }
 
 /* =========================================================

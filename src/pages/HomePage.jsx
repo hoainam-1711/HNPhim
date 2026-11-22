@@ -1,9 +1,7 @@
-import useHomeMovies from "../features/movies/hooks/useHomeMovies";
-import Loading from "../components/ui/Loading";
-import MovieSection from "../features/movies/components/MovieSection";
 import { Container } from "react-bootstrap";
-import HeroSection from "../features/movies/components/HeroSection";
-import SEO from "../components/ui/SEO";
+import { useHomeMovies, HeroSection, MovieSection } from "@/features/movies";
+import Loading from "@/core/components/ui/Loading";
+import SEO from "@/core/components/ui/SEO";
 
 const MOVIE_TYPES = [
   "phim-moi",
@@ -31,17 +29,14 @@ const HomePage = () => {
   if (error) {
     return (
       <div className="text-white text-center py-5">
-        Lỗi:{" "}
-        {"HomePage: " + error.message ||
-          "HomePage: Không thể tải danh sách phim"}
+        Lỗi: {error.message || "Không thể tải danh sách phim"}
       </div>
     );
   }
 
   // Tách phim để hiển thị Hero Section trên cùng
   const heroGroup = data?.find((item) => item.type === "phim-moi");
-  const heroMovies =
-    heroGroup?.data?.items || heroGroup?.data?.data?.items || [];
+  const heroMovies = heroGroup?.data?.items || [];
 
   // Các section còn lại, không bao gồm "phim-moi"
   const otherSection = data?.filter((item) => item.type !== "phim-moi") || [];
@@ -62,7 +57,7 @@ const HomePage = () => {
 
         {/* MovieSection */}
         {otherSection.map(({ type, data: movieData }) => {
-          const movies = movieData?.items || movieData?.data?.items || [];
+          const movies = movieData?.items || [];
           return (
             <MovieSection
               key={type}

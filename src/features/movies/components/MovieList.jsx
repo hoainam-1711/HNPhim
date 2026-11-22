@@ -1,12 +1,9 @@
 import { Col, Container, Row } from "react-bootstrap";
 import MovieCard from "./MovieCard";
 import { Link } from "react-router-dom";
-import Loading from "../../../components/ui/Loading";
-import { useFavorites } from "../../../context/MovieContext";
+import Loading from "@/core/components/ui/Loading";
 
 const MovieList = ({ movies, loading, msg }) => {
-  const { isFavorite, toggleFavorite } = useFavorites();
-
   if (loading) return <Loading />;
 
   return (
@@ -38,11 +35,7 @@ const MovieList = ({ movies, loading, msg }) => {
                 to={`/chi-tiet/${movie.slug}`}
                 style={{ textDecoration: "none", color: "inherit" }}
               >
-                <MovieCard
-                  movie={movie}
-                  isFavorited={isFavorite(movie.slug)}
-                  onToggleFavorite={toggleFavorite}
-                />
+                <MovieCard movie={movie} />
               </Link>
             </Col>
           ))}

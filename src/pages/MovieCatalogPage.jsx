@@ -1,12 +1,9 @@
-import { useCallback } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import movieApi from "../api/movieApi";
-import useFetch from "../hooks/useFetch";
-import CustomPagination from "../components/ui/CustomPagination";
-import MovieList from "../features/movies/components/MovieList";
-import Loading from "../components/ui/Loading";
-import SEO from "../components/ui/SEO";
+import { useMovieCatalog, MovieList } from "@/features/movies";
+import CustomPagination from "@/core/components/ui/CustomPagination";
+import Loading from "@/core/components/ui/Loading";
+import SEO from "@/core/components/ui/SEO";
 
 const TYPE_TITLES = {
   "phim-moi": "Phim Mới Cập Nhật",
@@ -19,7 +16,7 @@ const TYPE_TITLES = {
 
 /**
  * MovieCatalogPage: Trang danh mục phim thống nhất
- * Hợp nhất 4 trang (MoviesByType, MoviesByGenre, MoviesByCountry, Search)
+ * Hợp nhất 4 trang (Type, Genre, Country, Search)
  *
  * @param {Object} props
  * @param {'type' | 'genre' | 'country' | 'search'} props.mode - Chế độ hiển thị danh mục
@@ -31,37 +28,21 @@ const MovieCatalogPage = ({ mode = "type" }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page"), 10) || 1;
 
-  // Lựa chọn hàm API tương ứng theo mode
-  const fetcher = useCallback(() => {
-    if (!identifier?.trim()) return Promise.resolve(null);
-
-    switch (mode) {
-      case "type":
-        return movieApi.getNewMovies(identifier, 24, page);
-      case "genre":
-        return movieApi.getMoviesByGenre(identifier, 24, page);
-      case "country":
-        return movieApi.getMoviesByCountry(identifier, 24, page);
-      case "search":
-        return movieApi.searchMovies(identifier, 24, page);
-      default:
-        return Promise.resolve(null);
-    }
-  }, [mode, identifier, page]);
-
-  const { data, loading, error } = useFetch(
-    fetcher,
-    Boolean(identifier?.trim()),
-  );
+  // Sử dụng hook hợp nhất useMovieCatalog từ feature movies
+  const { data, loading, error } = useMovieCatalog({
+    mode,
+    identifier,
+    page,
+    limit: 24,
+  });
 
   const movies = data?.items || [];
   const totalPages = data?.totalPages || 1;
   const titlePage = data?.titlePage || "";
 
-  // Xử lý chuyển trang và cuộn mượt lên đầu
+  // Xử lý chuyển trang (ScrollToTop trong MainLayout tự động cuộn lên đầu khi search params thay đổi)
   const handlePageChange = (newPage) => {
     setSearchParams({ page: newPage });
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Xác định tiêu đề hiển thị và SEO metadata theo từng mode
