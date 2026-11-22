@@ -4,16 +4,12 @@ import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import LucideIcon from "@/core/components/icons";
 import MovieCard from "./MovieCard";
-import { useFavorites } from "@/features/favorites";
 
 const MovieSection = ({ title, type, movies = [] }) => {
   const scrollRef = useRef(null);
-  const { isFavorite, toggleFavorite } = useFavorites();
 
-  // Hàm xử lý cuộn trái / phải
   const handleScroll = (direction) => {
     if (scrollRef.current) {
-      // Mỗi lần bấm cuộn khoảng 75% chiều rộng khung hiển thị
       const scrollAmount = scrollRef.current.clientWidth * 0.75;
       scrollRef.current.scrollBy({
         left: direction === "left" ? -scrollAmount : scrollAmount,
@@ -42,7 +38,6 @@ const MovieSection = ({ title, type, movies = [] }) => {
 
       {/* Khung bao bọc danh sách + 2 nút điều hướng */}
       <div className="movie-carousel-wrapper">
-        {/* Nút Cuộn Trái */}
         <button
           type="button"
           className="carousel-btn carousel-btn-prev"
@@ -52,7 +47,6 @@ const MovieSection = ({ title, type, movies = [] }) => {
           <LucideIcon icon="ChevronLeft" />
         </button>
 
-        {/* Danh sách phim */}
         <div className="movie-list-container pt-3 px-1" ref={scrollRef}>
           {movies.map((movie) => (
             <div key={movie._id || movie.slug} className="movie-item">
@@ -60,17 +54,12 @@ const MovieSection = ({ title, type, movies = [] }) => {
                 to={`/chi-tiet/${movie.slug}`}
                 className="text-decoration-none text-reset d-block h-100"
               >
-                <MovieCard
-                  movie={movie}
-                  isFavorited={isFavorite(movie.slug)}
-                  onToggleFavorite={toggleFavorite}
-                />
+                <MovieCard movie={movie} />
               </Link>
             </div>
           ))}
         </div>
 
-        {/* Nút Cuộn Phải */}
         <button
           type="button"
           className="carousel-btn carousel-btn-next"

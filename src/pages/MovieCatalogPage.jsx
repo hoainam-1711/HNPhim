@@ -1,10 +1,7 @@
-import { useCallback } from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import movieApi from "../api/movieApi";
-import useFetch from "@/core/hooks/useFetch";
+import { useMovieCatalog, MovieList } from "@/features/movies";
 import CustomPagination from "@/core/components/ui/CustomPagination";
-import MovieList from "../features/movies/components/MovieList";
 import Loading from "@/core/components/ui/Loading";
 import SEO from "@/core/components/ui/SEO";
 
@@ -31,28 +28,13 @@ const MovieCatalogPage = ({ mode = "type" }) => {
   const [searchParams, setSearchParams] = useSearchParams();
   const page = parseInt(searchParams.get("page"), 10) || 1;
 
-  // Lựa chọn hàm API tương ứng theo mode
-  const fetcher = useCallback(() => {
-    if (!identifier?.trim()) return Promise.resolve(null);
-
-    switch (mode) {
-      case "type":
-        return movieApi.getNewMovies(identifier, 24, page);
-      case "genre":
-        return movieApi.getMoviesByGenre(identifier, 24, page);
-      case "country":
-        return movieApi.getMoviesByCountry(identifier, 24, page);
-      case "search":
-        return movieApi.searchMovies(identifier, 24, page);
-      default:
-        return Promise.resolve(null);
-    }
-  }, [mode, identifier, page]);
-
-  const { data, loading, error } = useFetch(
-    fetcher,
-    Boolean(identifier?.trim()),
-  );
+  // Sử dụng hook hợp nhất useMovieCatalog từ feature movies
+  const { data, loading, error } = useMovieCatalog({
+    mode,
+    identifier,
+    page,
+    limit: 24,
+  });
 
   const movies = data?.items || [];
   const totalPages = data?.totalPages || 1;

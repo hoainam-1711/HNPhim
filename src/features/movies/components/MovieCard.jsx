@@ -1,29 +1,17 @@
 import "./MovieCard.css";
-import { memo, useContext } from "react";
-import { Button, Card } from "react-bootstrap";
-import {
-  FavoritesDispatchContext,
-  useFavorites,
-} from "@/features/favorites";
-import LucideIcon from "@/core/components/icons";
+import { memo } from "react";
+import { Card } from "react-bootstrap";
+import { FavoriteButton } from "@/features/favorites";
 import { getImageSrc, handleImgError } from "@/core/utils/image";
 
 /**
- * Pure MovieCard:
- * - Không subscribe trực tiếp vào Favorites State Context
- * - Chỉ nhận isFavorited qua props và lấy toggleFavorite từ DispatchContext (stable)
- * - Đảm bảo React.memo hoạt động 100% hiệu quả (chỉ re-render card được bấm, không re-render cả danh sách)
+ * MovieCard: Component hiển thị thẻ phim tinh gọn, tối ưu re-render với FavoriteButton độc lập
+ * @param {Object} props
+ * @param {Object} props.movie - Đối tượng phim
  */
-const PureMovieCard = memo(function PureMovieCard({
-  movie,
-  isFavorited = false,
-  onToggleFavorite,
-}) {
+const MovieCard = memo(function MovieCard({ movie }) {
   const { poster_url, thumb_url, name } = movie || {};
   const posterSrc = getImageSrc(poster_url || thumb_url);
-
-  const actions = useContext(FavoritesDispatchContext);
-  const handleToggle = onToggleFavorite || actions?.toggleFavorite;
 
   return (
     <Card className="movie-card">
@@ -38,50 +26,11 @@ const PureMovieCard = memo(function PureMovieCard({
         />
         <div className="overlay">
           <Card.Title className="title">{name}</Card.Title>
-          <Button
-            variant="link"
-            className="favorite-btn"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              handleToggle?.(movie);
-            }}
-          >
-            {isFavorited ? (
-              <LucideIcon icon="BookmarkCheck" />
-            ) : (
-              <LucideIcon icon="Bookmark" />
-            )}
-          </Button>
+          <FavoriteButton movie={movie} className="favorite-btn" />
         </div>
       </div>
     </Card>
   );
 });
 
-/**
- * Fallback Component khi dùng MovieCard độc lập mà không truyền isFavorited
- */
-const StandaloneMovieCard = ({ movie, ...props }) => {
-  const { isFavorite, toggleFavorite } = useFavorites();
-  const favorited = isFavorite?.(movie?.slug) ?? false;
-  return (
-    <PureMovieCard
-      movie={movie}
-      isFavorited={favorited}
-      onToggleFavorite={toggleFavorite}
-      {...props}
-    />
-  );
-};
-
-const MovieCard = (props) => {
-  // Nếu đã truyền isFavorited từ list cha, dùng PureMovieCard tối ưu
-  if (props.isFavorited !== undefined) {
-    return <PureMovieCard {...props} />;
-  }
-  // Nếu không truyền, fallback về Standalone
-  return <StandaloneMovieCard {...props} />;
-};
-
-export default memo(MovieCard);
+export default MovieCard;

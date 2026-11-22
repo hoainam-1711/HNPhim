@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Form, Button, InputGroup, Container } from "react-bootstrap";
 import { FavoriteCounter } from "@/features/favorites";
 import LucideIcon from "@/core/components/icons";
-import FilterModal from "./FilterModal";
+import { FilterModal } from "@/features/movies";
 
 function NavbarComponent() {
   // 1. Navigation Hooks

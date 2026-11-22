@@ -3,10 +3,8 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Button, Modal, Tab, Tabs } from "react-bootstrap";
 import Loading from "@/core/components/ui/Loading";
-import useGenres from "../../features/movies/hooks/useGenres";
-import useCountries from "../../features/movies/hooks/useCountries";
+import useFilterData from "../../hooks/useFilterData";
 
-// 1. DỮ LIỆU TĨNH CỐ ĐỊNH (CONSTANTS)
 const TYPES = [
   { id: "phim-moi", name: "Phim Mới", slug: "phim-moi" },
   { id: "phim-le", name: "Phim Lẻ", slug: "phim-le" },
@@ -16,7 +14,6 @@ const TYPES = [
   { id: "tv-shows", name: "TV Shows", slug: "tv-shows" },
 ];
 
-// 2. SUB-COMPONENT PHỤC VỤ HIỂN THỊ TỪNG TAB
 const FilterTabContent = ({
   loading,
   error,
@@ -52,34 +49,22 @@ const FilterTabContent = ({
   );
 };
 
-// 3. MAIN COMPONENT: FILTERMODAL
-const FilterModal = ({ show, handleClose }) => {
-  // Quản lý tab đang chọn (type | genre | country)
+export const FilterModal = ({ show, handleClose }) => {
   const [activeTab, setActiveTab] = useState("type");
   const [hasOpened, setHasOpened] = useState(false);
 
-  // Chỉ kích hoạt tải dữ liệu khi modal được mở lần đầu tiên (Lazy-fetch)
+  // Lazy-fetch khi mở modal lần đầu
   useEffect(() => {
     if (show && !hasOpened) {
       setHasOpened(true);
     }
   }, [show, hasOpened]);
 
-  const {
-    data: genresData,
-    loading: genresLoading,
-    error: genresError,
-  } = useGenres(hasOpened);
-  const genres = genresData?.items || genresData?.data?.items || [];
+  // Tải đồng thời thể loại & quốc gia qua hook gộp useFilterData
+  const { data, loading, error } = useFilterData(hasOpened);
+  const genres = data?.genres || [];
+  const countries = data?.countries || [];
 
-  const {
-    data: countriesData,
-    loading: countriesLoading,
-    error: countriesError,
-  } = useCountries(hasOpened);
-  const countries = countriesData?.items || countriesData?.data?.items || [];
-
-  // Thoát sớm nếu Modal không được kích hoạt hiển thị
   if (!show) return null;
 
   return (
@@ -89,7 +74,6 @@ const FilterModal = ({ show, handleClose }) => {
       dialogClassName="filter-modal"
       contentClassName="filter-modal-content"
     >
-      {/* Tiêu đề Modal */}
       <Modal.Header closeButton>
         <Modal.Title className="fw-bold text-white modal-title">
           Khám Phá Phim
@@ -97,7 +81,6 @@ const FilterModal = ({ show, handleClose }) => {
       </Modal.Header>
 
       <Modal.Body className="p-0">
-        {/* Thanh chuyển đổi Tab dạng cuộn ngang */}
         <Tabs
           activeKey={activeTab}
           onSelect={(k) => setActiveTab(k)}
@@ -125,8 +108,8 @@ const FilterModal = ({ show, handleClose }) => {
           {/* TAB 2: Thể loại phim */}
           <Tab eventKey="genre" title="Thể Loại">
             <FilterTabContent
-              loading={genresLoading}
-              error={genresError}
+              loading={loading}
+              error={error}
               errorMessage="Không thể tải Thể Loại"
               items={genres}
               pathPrefix="/the-loai"
@@ -137,8 +120,8 @@ const FilterModal = ({ show, handleClose }) => {
           {/* TAB 3: Quốc gia */}
           <Tab eventKey="country" title="Quốc gia">
             <FilterTabContent
-              loading={countriesLoading}
-              error={countriesError}
+              loading={loading}
+              error={error}
               errorMessage="Không thể tải Quốc Gia"
               items={countries}
               pathPrefix="/quoc-gia"

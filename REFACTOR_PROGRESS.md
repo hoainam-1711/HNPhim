@@ -149,15 +149,44 @@ src/
 ---
 
 ### Phase 3: Tái cấu trúc `features/movies/` và khử dead code
-* **Trạng thái**: Chưa làm
+* **Trạng thái**: Hoàn thành
 * **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
-  - *Chưa thực hiện*
+  - `src/api/movieApi.js` → `src/features/movies/services/movieService.js`
+  - `src/utils/normalizeResponse.js` → `src/features/movies/services/normalizers.js`
+  - `src/components/layout/FilterModal.jsx` → `src/features/movies/components/FilterModal/FilterModal.jsx`
+  - `src/components/layout/FilterModal.css` → `src/features/movies/components/FilterModal/FilterModal.css`
+  - *(Tạo mới)* `src/features/movies/services/index.js`
+  - *(Tạo mới)* `src/features/movies/hooks/useMovieCatalog.js` (Hợp nhất danh mục)
+  - *(Tạo mới)* `src/features/movies/hooks/useFilterData.js` (Gộp Thể loại & Quốc gia)
+  - *(Tạo mới)* `src/features/movies/hooks/useHeroSlider.js` (Quản lý slide & gestures)
+  - *(Tạo mới)* `src/features/movies/components/HeroBanner/HeroBannerContent.jsx` (Tách từ HeroSection)
+  - *(Tạo mới)* `src/features/movies/components/HeroBanner/HeroThumbnailList.jsx` (Tách từ HeroSection)
+  - *(Tạo mới)* `src/features/movies/components/FilterModal/index.js`
+  - *(Refactor)* `src/features/movies/components/HeroSection.jsx` (Component cha tinh gọn)
+  - *(Refactor)* `src/features/movies/components/MovieCard.jsx` (Tích hợp FavoriteButton, bỏ rẽ nhánh pure/standalone)
+  - *(Refactor)* `src/features/movies/hooks/useHomeMovies.js` (Memoize types chống infinite loop)
 * **File đã xóa**:
-  - *Chưa thực hiện*
+  - `src/features/movies/hooks/useNewMovies.js` (Dead code)
+  - `src/features/movies/hooks/useMoviesByGenres.js` (Dead code)
+  - `src/features/movies/hooks/useMoviesByCountry.js` (Dead code)
+  - `src/features/movies/hooks/useSearchMovies.js` (Dead code)
+  - `src/features/movies/hooks/useGenres.js` (Đã thay bằng `useFilterData`)
+  - `src/features/movies/hooks/useCountries.js` (Đã thay bằng `useFilterData`)
+  - `src/components/layout/FilterModal.jsx`
+  - `src/components/layout/FilterModal.css`
+  - `src/api/movieApi.js`
+  - `src/api/` (Thư mục rỗng)
+  - `src/utils/normalizeResponse.js`
+  - `src/utils/` (Thư mục rỗng)
 * **Quyết định kiến trúc quan trọng**:
-  - *Chưa thực hiện*
+  - **Chuẩn hóa 1 Shape dữ liệu duy nhất**: Dọn sạch hoàn toàn cấu trúc nhân bản lồng nhau (`data.items` + `items`) trong `normalizers.js`, trả về shape phẳng, tường minh: `{ items, titlePage, totalPages, currentPage, totalItems }` cho danh sách và `{ movie, episodes }` cho chi tiết phim.
+  - **Chịu lỗi từng phần cho Trang chủ**: `movieService.getHomeMovies` sử dụng `Promise.allSettled()` để nếu một API thể loại bất kỳ bị timeout/500, các hàng phim khác trên trang chủ vẫn hiển thị bình thường thay vì sập toàn bộ trang.
+  - **Hợp nhất Hook Danh mục**: `useMovieCatalog` xử lý thống nhất cả 4 mode (`type`, `genre`, `country`, `search`), loại bỏ toàn bộ switch-case lồng ghép trong `MovieCatalogPage`.
+  - **Chống Infinite Loop trang chủ**: `useHomeMovies` ổn định reference của mảng `types` qua chuỗi key serialized, ngăn chặn re-render loop nếu truyền array literal.
+  - **Phân rã God Component `HeroSection`**: Tách nhỏ thành hook logic `useHeroSlider`, content `HeroBannerContent`, và thumbnail list `HeroThumbnailList` (bọc `React.memo`), giảm 75% code phức tạp trong component chính.
+  - **Đơn giản hóa `MovieCard`**: Nhúng trực tiếp `FavoriteButton` từ `@/features/favorites`, xóa bỏ toàn bộ mã phân nhánh `PureMovieCard` / `StandaloneMovieCard`.
 * **Việc còn tồn đọng/TODO cho phase sau**:
-  - *Chưa thực hiện*
+  - **Phase 4**: Tinh gọn `features/player/`. Chuẩn hóa trình phát HLS (`useHlsPlayer`), tách biệt controls, toolbar, timeline, cài đặt chất lượng/tốc độ và danh sách tập phim `EpisodeSelector`. Gom các hằng số playback vào `playerConstants.js`.
 
 ---
 

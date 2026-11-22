@@ -50,7 +50,7 @@
 .filter-tabs {
   display: flex !important;
   flex-direction: row !important;
-  flex-wrap: nowrap !important; /* Không tự động xuống dòng */
+  flex-wrap: nowrap !important;
   align-items: center;
   list-style: none;
   padding: 8px 12px 4px 12px !important;
@@ -58,18 +58,15 @@
   background: #181818;
   border-bottom: 1px solid #282828 !important;
 
-  /* Hỗ trợ vuốt chạm & cuộn ngang mượt mà */
   overflow-x: auto !important;
   overflow-y: hidden !important;
   -webkit-overflow-scrolling: touch;
   touch-action: pan-x pan-y;
 
-  /* Tinh chỉnh thanh cuộn ngang (Firefox) */
   scrollbar-width: thin;
   scrollbar-color: #383838 transparent;
 }
 
-/* Tinh chỉnh thanh cuộn ngang (Chrome, Safari, Edge) */
 .filter-tabs::-webkit-scrollbar {
   height: 4px;
 }
@@ -87,7 +84,6 @@
   background: #e50914;
 }
 
-/* Tab item: cố định kích thước, kích hoạt scroll khi thiếu chỗ */
 .filter-tabs .nav-item {
   display: inline-block;
   flex-shrink: 0 !important;
@@ -111,7 +107,6 @@
   color: #fff !important;
 }
 
-/* Tab Active: viền gạch chân đỏ Netflix */
 .filter-tabs .nav-link.active {
   color: #e50914 !important;
   font-weight: 600;
@@ -188,7 +183,6 @@
 /* ===================================================
    6. RESPONSIVE MEDIA QUERIES
    =================================================== */
-/* Tablet & Mobile (<= 767.98px) */
 @media (max-width: 767.98px) {
   .filter-modal {
     margin: 68px 10px 0 10px;
@@ -204,14 +198,12 @@
   }
 }
 
-/* Small Mobile (<= 560px) */
 @media (max-width: 560px) {
   .filter-grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-/* Extra Small Mobile (<= 320px) */
 @media (max-width: 320px) {
   .filter-grid {
     grid-template-columns: repeat(1, 1fr);
