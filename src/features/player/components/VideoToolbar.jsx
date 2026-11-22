@@ -1,15 +1,28 @@
 import { memo } from "react";
 import { Button } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
+import {
+  Maximize,
+  Minimize,
+  Pause,
+  PictureInPicture,
+  Play,
+  RotateCcw,
+  RotateCw,
+  SkipForward,
+  Volume,
+  Volume1,
+  Volume2,
+  VolumeX,
+} from "lucide-react";
 import PlayerSettingsMenu from "./PlayerSettingsMenu";
 import { SEEK_STEP_SMALL, SKIP_ADS_SECONDS } from "../utils/playerConstants";
 
 // Helper chọn icon âm lượng theo trạng thái mute và mức âm lượng
-const getVolumeIcon = (isMuted, volume) => {
-  if (isMuted || volume === 0) return "VolumeX";
-  if (volume <= 0.2) return "Volume";
-  if (volume <= 0.5) return "Volume1";
-  return "Volume2";
+const renderVolumeIcon = (isMuted, volume) => {
+  if (isMuted || volume === 0) return <VolumeX />;
+  if (volume <= 0.2) return <Volume />;
+  if (volume <= 0.5) return <Volume1 />;
+  return <Volume2 />;
 };
 
 /**
@@ -54,7 +67,7 @@ export const VideoToolbar = memo(function VideoToolbar({
           onClick={() => handleSeek(-SEEK_STEP_SMALL)}
           title={`Lùi ${SEEK_STEP_SMALL} giây`}
         >
-          <LucideIcon icon="RotateLeft" />
+          <RotateCcw />
         </Button>
 
         {/* Phát / Tạm dừng */}
@@ -64,7 +77,7 @@ export const VideoToolbar = memo(function VideoToolbar({
           onClick={togglePlay}
           title={`(Space) ${isPlaying ? "Tạm dừng" : "Phát"}`}
         >
-          <LucideIcon icon={isPlaying ? "Pause" : "Play"} />
+          {isPlaying ? <Pause /> : <Play />}
         </Button>
 
         {/* Tiến 10s */}
@@ -74,7 +87,7 @@ export const VideoToolbar = memo(function VideoToolbar({
           onClick={() => handleSeek(SEEK_STEP_SMALL)}
           title={`Tua ${SEEK_STEP_SMALL} giây`}
         >
-          <LucideIcon icon="RotateRight" />
+          <RotateCw />
         </Button>
 
         {/* Điều khiển âm lượng (Ẩn khi màn hình < 460px) */}
@@ -85,7 +98,7 @@ export const VideoToolbar = memo(function VideoToolbar({
             onClick={toggleMute}
             title={`(M) ${isMuted ? "Bật âm thanh" : "Tắt âm thanh"}`}
           >
-            <LucideIcon icon={getVolumeIcon(isMuted, volume)} />
+            {renderVolumeIcon(isMuted, volume)}
           </Button>
           <input
             type="range"
@@ -111,7 +124,7 @@ export const VideoToolbar = memo(function VideoToolbar({
           title={`(S) Bỏ qua QC (${SKIP_ADS_SECONDS}s)`}
         >
           <span>Skip ads</span>
-          <LucideIcon icon="SkipForward" />
+          <SkipForward />
         </Button>
 
         {/* Chuyển tập tiếp theo */}
@@ -122,7 +135,7 @@ export const VideoToolbar = memo(function VideoToolbar({
           className="settings-dropdown-toggle hide-btn-576"
           title="Tập tiếp theo"
         >
-          <LucideIcon icon="SkipForward" />
+          <SkipForward />
         </Button>
 
         {/* Cài đặt (Tốc độ, Chất lượng, AutoSkip) */}
@@ -145,7 +158,7 @@ export const VideoToolbar = memo(function VideoToolbar({
             isPiP ? "Thoát Picture-in-Picture" : "Picture-in-Picture (PiP)"
           }
         >
-          <LucideIcon icon="PictureInPicture" />
+          <PictureInPicture />
         </Button>
 
         {/* Toàn màn hình */}
@@ -157,7 +170,7 @@ export const VideoToolbar = memo(function VideoToolbar({
             isFullscreen ? "Thoát toàn màn hình" : "Toàn màn hình"
           }`}
         >
-          <LucideIcon icon={isFullscreen ? "Minimize" : "Maximize"} />
+          {isFullscreen ? <Minimize /> : <Maximize />}
         </Button>
       </div>
     </div>

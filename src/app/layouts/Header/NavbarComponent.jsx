@@ -2,7 +2,7 @@ import "./NavbarComponent.css";
 import { Link } from "react-router-dom";
 import { Navbar, Button, Container } from "react-bootstrap";
 import { FavoriteCounter } from "@/features/favorites";
-import LucideIcon from "@/core/components/icons";
+import Icon from "@/core/components/icons";
 import SearchBox from "./SearchBox";
 
 /**
@@ -19,7 +19,7 @@ export const NavbarComponent = ({ onOpenFilter, children }) => {
           to="/"
           className="logo d-flex align-items-center"
         >
-          <LucideIcon icon="Logo" fill="#fe0033" />
+          <Icon icon="Logo" fill="#fe0033" />
           <span>HNPhim</span>
         </Navbar.Brand>
 

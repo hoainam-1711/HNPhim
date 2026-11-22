@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Form, Button, InputGroup } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
+import { Search } from "lucide-react";
 
 /**
  * SearchBox
@@ -33,7 +33,7 @@ export const SearchBox = () => {
           className="search-input"
         />
         <Button type="submit" className="search-btn">
-          <LucideIcon icon="Search" />
+          <Search />
         </Button>
       </InputGroup>
     </Form>

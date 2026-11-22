@@ -1,7 +1,7 @@
 import { memo, useContext } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
+import { BookmarkCheck } from "lucide-react";
 import { FavoritesStateContext } from "../context/FavoritesContext";
 
 /**
@@ -28,7 +28,7 @@ export const FavoriteCounter = memo(function FavoriteCounter({
       aria-label={`Danh sách phim yêu thích (${count} phim)`}
       {...rest}
     >
-      <LucideIcon icon="BookmarkCheck" />
+      <BookmarkCheck />
       <span className="favorite-count">{count}</span>
     </Button>
   );

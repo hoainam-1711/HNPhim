@@ -1,6 +1,6 @@
 import api from "@/core/api/client";
 import ENDPOINTS from "@/core/api/endpoints";
-import handleError from "@/core/utils/error";
+import handleError, { isCancelError } from "@/core/utils/error";
 import {
   normalizeMovieList,
   normalizeMovieDetail,
@@ -49,7 +49,10 @@ export const movieService = {
         try {
           const data = await this.getNewMovies(type, limit, 1, config);
           return { type, data };
-        } catch {
+        } catch (err) {
+          if (isCancelError(err)) {
+            throw err;
+          }
           // Fallback an toàn nếu một danh mục riêng lẻ bị lỗi
           return {
             type,
@@ -59,6 +62,14 @@ export const movieService = {
       });
 
       const results = await Promise.allSettled(promises);
+
+      const canceledResult = results.find(
+        (result) =>
+          result.status === "rejected" && isCancelError(result.reason),
+      );
+      if (canceledResult) {
+        throw canceledResult.reason;
+      }
 
       return results.map((result, index) => {
         if (result.status === "fulfilled") {

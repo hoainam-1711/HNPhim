@@ -34,7 +34,4 @@ export const Icon = memo(function Icon({
   );
 });
 
-// Alias tương thích ngược để code cũ import { LucideIcon } hay default đều chạy tốt
-export const LucideIcon = Icon;
-
 export default Icon;

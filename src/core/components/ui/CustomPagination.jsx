@@ -1,6 +1,6 @@
 import "./CustomPagination.css";
 import { Button } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 /**
  * Tạo danh sách các trang cần hiển thị
@@ -57,7 +57,7 @@ export default function CustomPagination({ page, totalPages, setPage }) {
         disabled={page === 1}
         onClick={() => setPage(page - 1)}
       >
-        <LucideIcon icon="ChevronLeft" />
+        <ChevronLeft />
       </Button>
 
       {pages.map((item, index) => {
@@ -87,7 +87,7 @@ export default function CustomPagination({ page, totalPages, setPage }) {
         disabled={page === totalPages}
         onClick={() => setPage(page + 1)}
       >
-        <LucideIcon icon="ChevronRight" />
+        <ChevronRight />
       </Button>
     </div>
   );

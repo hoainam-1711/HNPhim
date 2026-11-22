@@ -1,6 +1,12 @@
 import { useState } from "react";
 import { Dropdown } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
+import {
+  ChevronLeft,
+  ChevronRight,
+  Settings,
+  ToggleLeft,
+  ToggleRight,
+} from "lucide-react";
 import { PLAYBACK_RATES } from "../utils/playerConstants";
 
 /**
@@ -28,7 +34,7 @@ export const PlayerSettingsMenu = ({
         className="settings-dropdown-toggle"
         title="Cài đặt"
       >
-        <LucideIcon icon="Settings" />
+        <Settings />
       </Dropdown.Toggle>
 
       <Dropdown.Menu className="settings-dropdown-menu">
@@ -42,7 +48,7 @@ export const PlayerSettingsMenu = ({
               <span>Tốc độ phát</span>
               <span className="settings-value">
                 {playbackRate === 1 ? "Chuẩn" : `${playbackRate}x`}
-                <LucideIcon icon="ChevronRight" />
+                <ChevronRight />
               </span>
             </Dropdown.Item>
 
@@ -55,7 +61,7 @@ export const PlayerSettingsMenu = ({
                 {currentQuality === -1
                   ? "Tự động"
                   : `${qualities[currentQuality]?.height}p`}
-                <LucideIcon icon="ChevronRight" />
+                <ChevronRight />
               </span>
             </Dropdown.Item>
 
@@ -66,10 +72,11 @@ export const PlayerSettingsMenu = ({
               onClick={toggleAutoSkip}
             >
               <span>Auto Skip</span>
-              <LucideIcon
-                className="settings-value"
-                icon={isAutoSkip ? "ToggleRight" : "ToggleLeft"}
-              />
+              {isAutoSkip ? (
+                <ToggleRight className="settings-value" color="#ff0000c9"/>
+              ) : (
+                <ToggleLeft className="settings-value" />
+              )}
             </Dropdown.Item>
           </>
         )}
@@ -81,7 +88,7 @@ export const PlayerSettingsMenu = ({
               className="settings-submenu-header"
               onClick={() => setMenuState("main")}
             >
-              <LucideIcon icon="ChevronLeft" />
+              <ChevronLeft />
               <strong>Tốc độ phát</strong>
             </div>
 
@@ -95,7 +102,7 @@ export const PlayerSettingsMenu = ({
                   }`}
                   onClick={() => handleSpeedChange(rate)}
                 >
-                  {rate === 1 ? "Chuẩn" : `${rate}x`}
+                  {rate === 1 ? "1" : `${rate}`}
                 </button>
               ))}
             </div>
@@ -109,7 +116,7 @@ export const PlayerSettingsMenu = ({
               className="settings-submenu-header"
               onClick={() => setMenuState("main")}
             >
-              <LucideIcon icon="ChevronLeft" />
+              <ChevronLeft />
               <strong>Chất lượng</strong>
             </div>
 

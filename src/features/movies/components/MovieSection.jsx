@@ -2,7 +2,7 @@ import "./MovieSection.css";
 import { useRef } from "react";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import LucideIcon from "@/core/components/icons";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 import MovieCard from "./MovieCard";
 
 const MovieSection = ({ title, type, movies = [] }) => {
@@ -32,7 +32,7 @@ const MovieSection = ({ title, type, movies = [] }) => {
           className="see-more-btn text-decoration-none text-secondary d-flex align-items-center gap-1 p-0"
         >
           <span>Xem thêm</span>
-          <LucideIcon icon="ChevronRight" />
+          <ChevronRight />
         </Button>
       </div>
 
@@ -44,7 +44,7 @@ const MovieSection = ({ title, type, movies = [] }) => {
           onClick={() => handleScroll("left")}
           aria-label="Cuộn sang trái"
         >
-          <LucideIcon icon="ChevronLeft" />
+          <ChevronLeft />
         </button>
 
         <div className="movie-list-container pt-3 px-1" ref={scrollRef}>
@@ -66,7 +66,7 @@ const MovieSection = ({ title, type, movies = [] }) => {
           onClick={() => handleScroll("right")}
           aria-label="Cuộn sang phải"
         >
-          <LucideIcon icon="ChevronRight" />
+          <ChevronRight />
         </button>
       </div>
     </section>

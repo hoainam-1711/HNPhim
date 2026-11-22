@@ -1,5 +1,5 @@
 import { Container, Row, Col, Popover, OverlayTrigger } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
+import Icon from "@/core/components/icons";
 
 export const Footer = () => {
   const disclaimerPopover = (
@@ -44,7 +44,7 @@ export const Footer = () => {
       <Container fluid>
         <Row className="align-items-center">
           <Col className="text-center">
-            <LucideIcon icon="Logo" fill="#ffffff80" />
+            <Icon icon="Logo" fill="#ffffff80" />
             <div style={{ fontSize: "0.75rem", marginTop: "10px" }}>
               © {new Date().getFullYear()} HNPhim{" "}
               <span className="text-white-50">|</span>{" "}

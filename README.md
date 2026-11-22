@@ -9,7 +9,7 @@ A modern, high-performance movie streaming web application built with **React 18
 ## Tech Stack
 
 - **Core:** React 18, Vite 8, React Router v7
-- **UI & Styling:** Bootstrap 5, React Bootstrap, Custom CSS
+- **UI & Styling:** Bootstrap 5, React Bootstrap, Custom CSS, Lucide React
 - **Video Streaming:** HLS.js (Custom Video Player with keyboard shortcuts & episode playlist)
 - **Data Fetching & Security:** Axios, REST API, DOMPurify (XSS sanitization)
 - **SEO & Metadata:** React Helmet Async
@@ -26,15 +26,49 @@ A modern, high-performance movie streaming web application built with **React 18
 
 ```text
 src/
-├── api/          # General API configuration, axiosInstance, and central API calls
-├── assets/       # Static assets (images, logo, static icons)
-├── components/   # Application-wide shared UI components (Shared UI & Common Layouts)
-├── context/      # Global State Management (Bookmarks, Watch History, LocalStorage sync)
-├── features/     # Feature-based modules grouping logic & UI (movies, video player)
-├── hooks/        # Generic / Reusable custom React hooks
-├── layouts/      # Main layout wrappers for application routes
-├── pages/        # Main page views (HomePage, WatchPage, MovieDetailPage, etc.)
-└── utils/        # Utility helper functions (error handling, formatting, etc.)
+├── app/                           # Root application configuration & routing layer
+│   ├── layouts/
+│   │   ├── Footer/
+│   │   ├── Header/
+│   │   ├── MainLayout.jsx
+│   │   └── index.js
+│   ├── routes/
+│   │   └── AppRoutes.jsx
+│   └── App.jsx
+│
+├── assets/
+│
+├── core/                          # Shared layer, decoupled from specific business logic
+│   ├── api/
+│   ├── components/
+│   │   ├── icons/
+│   │   └── ui/
+│   ├── hooks/
+│   └── utils/
+│
+├── features/                      # Self-contained business modules (Business Logic)
+│   ├── favorites/                 # Favorite movies list management
+│   │   ├── components/
+│   │   ├── context/
+│   │   ├── hooks/
+│   │   ├── utils/
+│   │   └── index.js
+│   │
+│   ├── movies/                    # Movie catalog & details logic
+│   │   ├── components/
+│   │   ├── hooks/
+│   │   ├── services/
+│   │   └── index.js
+│   │
+│   └── player/                    # HLS player & episode list logic
+│       ├── components/
+│       ├── hooks/
+│       ├── utils/
+│       └── index.js
+│
+├── pages/                         # Thin page layer (Smart components connecting features)
+│
+└── main.jsx                       # Single entry point
 ```
 
 ## Installation

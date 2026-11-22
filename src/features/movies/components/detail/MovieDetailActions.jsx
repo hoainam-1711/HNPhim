@@ -1,5 +1,5 @@
 import { Button } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
+import { Bookmark, BookmarkCheck, Play } from "lucide-react";
 
 /**
  * Các nút hành động chính của phim: Xem Phim & Lưu Yêu Thích
@@ -17,7 +17,7 @@ const MovieDetailActions = ({
         onClick={onWatch}
         disabled={!canWatch}
       >
-        <LucideIcon icon="Play" /> Xem Phim
+        <Play /> Xem Phim
       </Button>
 
       <Button
@@ -29,11 +29,7 @@ const MovieDetailActions = ({
           onToggleFavorite();
         }}
       >
-        {isFavorited ? (
-          <LucideIcon icon="BookmarkCheck" />
-        ) : (
-          <LucideIcon icon="Bookmark" />
-        )}
+        {isFavorited ? <BookmarkCheck /> : <Bookmark />}
         <span>Lưu</span>
       </Button>
     </div>

@@ -1,8 +1,8 @@
 import { memo } from "react";
 import { Button } from "react-bootstrap";
-import LucideIcon from "@/core/components/icons";
 import { useIsFavorite } from "../hooks/useIsFavorite";
 import { useFavoriteActions } from "../hooks/useFavoriteActions";
+import { Bookmark, BookmarkCheck } from "lucide-react";
 
 /**
  * FavoriteButton
@@ -18,7 +18,6 @@ import { useFavoriteActions } from "../hooks/useFavoriteActions";
 export const FavoriteButton = memo(function FavoriteButton({
   movie,
   className = "",
-  activeColor = "#f3ca3e",
   showLabel = false,
   variant = "link",
   ...rest
@@ -49,9 +48,9 @@ export const FavoriteButton = memo(function FavoriteButton({
       {...rest}
     >
       {isFavorited ? (
-        <LucideIcon icon="BookmarkCheck" color={activeColor} />
+        <BookmarkCheck />
       ) : (
-        <LucideIcon icon="Bookmark" />
+        <Bookmark />
       )}
       {showLabel && <span>{isFavorited ? "Đã lưu" : "Lưu"}</span>}
     </Button>

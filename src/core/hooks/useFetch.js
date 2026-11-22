@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import axios from "axios";
+import { isCancelError } from "@/core/utils/error";
 
 /**
  * useFetch: Custom hook gọi API có tích hợp AbortController chống Race Condition
@@ -38,11 +38,7 @@ export default function useFetch(apiFunc, autoFetch = true) {
         }
       } catch (err) {
         // Bỏ qua lỗi hủy request (không ghi nhận là lỗi UI)
-        const isAborted =
-          controller.signal.aborted ||
-          axios.isCancel(err) ||
-          err?.name === "CanceledError" ||
-          err?.name === "AbortError";
+        const isAborted = controller.signal.aborted || isCancelError(err);
 
         if (!isAborted) {
           setError(err);

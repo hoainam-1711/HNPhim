@@ -31,14 +31,13 @@ const HeroSection = ({ movies = [] }) => {
       onTouchEnd={handleTouchEnd}
       onTouchCancel={handleTouchCancel}
     >
-      <div className="hero-main-container">
-        <HeroBannerContent movie={currentMovie} />
+      <HeroBannerContent movie={currentMovie}>
         <HeroThumbnailList
           movies={movies}
           selectedIndex={selectedIndex}
           onSelectThumb={handleSelectThumb}
         />
-      </div>
+      </HeroBannerContent>
     </section>
   );
 };
