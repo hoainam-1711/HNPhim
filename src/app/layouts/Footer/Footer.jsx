@@ -1,7 +1,7 @@
 import { Container, Row, Col, Popover, OverlayTrigger } from "react-bootstrap";
 import LucideIcon from "@/core/components/icons";
 
-const Footer = () => {
+export const Footer = () => {
   const disclaimerPopover = (
     <Popover
       id="disclaimer-popover"

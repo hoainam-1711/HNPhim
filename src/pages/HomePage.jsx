@@ -1,8 +1,6 @@
-import useHomeMovies from "../features/movies/hooks/useHomeMovies";
-import Loading from "@/core/components/ui/Loading";
-import MovieSection from "../features/movies/components/MovieSection";
 import { Container } from "react-bootstrap";
-import HeroSection from "../features/movies/components/HeroSection";
+import { useHomeMovies, HeroSection, MovieSection } from "@/features/movies";
+import Loading from "@/core/components/ui/Loading";
 import SEO from "@/core/components/ui/SEO";
 
 const MOVIE_TYPES = [
@@ -31,9 +29,7 @@ const HomePage = () => {
   if (error) {
     return (
       <div className="text-white text-center py-5">
-        Lỗi:{" "}
-        {"HomePage: " + error.message ||
-          "HomePage: Không thể tải danh sách phim"}
+        Lỗi: {error.message || "Không thể tải danh sách phim"}
       </div>
     );
   }

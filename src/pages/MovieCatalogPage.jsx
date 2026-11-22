@@ -16,7 +16,7 @@ const TYPE_TITLES = {
 
 /**
  * MovieCatalogPage: Trang danh mục phim thống nhất
- * Hợp nhất 4 trang (MoviesByType, MoviesByGenre, MoviesByCountry, Search)
+ * Hợp nhất 4 trang (Type, Genre, Country, Search)
  *
  * @param {Object} props
  * @param {'type' | 'genre' | 'country' | 'search'} props.mode - Chế độ hiển thị danh mục
@@ -40,10 +40,9 @@ const MovieCatalogPage = ({ mode = "type" }) => {
   const totalPages = data?.totalPages || 1;
   const titlePage = data?.titlePage || "";
 
-  // Xử lý chuyển trang và cuộn mượt lên đầu
+  // Xử lý chuyển trang (ScrollToTop trong MainLayout tự động cuộn lên đầu khi search params thay đổi)
   const handlePageChange = (newPage) => {
     setSearchParams({ page: newPage });
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   // Xác định tiêu đề hiển thị và SEO metadata theo từng mode

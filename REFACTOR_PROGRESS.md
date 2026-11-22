@@ -222,12 +222,175 @@ src/
 ---
 
 ### Phase 5: Thiết lập `app/` (layouts, AppRoutes) và làm mỏng `pages/`
-* **Trạng thái**: Chưa làm
+* **Trạng thái**: Hoàn thành
 * **File đã di chuyển/đổi tên (đường dẫn cũ → mới)**:
-  - *Chưa thực hiện*
+  - `src/layouts/MainLayout.jsx` → `src/app/layouts/MainLayout.jsx`
+  - `src/components/layout/NavbarComponent.jsx` → `src/app/layouts/Header/NavbarComponent.jsx`
+  - `src/components/layout/NavbarComponent.css` → `src/app/layouts/Header/NavbarComponent.css`
+  - `src/components/layout/Footer.jsx` → `src/app/layouts/Footer/Footer.jsx`
+  - `src/App.jsx` → `src/app/App.jsx`
+  - *(Tạo mới)* `src/app/layouts/Header/SearchBox.jsx` (Tách riêng ô search và state keyword độc lập)
+  - *(Tạo mới)* `src/app/layouts/Header/index.js`
+  - *(Tạo mới)* `src/app/layouts/Footer/index.js`
+  - *(Tạo mới)* `src/app/layouts/index.js`
+  - *(Tạo mới)* `src/app/routes/AppRoutes.jsx` (Gom toàn bộ route + lazy load + Suspense fallback)
+  - *(Tạo mới)* `src/pages/usePongGame.js` (Tách animation & canvas game 404, tự cleanup interval khi unmount)
+  - *(Refactor)* `src/main.jsx` (Chỉ render `<App />` tinh gọn)
+  - *(Refactor)* `src/pages/HomePage.jsx` (Dùng Public API `@/features/movies`)
+  - *(Refactor)* `src/pages/MovieCatalogPage.jsx` (Khử `window.scrollTo` thừa, nhận `mode`, dùng `@/features/movies`)
+  - *(Refactor)* `src/pages/FavoritesPage.jsx` (Áp dụng `usePagination` từ `@/core/hooks`, khử manual slice và `window.scrollTo`)
+  - *(Refactor)* `src/pages/NotFoundPage.jsx` (Rút gọn từ 230 dòng xuống 50 dòng declarative UI)
 * **File đã xóa**:
-  - *Chưa thực hiện*
+  - `src/App.jsx`
+  - `src/layouts/MainLayout.jsx`
+  - `src/layouts/` (thư mục rỗng)
+  - `src/components/layout/NavbarComponent.jsx`
+  - `src/components/layout/NavbarComponent.css`
+  - `src/components/layout/Footer.jsx`
+  - `src/components/layout/` (thư mục rỗng)
+  - `src/components/` (thư mục rỗng)
 * **Quyết định kiến trúc quan trọng**:
-  - *Chưa thực hiện*
-* **Việc còn tồn đọng/TODO cho phase sau**:
-  - *Chưa thực hiện*
+  - **Decoupled Header via Composition**: `NavbarComponent` hoàn toàn không import trực tiếp nghiệp vụ (`features/movies`). Thay vào đó, nhận `FilterModal` thông qua component composition (`children`), giúp Navbar trở thành dumb/presentational component thuần túy.
+  - **Isolated Search State**: `SearchBox` được tách ra component riêng, cô lập hoàn toàn local state `keyword`. Nhờ vậy, thao tác nhập từ khóa tìm kiếm không gây re-render `NavbarComponent`, `FavoriteCounter` hay `FilterModal`.
+  - **Centralized Scroll Restoration**: `ScrollToTop` trong `MainLayout` lắng nghe cả `pathname` và `search`. Khi chuyển trang hoặc đổi query param (ví dụ `?page=2`), ứng dụng tự động cuộn mượt lên đầu trang mà không cần đặt các hàm `window.scrollTo` rải rác trong từng trang.
+  - **Thin Page Layer (Smart Components)**: Tầng `pages/` chỉ còn đóng vai trò kết nối (orchestrator): đọc params từ URL, gọi custom hooks từ `features/` hoặc `core/`, và ghép nối các presentational components.
+  - **Safe Game Simulation**: Mini-game canvas trang 404 được tách thành hook `usePongGame`, đảm bảo dọn dẹp timer `clearInterval` ngay khi unmount, ngăn ngừa rò rỉ bộ nhớ.
+  - **Clean Architecture Boundaries**: Triệt tiêu hoàn toàn import relative sâu (`../../..`), loại bỏ toàn bộ thư mục mồ côi `src/components/` và `src/layouts/`.
+* **Cây thư mục `src/` hoàn chỉnh sau khi hoàn tất 5 phase**:
+```text
+src/
+├── app/                           # Cấu hình gốc ứng dụng & Tầng điều hướng
+│   ├── layouts/
+│   │   ├── Footer/
+│   │   │   ├── Footer.jsx
+│   │   │   └── index.js
+│   │   ├── Header/
+│   │   │   ├── NavbarComponent.css
+│   │   │   ├── NavbarComponent.jsx
+│   │   │   ├── SearchBox.jsx
+│   │   │   └── index.js
+│   │   ├── MainLayout.jsx
+│   │   └── index.js
+│   ├── routes/
+│   │   └── AppRoutes.jsx
+│   └── App.jsx
+│
+├── assets/
+│   └── no-image.webp
+│
+├── core/                          # Tầng dùng chung, không gắn chặt với nghiệp vụ cụ thể
+│   ├── api/
+│   │   ├── client.js
+│   │   └── endpoints.js
+│   ├── components/
+│   │   ├── icons/
+│   │   │   ├── iconRegistry.jsx
+│   │   │   └── index.jsx
+│   │   └── ui/
+│   │       ├── CustomPagination.css
+│   │       ├── CustomPagination.jsx
+│   │       ├── Loading.jsx
+│   │       ├── SEO.jsx
+│   │       └── index.js
+│   ├── hooks/
+│   │   ├── useDebounce.js
+│   │   ├── useFetch.js
+│   │   ├── useLocalStorage.js
+│   │   ├── usePagination.js
+│   │   └── index.js
+│   └── utils/
+│       ├── error.js
+│       ├── image.js
+│       ├── text.js
+│       ├── time.js
+│       └── index.js
+│
+├── features/                      # Các module nghiệp vụ khép kín (Business Logic)
+│   ├── favorites/                 # Quản lý danh sách phim yêu thích
+│   │   ├── components/
+│   │   │   ├── FavoriteButton.jsx
+│   │   │   ├── FavoriteCounter.jsx
+│   │   │   └── index.js
+│   │   ├── context/
+│   │   │   ├── FavoritesContext.jsx
+│   │   │   └── FavoritesProvider.jsx
+│   │   ├── hooks/
+│   │   │   ├── useFavoriteActions.js
+│   │   │   ├── useFavorites.js
+│   │   │   ├── useIsFavorite.js
+│   │   │   └── index.js
+│   │   ├── utils/
+│   │   │   └── normalizeFavorite.js
+│   │   └── index.js
+│   │
+│   ├── movies/                    # Nghiệp vụ danh mục & chi tiết phim
+│   │   ├── components/
+│   │   │   ├── detail/
+│   │   │   │   ├── MovieDescription.jsx
+│   │   │   │   ├── MovieDetailActions.jsx
+│   │   │   │   └── MovieDetailInfo.jsx
+│   │   │   ├── FilterModal/
+│   │   │   │   ├── FilterModal.css
+│   │   │   │   ├── FilterModal.jsx
+│   │   │   │   └── index.js
+│   │   │   ├── HeroBanner/
+│   │   │   │   ├── HeroBannerContent.jsx
+│   │   │   │   └── HeroThumbnailList.jsx
+│   │   │   ├── HeroSection.css
+│   │   │   ├── HeroSection.jsx
+│   │   │   ├── MovieCard.css
+│   │   │   ├── MovieCard.jsx
+│   │   │   ├── MovieList.jsx
+│   │   │   ├── MovieSection.css
+│   │   │   └── MovieSection.jsx
+│   │   ├── hooks/
+│   │   │   ├── useFilterData.js
+│   │   │   ├── useHeroSlider.js
+│   │   │   ├── useHomeMovies.js
+│   │   │   ├── useMovieCatalog.js
+│   │   │   └── useMovieDetail.js
+│   │   ├── services/
+│   │   │   ├── movieService.js
+│   │   │   ├── normalizers.js
+│   │   │   └── index.js
+│   │   └── index.js
+│   │
+│   └── player/                    # Nghiệp vụ trình phát HLS & danh sách tập phim
+│       ├── components/
+│       │   ├── CustomVideoPlayer.jsx
+│       │   ├── EpisodeSelector.css
+│       │   ├── EpisodeSelector.jsx
+│       │   ├── PlayerSettingsMenu.jsx
+│       │   ├── VideoControls.css
+│       │   ├── VideoControls.jsx
+│       │   ├── VideoTimeline.jsx
+│       │   ├── VideoToolbar.jsx
+│       │   └── index.js
+│       ├── hooks/
+│       │   ├── useAutoSkip.js
+│       │   ├── useEpisodePlaylist.js
+│       │   ├── useHlsPlayer.js
+│       │   ├── useKeyboardShortcuts.js
+│       │   └── index.js
+│       ├── utils/
+│       │   ├── playerConstants.js
+│       │   └── index.js
+│       └── index.js
+│
+├── pages/                         # Tầng trang mỏng (Smart components kết nối features)
+│   ├── FavoritesPage.jsx
+│   ├── HomePage.jsx
+│   ├── MovieCatalogPage.jsx
+│   ├── MovieDetailPage.css
+│   ├── MovieDetailPage.jsx
+│   ├── NotFoundPage.jsx
+│   ├── usePongGame.js
+│   ├── WatchPage.css
+│   └── WatchPage.jsx
+│
+└── main.jsx                       # Entry point duy nhất
+```
+* **Danh sách việc nên làm tiếp (Future Improvements)**:
+  - Bổ sung Unit Tests & Integration Tests (Vitest + React Testing Library) cho các hooks nghiệp vụ (`useEpisodePlaylist`, `useMovieCatalog`, `useFavorites`) và các pure utility functions (`normalizers`, `formatters`).
+  - Tích hợp TanStack Query (React Query) thay thế cho `useFetch` nội bộ nếu dự án cần cơ chế stale-while-revalidate, caching thông minh giữa các lần chuyển trang và retry tự động theo chiến lược exponential backoff.
+  - Cấu hình PWA (Progressive Web App) với Service Worker để offline caching các asset tĩnh và ghi nhớ vị trí xem dở của tập phim.
