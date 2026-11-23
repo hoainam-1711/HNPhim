@@ -3,13 +3,17 @@ import MovieCard from "./MovieCard";
 import { Link } from "react-router-dom";
 import Loading from "@/core/components/ui/Loading";
 
-const MovieList = ({ movies, loading, msg }) => {
-  if (loading) return <Loading />;
-
+const MovieList = ({
+  movies,
+  loading = false,
+  error = null,
+  msg,
+  filterSlot = null,
+}) => {
   return (
     <Container fluid>
       {/* Tiêu đề */}
-      <Row className="mb-4 align-items-center">
+      <Row className="mb-3 align-items-center">
         <Col>
           <hr className="border-secondary opacity-25" />
           <div className="d-flex align-items-center gap-2">
@@ -21,15 +25,23 @@ const MovieList = ({ movies, loading, msg }) => {
               {msg}
             </h2>
           </div>
-          <hr className="border-secondary opacity-25 mt-3" />
+          <hr className="border-secondary opacity-25 mt-3 mb-0" />
         </Col>
       </Row>
 
-      {/* Danh sách phim */}
-      <Row xs={2} sm={3} md={4} lg={6} className="g-3 g-md-4">
-        {movies &&
-          movies.length > 0 &&
-          movies.map((movie) => (
+      {/* Bộ lọc (nếu có) - giữ nguyên không unmount khi danh sách phim đang tải */}
+      {filterSlot}
+
+      {/* Nội dung danh sách phim */}
+      {loading ? (
+        <Loading />
+      ) : error ? (
+        <div className="text-white text-center py-5">
+          Lỗi: {error.message || "Không thể tải danh sách phim"}
+        </div>
+      ) : movies && movies.length > 0 ? (
+        <Row xs={2} sm={3} md={4} lg={6} className="g-3 g-md-4">
+          {movies.map((movie) => (
             <Col key={movie._id || movie.id || movie.slug}>
               <Link
                 to={`/chi-tiet/${movie.slug}`}
@@ -39,9 +51,12 @@ const MovieList = ({ movies, loading, msg }) => {
               </Link>
             </Col>
           ))}
-      </Row>
-
-      {(!movies || movies.length === 0) && <p>Không có phim nào!</p>}
+        </Row>
+      ) : (
+        <p className="text-secondary text-center py-5">
+          Không tìm thấy phim nào phù hợp!
+        </p>
+      )}
     </Container>
   );
 };

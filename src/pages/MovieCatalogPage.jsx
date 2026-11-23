@@ -1,8 +1,12 @@
-import { useParams, useSearchParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Col, Container, Row } from "react-bootstrap";
-import { useMovieCatalog, MovieList } from "@/features/movies";
+import {
+  useMovieCatalog,
+  useCatalogFilters,
+  MovieList,
+  MovieFilter,
+} from "@/features/movies";
 import CustomPagination from "@/core/components/ui/CustomPagination";
-import Loading from "@/core/components/ui/Loading";
 import SEO from "@/core/components/ui/SEO";
 
 const TYPE_TITLES = {
@@ -16,7 +20,7 @@ const TYPE_TITLES = {
 
 /**
  * MovieCatalogPage: Trang danh mục phim thống nhất
- * Hợp nhất 4 trang (Type, Genre, Country, Search)
+ * Hợp nhất 4 trang (Type, Genre, Country, Search) kèm bộ lọc đa tham số
  *
  * @param {Object} props
  * @param {'type' | 'genre' | 'country' | 'search'} props.mode - Chế độ hiển thị danh mục
@@ -25,8 +29,16 @@ const MovieCatalogPage = ({ mode = "type" }) => {
   const params = useParams();
   const identifier = params.type || params.slug || params.keyword || "";
 
-  const [searchParams, setSearchParams] = useSearchParams();
-  const page = parseInt(searchParams.get("page"), 10) || 1;
+  // Quản lý đồng bộ bộ lọc và phân trang qua URL SearchParams
+  const {
+    page,
+    filters,
+    activeFilterCount,
+    applyFilters,
+    resetFilters,
+    removeFilterValue,
+    setPage,
+  } = useCatalogFilters(mode);
 
   // Sử dụng hook hợp nhất useMovieCatalog từ feature movies
   const { data, loading, error } = useMovieCatalog({
@@ -34,16 +46,12 @@ const MovieCatalogPage = ({ mode = "type" }) => {
     identifier,
     page,
     limit: 24,
+    filters,
   });
 
   const movies = data?.items || [];
   const totalPages = data?.totalPages || 1;
   const titlePage = data?.titlePage || "";
-
-  // Xử lý chuyển trang (ScrollToTop trong MainLayout tự động cuộn lên đầu khi search params thay đổi)
-  const handlePageChange = (newPage) => {
-    setSearchParams({ page: newPage });
-  };
 
   // Xác định tiêu đề hiển thị và SEO metadata theo từng mode
   const getMetadata = () => {
@@ -100,16 +108,6 @@ const MovieCatalogPage = ({ mode = "type" }) => {
 
   const meta = getMetadata();
 
-  if (loading) return <Loading />;
-
-  if (error) {
-    return (
-      <div className="text-white text-center py-5">
-        Lỗi: {error.message || "Không thể tải danh sách phim"}
-      </div>
-    );
-  }
-
   return (
     <>
       <SEO
@@ -119,16 +117,31 @@ const MovieCatalogPage = ({ mode = "type" }) => {
         robots={meta.robots}
       />
 
-      <MovieList movies={movies} loading={loading} msg={meta.heading} />
+      <MovieList
+        movies={movies}
+        loading={loading}
+        error={error}
+        msg={meta.heading}
+        filterSlot={
+          <MovieFilter
+            mode={mode}
+            filters={filters}
+            activeFilterCount={activeFilterCount}
+            onApply={applyFilters}
+            onReset={resetFilters}
+            onRemoveFilter={removeFilterValue}
+          />
+        }
+      />
 
       <Container className="pt-3">
-        {!loading && totalPages > 1 && (
+        {!loading && !error && totalPages > 1 && (
           <Row>
             <Col>
               <CustomPagination
                 page={page}
                 totalPages={totalPages}
-                setPage={handlePageChange}
+                setPage={setPage}
               />
             </Col>
           </Row>

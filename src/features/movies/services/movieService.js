@@ -8,6 +8,57 @@ import {
 } from "./normalizers";
 
 /**
+ * Chuẩn hóa danh sách giá trị đa lựa chọn (array hoặc chuỗi phân tách bởi dấu phẩy)
+ * thành chuỗi query param hợp lệ cho API (ví dụ: "han-quoc,my", "2023,2024")
+ */
+const serializeMultiParam = (value) => {
+  if (Array.isArray(value)) {
+    const cleaned = value
+      .map((item) => String(item ?? "").trim())
+      .filter(Boolean);
+    return cleaned.length > 0 ? cleaned.join(",") : undefined;
+  }
+
+  if (typeof value === "string") {
+    const cleaned = value
+      .split(",")
+      .map((item) => item.trim())
+      .filter(Boolean);
+    return cleaned.length > 0 ? cleaned.join(",") : undefined;
+  }
+
+  return undefined;
+};
+
+/**
+ * Xây dựng query params cho các API danh sách phim kèm bộ lọc
+ */
+const buildCatalogParams = ({ limit, page, filters = {}, extra = {} }) => {
+  const params = {
+    ...extra,
+    limit,
+    page,
+  };
+
+  if (!filters || typeof filters !== "object") {
+    return params;
+  }
+
+  const category = serializeMultiParam(filters.category);
+  const country = serializeMultiParam(filters.country);
+  const year = serializeMultiParam(filters.year);
+
+  if (category) params.category = category;
+  if (country) params.country = country;
+  if (year) params.year = year;
+  if (filters.sort_field) params.sort_field = filters.sort_field;
+  if (filters.sort_type) params.sort_type = filters.sort_type;
+  if (filters.sort_lang) params.sort_lang = filters.sort_lang;
+
+  return params;
+};
+
+/**
  * movieService: Quản lý toàn bộ API calls cho Feature Movies
  */
 export const movieService = {
@@ -17,8 +68,9 @@ export const movieService = {
    * @param {number} limit
    * @param {number} page
    * @param {Object} [config] - Axios request config (chứa signal)
+   * @param {Object} [filters] - Bộ lọc mở rộng (category, country, year, sort_field, sort_type, sort_lang)
    */
-  async getNewMovies(type, limit = 24, page = 1, config = {}) {
+  async getNewMovies(type, limit = 24, page = 1, config = {}, filters = {}) {
     try {
       const url =
         type === "phim-moi"
@@ -26,7 +78,7 @@ export const movieService = {
           : `${ENDPOINTS.NEW_MOVIES}/${type}`;
 
       const res = await api.get(url, {
-        params: { limit, page },
+        params: buildCatalogParams({ limit, page, filters }),
         ...config,
       });
 
@@ -91,8 +143,9 @@ export const movieService = {
    * @param {number} limit
    * @param {number} page
    * @param {Object} [config]
+   * @param {Object} [filters]
    */
-  async searchMovies(keyword, limit = 24, page = 1, config = {}) {
+  async searchMovies(keyword, limit = 24, page = 1, config = {}, filters = {}) {
     const trimmed = keyword?.trim();
     if (!trimmed) {
       return normalizeMovieList(null);
@@ -100,11 +153,12 @@ export const movieService = {
 
     try {
       const res = await api.get(ENDPOINTS.SEARCH, {
-        params: {
-          keyword: trimmed,
+        params: buildCatalogParams({
           limit,
           page,
-        },
+          filters,
+          extra: { keyword: trimmed },
+        }),
         ...config,
       });
 
@@ -152,14 +206,21 @@ export const movieService = {
    * @param {number} limit
    * @param {number} page
    * @param {Object} [config]
+   * @param {Object} [filters]
    */
-  async getMoviesByGenre(slug, limit = 24, page = 1, config = {}) {
+  async getMoviesByGenre(
+    slug,
+    limit = 24,
+    page = 1,
+    config = {},
+    filters = {},
+  ) {
     const trimmed = slug?.trim();
     if (!trimmed) return normalizeMovieList(null);
 
     try {
       const res = await api.get(`${ENDPOINTS.MOVIESBYGENRES}/${trimmed}`, {
-        params: { limit, page },
+        params: buildCatalogParams({ limit, page, filters }),
         ...config,
       });
 
@@ -188,14 +249,21 @@ export const movieService = {
    * @param {number} limit
    * @param {number} page
    * @param {Object} [config]
+   * @param {Object} [filters]
    */
-  async getMoviesByCountry(slug, limit = 24, page = 1, config = {}) {
+  async getMoviesByCountry(
+    slug,
+    limit = 24,
+    page = 1,
+    config = {},
+    filters = {},
+  ) {
     const trimmed = slug?.trim();
     if (!trimmed) return normalizeMovieList(null);
 
     try {
       const res = await api.get(`${ENDPOINTS.MOVIESBYCOUNTRY}/${trimmed}`, {
-        params: { limit, page },
+        params: buildCatalogParams({ limit, page, filters }),
         ...config,
       });
 

@@ -1,0 +1,346 @@
+/* ===================================================
+   MOVIE FILTER BAR & PANEL (DARK THEME - NETFLIX RED)
+   =================================================== */
+.movie-filter-wrapper {
+  margin-bottom: 1.5rem;
+}
+
+/* Thanh điều khiển trên cùng: nút mở bộ lọc + các chip đang chọn */
+.movie-filter-toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.movie-filter-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background-color: #181818;
+  color: #f1f1f1;
+  border: 1px solid #303030;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.movie-filter-toggle-btn:hover {
+  background-color: #242424;
+  border-color: #4a4a4a;
+  color: #fff;
+}
+
+.movie-filter-toggle-btn.is-open,
+.movie-filter-toggle-btn.has-active {
+  border-color: rgba(229, 9, 20, 0.7);
+}
+
+.movie-filter-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 6px;
+  border-radius: 999px;
+  background-color: #e50914;
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Danh sách chip bộ lọc đang áp dụng */
+.movie-filter-active-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+}
+
+.movie-filter-active-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  background-color: rgba(229, 9, 20, 0.14);
+  border: 1px solid rgba(229, 9, 20, 0.45);
+  border-radius: 999px;
+  color: #f5f5f5;
+  font-size: 0.8rem;
+  line-height: 1.2;
+}
+
+.movie-filter-active-chip-remove {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  background: transparent;
+  border: none;
+  color: #ccc;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.movie-filter-active-chip-remove:hover {
+  color: #fff;
+}
+
+.movie-filter-clear-all-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 10px;
+  background: transparent;
+  border: 1px dashed #444;
+  border-radius: 999px;
+  color: #bbb;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.movie-filter-clear-all-btn:hover {
+  color: #fff;
+  border-color: #e50914;
+}
+
+/* Bảng bộ lọc mở rộng */
+.movie-filter-panel {
+  margin-top: 12px;
+  padding: 18px 20px;
+  background-color: #181818;
+  border: 1px solid #2c2c2c;
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+}
+
+.movie-filter-group {
+  padding-bottom: 14px;
+  margin-bottom: 14px;
+  border-bottom: 1px solid #262626;
+}
+
+.movie-filter-group:last-of-type {
+  padding-bottom: 0;
+  margin-bottom: 0;
+  border-bottom: none;
+}
+
+.movie-filter-group-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.movie-filter-group-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #d4d4d4;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.movie-filter-group-hint {
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #8c8c8c;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.movie-filter-group-clear {
+  background: transparent;
+  border: none;
+  padding: 0;
+  color: #aaa;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: color 0.15s ease;
+}
+
+.movie-filter-group-clear:hover {
+  color: #e50914;
+}
+
+/* Nhóm các nút chọn (chip) */
+.movie-filter-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.movie-filter-options--scrollable {
+  max-height: 152px;
+  overflow-y: auto;
+  padding-right: 4px;
+  scrollbar-width: thin;
+  scrollbar-color: #383838 transparent;
+}
+
+.movie-filter-options--scrollable::-webkit-scrollbar {
+  width: 6px;
+}
+
+.movie-filter-options--scrollable::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.movie-filter-options--scrollable::-webkit-scrollbar-thumb {
+  background: #383838;
+  border-radius: 10px;
+}
+
+.movie-filter-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 12px;
+  background-color: #222;
+  border: 1px solid #333;
+  border-radius: 8px;
+  color: #d9d9d9;
+  font-size: 0.84rem;
+  cursor: pointer;
+  user-select: none;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.movie-filter-chip:hover {
+  background-color: #2c2c2c;
+  border-color: #555;
+  color: #fff;
+}
+
+.movie-filter-chip.is-selected {
+  background-color: #e50914;
+  border-color: #e50914;
+  color: #fff;
+  font-weight: 500;
+}
+
+.movie-filter-chip.is-selected:hover {
+  background-color: #c70812;
+  border-color: #c70812;
+}
+
+/* Hàng gộp Ngôn ngữ & Sắp xếp */
+.movie-filter-inline-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.movie-filter-inline-col .movie-filter-group-header {
+  margin-bottom: 8px;
+}
+
+/* Footer hành động */
+.movie-filter-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid #262626;
+}
+
+.movie-filter-btn-reset {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  background-color: transparent;
+  border: 1px solid #3a3a3a;
+  border-radius: 8px;
+  color: #d4d4d4;
+  font-size: 0.88rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease,
+    color 0.15s ease;
+}
+
+.movie-filter-btn-reset:hover {
+  background-color: #262626;
+  border-color: #555;
+  color: #fff;
+}
+
+.movie-filter-btn-apply {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  background-color: #e50914;
+  border: 1px solid #e50914;
+  border-radius: 8px;
+  color: #fff;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.movie-filter-btn-apply:hover {
+  background-color: #c70812;
+  border-color: #c70812;
+}
+
+.movie-filter-status-text {
+  font-size: 0.85rem;
+  color: #8c8c8c;
+  padding: 4px 0;
+}
+
+/* Responsive */
+@media (max-width: 991.98px) {
+  .movie-filter-inline-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767.98px) {
+  .movie-filter-panel {
+    padding: 14px;
+  }
+
+  .movie-filter-inline-grid {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .movie-filter-actions {
+    justify-content: stretch;
+  }
+
+  .movie-filter-btn-reset,
+  .movie-filter-btn-apply {
+    flex: 1;
+    justify-content: center;
+  }
+}
