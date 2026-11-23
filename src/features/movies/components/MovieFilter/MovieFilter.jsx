@@ -30,7 +30,7 @@ const SORT_TYPE_OPTIONS = [
   { value: "asc", label: "Tăng dần" },
 ];
 
-const MIN_YEAR = 2000;
+const MIN_YEAR = 1911; // Năm phát hành phim đầu tiên trên thế giới
 
 const createYearOptions = () => {
   const currentYear = new Date().getFullYear();
